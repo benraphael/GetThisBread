@@ -1,0 +1,38 @@
+{
+	"departments": [
+		{
+			"name": "Shirts",
+			"products": [
+				{
+					"name": "Eevee TShirt",
+					"cost": "13.00",
+					"description": "A cotton tshirt with an Eevee print",
+					"imageURL": "http://icons.iconarchive.com/icons/hektakun/pokemon/32/381-Latios-icon.png"
+				},
+				{
+					"name": "Pikachu Sweater",
+					"cost": "19.50",
+					"description": "A wool sweater with a Pikachu stitch pattern",
+					"imageURL": "http://icons.iconarchive.com/icons/hektakun/pokemon/32/493-Arceus-Dragon-icon.png"
+				}
+			]
+		},
+		{
+			"name": "pants",
+			"products": [
+				{			
+					"name": "Green Cargo Pants",
+					"cost": "28.00",
+					"description": "Heavy duty cargo pants",
+					"imageURL": "http://icons.iconarchive.com/icons/hektakun/pokemon/32/380-Latias-icon.png"			
+				},
+				{					
+					"name": "Black Dress Pants",
+					"cost": "58.35",
+					"description": "High quality dress pants",
+					"imageURL": "http://icons.iconarchive.com/icons/yellowicon/game-stars/32/Zelda-icon.png"					
+				}
+			]
+		}
+	]
+}
