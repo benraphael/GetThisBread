@@ -1,10 +1,15 @@
-
+/**
+ * @author Ethan Jones
+ * @date Mar 15, 2019
+ * @file Shirt.java
+ * @timestamp 10:16:38 AM
+ */
 public class Shirt extends Product{
 	
 	private String [] sizes, colors;
 
 	public Shirt (String title, String[] sizes, String[] colors, Double cost, String desc) {
-		super("goo.gl/Kj7nXY",title, cost, desc);
+		super("https://goo.gl/LuWtcv",title, cost, desc);
 		this.sizes = sizes;
 		this.colors = colors;
 	}

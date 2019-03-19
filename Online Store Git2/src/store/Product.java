@@ -1,4 +1,4 @@
-
+    
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,95 +9,57 @@ public class Product {
 
 	private ImageView imageView;
 	private Image image;
-	private Label costLabel, descriptionLabel, nameLabel;
-	private VBox root;
-
-	private String imageURL;
-	private String name;
+	private Label costLabel, descriptionLabel;
+	
 	private double cost;
-	private String description;
-
-	/**
-	 * A class that holds the image, name, cost, and description of a product
-	 * 
-	 * @param imageURL - the URL for the image of the product
-	 * @param name - the name of the product
-	 * @param cost - the cost of the product as a double
-	 * @param description - a written description of the product
-	 */
-	public Product(String imageURL, String name, double cost, String description) {
-		this.imageURL = imageURL;
-		this.name = name;
+	private String description, title;
+	
+	public VBox root;
+	
+	
+	public Product(String imageURL, String title, double cost, String description) {
 		this.cost = cost;
 		this.description = description;
-
+		this.title = title;
+		
 		image = new Image(imageURL);
 		imageView = new ImageView(image);
 		costLabel = new Label("$" + this.cost);
 		descriptionLabel = new Label(description);
-		nameLabel = new Label(name);
 		root = new VBox();
-		root.getChildren().addAll(imageView, nameLabel, costLabel, descriptionLabel);
-	}
-	
-	//We could have this
-	public void changeFonts(String fontName, double size) {
-
+		root.getChildren().addAll(imageView, costLabel, descriptionLabel);
 	}
 
-	/**
-	 * returns the cost of the product
-	 * 
-	 * @return cost
-	 */
-	public double getCost() {
-		return cost;
-	}
 
-	/**
-	 * sets the cost of the product
-	 * 
-	 * @param cost - the number to change to
-	 */
 	public void setCost(double cost) {
 		this.cost = cost;
+		costLabel.setText("$" + this.cost);
 	}
 
-	/**
-	 * returns the written description of the product
-	 * 
-	 * @return description
-	 */
-	public String getDescription() {
-		return description;
-	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getImageURL() {
-		return imageURL;
-	}
-
-	public void setImageURL(String imageURL) {
-		this.imageURL = imageURL;
+		descriptionLabel.setText(this.description);
 	}
 	
-	//TODO to be implemented based on the product page
-	public void setOnClick() {
-		
-	}
-
 	public Parent getRoot() {
 		return root;
 	}
+
+
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return title;
+	}
+	
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return description;
+	}
+
+	public ImageView getImageView() {
+		return imageView;
+	}
+	
+	
 }
