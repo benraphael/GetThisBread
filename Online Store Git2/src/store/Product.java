@@ -1,5 +1,4 @@
 
-
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -42,8 +41,8 @@ public class Product {
 	}
 	
 	//We could have this
-	public void changeFonts() {
-		
+	public void changeFonts(String fontName, double size) {
+
 	}
 
 	/**
@@ -65,7 +64,7 @@ public class Product {
 	}
 
 	/**
-	 * the written description of the product
+	 * returns the written description of the product
 	 * 
 	 * @return description
 	 */
@@ -91,6 +90,11 @@ public class Product {
 
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
+	}
+	
+	//TODO to be implemented based on the product page
+	public void setOnClick() {
+		
 	}
 
 	public Parent getRoot() {
