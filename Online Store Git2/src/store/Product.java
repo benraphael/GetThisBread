@@ -1,4 +1,4 @@
-package onlineStore;
+
 
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
