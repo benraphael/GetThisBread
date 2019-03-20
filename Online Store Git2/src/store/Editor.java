@@ -93,7 +93,7 @@ public class Editor  extends Application{
 		if(event.getSource()==addPro) {
 			main.setScene(addProd);
 		}
-		if(event.getSource()==subPro) {
+		if(event.getSource()==subPro && !(deps.length()==0)) {
 			main.setScene(subProd);
 		}
 		if(event.getSource()==addDep) {
@@ -199,6 +199,10 @@ public class Editor  extends Application{
 			e.printStackTrace();
 		}
 		subPros();
+		addName.setText("");
+		addCost.setText("");
+		addDes.setText("");
+		addImg.setText("");
 		main.setScene(editor);
 		//System.out.println(edits); //test
 	}
@@ -207,17 +211,25 @@ public class Editor  extends Application{
 		remPros = new ArrayList<String>();
 		VBox idk = new VBox(0);
 		idk.setAlignment(Pos.CENTER);
-		idk.setSpacing(5);
-		
+		idk.setSpacing(10);
 		Label select = new Label("Select products from a departments to remove: ");
 		HBox depList = new HBox();
 		depList.setAlignment(Pos.CENTER);
+		depList.setSpacing(10);
 		for(int i=0; i<deps.length(); i++) {
-			CheckBox button;
+			Label button;
 			try {
-				button = new CheckBox(deps.getJSONObject(i).getString("name"));
-				depList.getChildren().add(button);
-				button.setOnAction(event -> subPros2(event));
+				VBox vbox = new VBox();
+				vbox.setAlignment(Pos.CENTER);
+				vbox.setSpacing(5);
+				button = new Label(deps.getJSONObject(i).getString("name"));
+				vbox.getChildren().add(button);
+				for(int j=0; j<deps.getJSONObject(i).getJSONArray("products").length(); j++) {
+					CheckBox button2 = new CheckBox(deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getString("name"));
+					vbox.getChildren().add(button2);
+					button2.setOnAction(event -> subPros2(event));
+				}
+				depList.getChildren().add(vbox);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -232,7 +244,20 @@ public class Editor  extends Application{
 	}
 	
 	private static void subPros2(ActionEvent event) {
-		
+		if(event.getSource() == subNewP) {
+			String old="";
+			for(int i=0; i<remPros.size(); i++) {
+				String removed = "{";
+				removed += "\"name\":\""+addName.getText()+"\",";
+				removed += "\"cost\":\""+addCost.getText()+"\",";
+				removed += "\"description\":\""+addDes.getText()+"\",";
+				removed += "\"imageURL\":\""+addImg.getText()+"\"},";
+			}
+		}
+		else {
+			CheckBox rem = (CheckBox)event.getSource();
+			if(!remPros.contains(rem.getText())) remPros.add(rem.getText());
+		}
 	}
 	private void addDeps() {
 		//Adding departments
@@ -272,6 +297,7 @@ public class Editor  extends Application{
 		addPros();
 		subPros();
 		subDeps();
+		addNDep.setText("");
 		main.setScene(editor); 
 	}
 	
@@ -361,7 +387,7 @@ public class Editor  extends Application{
 		// TODO Auto-generated method stub
 		root = new BorderPane();
 		String jsonIn = "";
-		Scanner scan = new Scanner(new File("storeJSON")); //Change string to whatever you are you as the JSON
+		Scanner scan = new Scanner(new File("storeJSON")); //Change string to whatever you are you using as the JSON
 		while(scan.hasNextLine()) {
 			jsonIn+=scan.nextLine();
 		}
@@ -374,7 +400,7 @@ public class Editor  extends Application{
 			System.out.println("E");
 			e.printStackTrace();
 		}
-		//System.out.println(edits); //Test
+		System.out.println(edits); //Test
 		createEditor(); //Creates all the buttons and such w/in the editor
 		addPros(); //Creates a scene for adding products
 		subPros(); //Creates a scene for removing products
