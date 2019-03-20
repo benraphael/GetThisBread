@@ -9,7 +9,7 @@ public class Shirt extends Product{
 	private String [] sizes, colors;
 
 	public Shirt (String title, String[] sizes, String[] colors, Double cost, String desc) {
-		super("https://goo.gl/LuWtcv",title, cost, desc);
+		super("https://goo.gl/LuWtcv",title, cost, desc,"Shirt");
 		this.sizes = sizes;
 		this.colors = colors;
 	}

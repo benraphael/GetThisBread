@@ -12,12 +12,13 @@ public class Product {
 	private Label costLabel, descriptionLabel;
 	
 	private double cost;
-	private String description, title;
+	private String description, title, type;
 	
 	public VBox root;
 	
 	
-	public Product(String imageURL, String title, double cost, String description) {
+	public Product(String imageURL, String title, double cost, String description, String type) {
+		this.type = type;
 		this.cost = cost;
 		this.description = description;
 		this.title = title;

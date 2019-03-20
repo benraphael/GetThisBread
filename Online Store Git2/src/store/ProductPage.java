@@ -16,8 +16,7 @@ public class ProductPage extends Application {
 		String[] sizes = {"Small", "Medium", "Large"};
 		String[] colors = {"Naruto Orange", "Deku Green", "Death the Kid Black"};
 		
-		
-		Shirt testShirt = new Shirt("Anime Weeb Shit T-shirt", sizes, colors, 0.01, "If you buy this shit youre a fucking virgin");
+		Shirt testShirt = new Shirt("Anime Weeb  T-shirt", sizes, colors, 0.01, "If you buy this you're a loser");
 		
 		ProductPageOrganizer organizer = new ProductPageOrganizer(testShirt);
 		Scene scene = new Scene(organizer.getRoot(),700,600);
