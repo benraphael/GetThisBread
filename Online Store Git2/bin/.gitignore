@@ -1,2 +1,4 @@
-/MainMenu.class
-/DepartmentList.class
+*.class
+*.settings
+*.project
+*.classpath
