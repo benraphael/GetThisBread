@@ -246,12 +246,12 @@ public class Editor  extends Application{
 	private static void subPros2(ActionEvent event) {
 		if(event.getSource() == subNewP) {
 			String old="";
-			for(int i=0; i<remPros.size(); i++) {
+			for(int i=0; i<remPros.size(); i++) { //Work on remove string
 				String removed = "{";
-				removed += "\"name\":\""+addName.getText()+"\",";
-				removed += "\"cost\":\""+addCost.getText()+"\",";
-				removed += "\"description\":\""+addDes.getText()+"\",";
-				removed += "\"imageURL\":\""+addImg.getText()+"\"},";
+				removed += "\"cost\":\""+remPros.get(i)+"\",";
+				removed += "\"imageURL\":\""+remPros.get(i)+"\",";
+				removed += "\"name\":\""+remPros.get(i)+"\",";
+				removed += "\"description\":\""+remPros.get(i)+"\"},";
 			}
 		}
 		else {
@@ -400,7 +400,7 @@ public class Editor  extends Application{
 			System.out.println("E");
 			e.printStackTrace();
 		}
-		System.out.println(edits); //Test
+		//System.out.println(edits); //Test
 		createEditor(); //Creates all the buttons and such w/in the editor
 		addPros(); //Creates a scene for adding products
 		subPros(); //Creates a scene for removing products
