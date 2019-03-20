@@ -1,4 +1,3 @@
-package onlineStore;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,7 +21,8 @@ public class DepartmentList {
 		list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				StartUp.changeDepartment(newValue);
+				//TODO change to where the changeDepartment method is.
+				//StartUp.changeDepartment(newValue);
 				// list.getFocusModel().focus(list.getSelectionModel().getSelectedIndex());
 			}
 		});
