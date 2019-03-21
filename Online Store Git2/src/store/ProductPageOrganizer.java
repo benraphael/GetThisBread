@@ -31,7 +31,7 @@ public class ProductPageOrganizer {
 	public ProductPageOrganizer(Product product) {
 		root = new BorderPane();
 		this.product = product;
-		this.product = (Shirt)this.product;
+		//this.product = (Shirt)this.product;
 		run();
 		/*
 		 * suggested products will pull product images from random items in the same

@@ -13,16 +13,17 @@ public class Product {
 	private Label costLabel, descriptionLabel;
 	
 	private double cost;
-	private String description, title, type;
+	private String description, title, type, imageURL;
 	
 	public VBox root;
 	
 	
-	public Product(String imageURL, String title, double cost, String description, String type) {
+	public Product(String imageURL, String title, double cost, String description) {
 		this.type = type;
 		this.cost = cost;
 		this.description = description;
 		this.title = title;
+		this.imageURL = imageURL;
 		
 		image = new Image(imageURL);
 		imageView = new ImageView(image);
@@ -63,5 +64,11 @@ public class Product {
 		return imageView;
 	}
 	
+	public String getCost() {
+		return ""+cost;
+	}
 	
+	public String getImageURL() {
+		return imageURL;
+	}
 }

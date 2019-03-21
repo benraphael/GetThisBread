@@ -39,7 +39,8 @@ public class Editor  extends Application{
 	static TextField addName, addCost, addDes, addImg;
 	static TextField addNDep;
 	static ToggleGroup operator;
-	static ArrayList<String> remDep, remPros;
+	static ArrayList<String> remDep; 
+	static ArrayList<Product> remPros;
 	
 	public static void main(String[] args) {launch(args);}
 	
@@ -208,7 +209,7 @@ public class Editor  extends Application{
 	}
 	
 	private static void subPros() {
-		remPros = new ArrayList<String>();
+		remPros = new ArrayList<Product>();
 		VBox idk = new VBox(0);
 		idk.setAlignment(Pos.CENTER);
 		idk.setSpacing(10);
@@ -225,9 +226,11 @@ public class Editor  extends Application{
 				button = new Label(deps.getJSONObject(i).getString("name"));
 				vbox.getChildren().add(button);
 				for(int j=0; j<deps.getJSONObject(i).getJSONArray("products").length(); j++) {
+					int k = i;
+					int x = j;
 					CheckBox button2 = new CheckBox(deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getString("name"));
 					vbox.getChildren().add(button2);
-					button2.setOnAction(event -> subPros2(event));
+					button2.setOnAction(event -> subPros2(event, k, x));
 				}
 				depList.getChildren().add(vbox);
 			} catch (JSONException e) {
@@ -240,23 +243,55 @@ public class Editor  extends Application{
 		idk.getChildren().addAll(select,depList, subNewP);
 		subProd = new Scene(idk);
 		
-		subNewP.setOnAction(event -> subPros2(event));
+		subNewP.setOnAction(event -> subPros2(event, 0, 0));
 	}
 	
-	private static void subPros2(ActionEvent event) {
+	private static void subPros2(ActionEvent event, int i, int j) {
 		if(event.getSource() == subNewP) {
 			String old="";
-			for(int i=0; i<remPros.size(); i++) { //Work on remove string
+			for(int k=0; k<remPros.size(); k++) { //Work on remove string
 				String removed = "{";
-				removed += "\"cost\":\""+remPros.get(i)+"\",";
-				removed += "\"imageURL\":\""+remPros.get(i)+"\",";
-				removed += "\"name\":\""+remPros.get(i)+"\",";
-				removed += "\"description\":\""+remPros.get(i)+"\"},";
+				removed += "\"cost\":\""+remPros.get(k).getCost()+"\",";
+				removed += "\"imageURL\":\""+remPros.get(k).getImageURL()+"\",";
+				removed += "\"name\":\""+remPros.get(k).getTitle()+"\",";
+				removed += "\"description\":\""+remPros.get(k).getDescription()+"\"},";
+				System.out.println(removed);
+				if(k==0) old = edits.toString();
+				System.out.println(old);
+				String newStuff = old.substring(0, old.indexOf(removed));
+				System.out.println(newStuff);
+				String stuff = old.substring(old.indexOf(removed)+removed.length());
+				System.out.println(stuff);
+				try {
+					if(!stuff.contains("},") && edits.getJSONArray("departments").getJSONObject(i).getJSONArray("products").length()==0) {
+						newStuff = old.substring(0, old.indexOf(removed)-1);
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(newStuff);
+				String oldStuff; 
+				if(stuff.contains("},")) oldStuff = stuff.substring(stuff.indexOf("},")+"23".length());
+				else  oldStuff = stuff.substring(stuff.indexOf("}")+"1".length());
+				System.out.println(oldStuff);
+				old = newStuff+oldStuff;
+				System.out.println(old); //test
 			}
 		}
 		else {
 			CheckBox rem = (CheckBox)event.getSource();
-			if(!remPros.contains(rem.getText())) remPros.add(rem.getText());
+			if(!remPros.contains(rem.getText()))
+				try {
+					remPros.add(
+							new Product(deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getString("imageURL"),
+									deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getString("name"),
+									deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getDouble("cost"),
+									deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getString("description")));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 	}
 	private void addDeps() {
