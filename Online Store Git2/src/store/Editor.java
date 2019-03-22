@@ -2,7 +2,10 @@
 
 
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -89,7 +92,15 @@ public class Editor  extends Application{
 	private static void buttonPressed(ActionEvent event) {
 		if(event.getSource()==save) { //save
 			//Add code later when JSON file is finished, adding the changes to the JSONObject edits
-			
+			BufferedWriter bw;
+			try {
+				bw = new BufferedWriter(new FileWriter("storeJSON"));
+				bw.write(edits.toString());
+				bw.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		if(event.getSource()==exit) { //exit
 			Platform.exit();
