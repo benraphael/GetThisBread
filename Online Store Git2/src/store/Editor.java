@@ -105,7 +105,7 @@ public class Editor  extends Application{
 		}
 	}
 	
-	private void addPros() {  //Creates a scene for adding products
+	private static void addPros() {  //Creates a scene for adding products
 		VBox newPro = new VBox();
 		newPro.setAlignment(Pos.CENTER);
 		newPro.setSpacing(10);
@@ -175,7 +175,7 @@ public class Editor  extends Application{
 	private static void addPros2() {
 		String added = "{"; //String that will be added to JSON
 		added += "\"name\":\""+addName.getText()+"\",";
-		added += "\"cost\":\""+addCost.getText()+"\",";
+		added += "\"cost\":\""+Double.parseDouble(addCost.getText())+"\",";
 		added += "\"description\":\""+addDes.getText()+"\",";
 		added += "\"imageURL\":\""+addImg.getText()+"\"},";
 		RadioButton button2 = (RadioButton) operator.getSelectedToggle();
@@ -254,14 +254,14 @@ public class Editor  extends Application{
 				removed += "\"cost\":\""+remPros.get(k).getCost()+"\",";
 				removed += "\"imageURL\":\""+remPros.get(k).getImageURL()+"\",";
 				removed += "\"name\":\""+remPros.get(k).getTitle()+"\",";
-				removed += "\"description\":\""+remPros.get(k).getDescription()+"\"},";
+				removed += "\"description\":\""+remPros.get(k).getDescription()+"\"}";
 				System.out.println(removed);
 				if(k==0) old = edits.toString();
 				System.out.println(old);
 				String newStuff = old.substring(0, old.indexOf(removed));
-				System.out.println(newStuff);
 				String stuff = old.substring(old.indexOf(removed)+removed.length());
-				System.out.println(stuff);
+				if(stuff.indexOf(",")==0) stuff = old.substring(old.indexOf(removed)+removed.length()+1);
+				//System.out.println(stuff);
 				try {
 					if(!stuff.contains("},") && edits.getJSONArray("departments").getJSONObject(i).getJSONArray("products").length()==0) {
 						newStuff = old.substring(0, old.indexOf(removed)-1);
@@ -271,13 +271,26 @@ public class Editor  extends Application{
 					e.printStackTrace();
 				}
 				System.out.println(newStuff);
-				String oldStuff; 
-				if(stuff.contains("},")) oldStuff = stuff.substring(stuff.indexOf("},")+"23".length());
-				else  oldStuff = stuff.substring(stuff.indexOf("}")+"1".length());
-				System.out.println(oldStuff);
-				old = newStuff+oldStuff;
-				System.out.println(old); //test
+				old = newStuff+stuff;
+				//System.out.println(old); //test
 			}
+			try {
+				edits = new JSONObject(old);
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				deps = edits.getJSONArray("departments");
+				
+			} catch (JSONException e) {
+				System.out.println("E");
+				e.printStackTrace();
+			}
+			addPros();
+			subPros();
+			subDeps();
+			main.setScene(editor);
 		}
 		else {
 			CheckBox rem = (CheckBox)event.getSource();
@@ -336,7 +349,7 @@ public class Editor  extends Application{
 		main.setScene(editor); 
 	}
 	
-	private void subDeps() {
+	private static void subDeps() {
 		remDep = new ArrayList<String>();
 		VBox idk = new VBox(0);
 		idk.setAlignment(Pos.CENTER);
@@ -364,7 +377,7 @@ public class Editor  extends Application{
 		subNewD.setOnAction(event -> subDeps2(event));
 	}
 	
-	private void subDeps2(ActionEvent event) {
+	private static void subDeps2(ActionEvent event) {
 		
 		if(event.getSource()==subNewD) {
 			String old="";
@@ -407,7 +420,6 @@ public class Editor  extends Application{
 			addPros();
 			subPros();
 			subDeps();
-			main.setScene(editor); 
 			main.setScene(editor);
 		}
 		else {
