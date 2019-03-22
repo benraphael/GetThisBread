@@ -50,7 +50,7 @@ public class Product {
 		descriptionLabel.setWrapText(true);
 		root = new VBox();
 		root.getChildren().addAll(imageView, nameLabel, costLabel, descriptionLabel);
-	}
+	} 
 
 	// We could have this
 	public void changeFonts(String fontName, double size) {
