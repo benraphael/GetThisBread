@@ -256,7 +256,7 @@ public class Editor  extends Application{
 				String removed = "{";
 				removed += "\"cost\":\""+remPros.get(k).getCost()+"\",";
 				removed += "\"imageURL\":\""+remPros.get(k).getImageURL()+"\",";
-				removed += "\"name\":\""+remPros.get(k).getTitle()+"\",";
+				removed += "\"name\":\""+remPros.get(k).getName()+"\",";
 				removed += "\"description\":\""+remPros.get(k).getDescription()+"\"}";
 				System.out.println(removed);
 				if(k==0) old = edits.toString();

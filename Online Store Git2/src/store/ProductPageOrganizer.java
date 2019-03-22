@@ -95,7 +95,7 @@ public class ProductPageOrganizer {
 		title.setStyle("-fx-background-color: GREEN;");
 
 		Text titleText = new Text();
-		titleText.setText(product.getTitle());
+		titleText.setText(product.getName());
 		titleText.setStyle("-fx-font: 30 sansserif;");
 
 		title.getChildren().add(titleText);
