@@ -52,7 +52,7 @@ public class Product {
 		root.getChildren().addAll(imageView, nameLabel, costLabel, descriptionLabel);
 	}  
 
-	// We could have this
+	// We could have this 
 	public void changeFonts(String fontName, double size) {
 		nameLabel.setFont(Font.font(fontName, size));
 		costLabel.setFont(Font.font(fontName, size));
