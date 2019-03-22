@@ -21,7 +21,7 @@ public class Product {
 	private String name;
 	private double cost;
 	private String description;
-
+ 
 	/**
 	 * A class that holds the image, name, cost, and description of a product
 	 * 
