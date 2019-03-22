@@ -259,7 +259,7 @@ public class Editor  extends Application{
 				removed += "\"imageURL\":\""+remPros.get(k).getImageURL()+"\",";
 				removed += "\"name\":\""+remPros.get(k).getName()+"\",";
 				removed += "\"description\":\""+remPros.get(k).getDescription()+"\"}";
-				System.out.println(removed);
+				//System.out.println(removed);
 				if(k==0) old = edits.toString();
 				System.out.println(old);
 				String newStuff = old.substring(0, old.indexOf(removed));
