@@ -274,7 +274,7 @@ public class Editor  extends Application{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println(newStuff);
+				//System.out.println(newStuff);
 				old = newStuff+stuff;
 				//System.out.println(old); //test
 			}
