@@ -50,7 +50,7 @@ public class Editor  extends Application{
 	public static void main(String[] args) {launch(args);}
 	
 	private void createEditor() {
-		//Bottom of editor, save and exit buttons
+		//Bottom of editor, save and exit buttons 
 		HBox bottom = new HBox();
 		bottom.setAlignment(Pos.CENTER);
 		bottom.setSpacing(10);
