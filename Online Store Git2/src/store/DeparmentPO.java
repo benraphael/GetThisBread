@@ -2,6 +2,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -10,9 +11,9 @@ public class DeparmentPO {
 
 	BorderPane root;
 	VBox top, center;
+	GridPane centerMain;
 	Label department;
 	HBox name, change;
-	Button boxes;
 	
 	public DeparmentPO() {
 		root = new BorderPane();
@@ -40,14 +41,28 @@ public class DeparmentPO {
 		top.getChildren().addAll(change, name);
 		top.setPrefSize(1600, 100);
 		
-		boxes = new Button();
+		centerMain = new GridPane();
+		centerMain.setAlignment(Pos.CENTER);
+
+		
+		for(int i = 0;i<10;i++) {
+			for(int g = 0;g<10;g++) {
+				Button button = new Button();
+				button.setPrefSize(20, 20);
+				centerMain.setRowIndex(button, i);
+				centerMain.setColumnIndex(button, g);
+				centerMain.getChildren().addAll(button);
+			}
+		}
 		
 		center = new VBox();
-		center.setStyle("-fx-background-color: RED;");
+		center.setStyle("-fx-background-color: BISQUE;");
 		center.setAlignment(Pos.CENTER);
 		center.setSpacing(5);
+		center.getChildren().addAll(centerMain);
 		
 		root.setTop(top);
+		root.setCenter(center);
 		
 	}
 	
