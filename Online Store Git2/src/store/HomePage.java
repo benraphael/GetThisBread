@@ -1,7 +1,4 @@
 
-
-
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -17,12 +14,12 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class HomePage extends Application{
-	
+public class HomePage extends Application {
+
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 	public void start(Stage stage) throws Exception {
 		stage.setTitle("https://LetsGetThisBread.com");
 		HomePagePO organizer = new HomePagePO();
