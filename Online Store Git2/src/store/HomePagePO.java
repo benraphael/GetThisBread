@@ -26,21 +26,21 @@ public class HomePagePO {
 	}
 
 	private void Home() {
-		Image image1 = new Image("/store/BetterAttemptAtLogo.png");
+		Image image1 = new Image("file:/store/BetterAttemptAtLogo.png");
 		title = new Label();
 		subscript = new Label();
 		cartL = new Label();
 		checkoutL = new Label();
 		cart = new Button();
 
-		cart.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(/store/cart.png)");
+		cart.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(file:/store/cart.png)");
 		cart.setScaleX(.2);
 		cart.setScaleY(.2);
 		cart.setTranslateX(700);
 		cart.setTranslateY(120);
 
 		checkout = new Button();
-		checkout.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(/store/shopping-bag-outline.png)");
+		checkout.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(file:/store/shopping-bag-outline.png)");
 		checkout.setScaleX(.16);
 		checkout.setScaleY(.16);
 		checkout.setTranslateX(500);
@@ -109,22 +109,22 @@ public class HomePagePO {
 	}
 
 	private void checkoutMouseEnter() {
-		checkout.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(/store/shopping-bag-outline2.png)");
+		checkout.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(file:/store/shopping-bag-outline2.png)");
 		checkoutL.setText("Checkout");
 	}
 
 	private void checkoutMouseExit() {
-		checkout.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(/store/shopping-bag-outline.png)");
+		checkout.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(file:/store/shopping-bag-outline.png)");
 		checkoutL.setText("");
 	}
 
 	private void cartMouseEnter() {
-		cart.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(/store/cart2.png)");
+		cart.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(file:/store/cart2.png)");
 		cartL.setText("Cart");
 	}
 
 	private void cartMouseExit() {
-		cart.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(/store/cart.png)");
+		cart.setStyle("-fx-background-color: #FFE4C4;-fx-graphic: url(file:/store/cart.png)");
 		cartL.setText("");
 	}
 
