@@ -20,7 +20,6 @@ public class DeparmentPO {
 	GridPane centerMain;
 	Label department;
 	HBox name, change;
-	
 
 	public DeparmentPO() {
 		root = new BorderPane();
@@ -56,12 +55,14 @@ public class DeparmentPO {
 
 		for (int i = 0; i < 2; i++) {
 			for (int g = 0; g < 5; g++) {
-				VBox box = new VBox();
-				box.setPrefSize(200, 200);
-				box.setStyle("-fx-border-color: black;" + "-fx-border-insets: 5;" + "-fx-border-width: 3;" + "-fx-border-style: solid;");
-				centerMain.setRowIndex(box, i);
-				centerMain.setColumnIndex(box, g);
-				centerMain.getChildren().addAll(box);
+				Button button = new Button();
+				button.setPrefSize(200, 200);
+				button.setStyle("-fx-background-color: white;" + "-fx-border-color: #85bb65;");
+				button.setOnMousePressed(e -> button.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
+				button.setOnMouseReleased(e -> button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
+				centerMain.setRowIndex(button, i);
+				centerMain.setColumnIndex(button, g);
+				centerMain.getChildren().addAll(button);
 			}
 		}
 
@@ -73,8 +74,12 @@ public class DeparmentPO {
 
 		root.setTop(Top);
 		root.setCenter(center);
+		
+		
 
 	}
+	
+	
 
 	public Pane getRoot() {
 		return root;
