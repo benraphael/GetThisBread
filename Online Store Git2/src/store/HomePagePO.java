@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class HomePagePO extends HomePage {
+public class HomePagePO extends HomePage {//f
 
 	private BorderPane root;
 	private Label title, subscript, cartL, checkoutL;
