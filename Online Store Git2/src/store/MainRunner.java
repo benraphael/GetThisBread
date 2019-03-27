@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javafx.application.Application;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -21,13 +22,14 @@ public class MainRunner extends Application {
 		launch(args);
 	}
 
+	static Scene scene;
 	@Override
 	public void start(Stage stage) throws Exception {
 		deps = new ArrayList<Department>();
-		loadDepartments(FILENAME);
+//		loadDepartments(FILENAME);
 		stage.setTitle("https://LetsGetThisBread.com");
 		HomePagePO organizer = new HomePagePO();
-		Scene scene = new Scene(organizer.getRoot(), 1600, 800);
+		scene = new Scene(organizer.getRoot(), 1600, 800);
 		stage.setMaximized(true);
 		stage.setScene(scene);
 		stage.show();
@@ -67,4 +69,12 @@ public class MainRunner extends Application {
 		}
 	}
 
+	public static void defaultCursor() {
+		 scene.setCursor(Cursor.DEFAULT);
+		
+	}
+	public static void clickCursor() {
+		 scene.setCursor(Cursor.HAND);
+		
+	}
 }
