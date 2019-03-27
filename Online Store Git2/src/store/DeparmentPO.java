@@ -64,7 +64,7 @@ public class DeparmentPO {
 					DepartmentTest.clickCursor();
 				});
 				button.setOnMouseExited(e -> {
-					button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
+					button.setStyle("-fx-background-color: white;-fx-border-color: #85bb64;");
 					DepartmentTest.defaultCursor();
 				});
 				centerMain.setRowIndex(button, i);
