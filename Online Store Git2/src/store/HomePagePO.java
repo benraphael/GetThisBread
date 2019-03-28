@@ -9,12 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class HomePagePO extends HomePage {
+public class HomePagePO extends MainRunner {
 
 	private BorderPane root;
 	private Label title, subscript, cartL, checkoutL;
@@ -22,11 +23,9 @@ public class HomePagePO extends HomePage {
 	private TextField search;
 	private ComboBox<String> box;
 	private ScrollPane scroll;
-
-	// SAMPLEPRODUCTSIZE/PRODUCTNUMBER has to return a whole integer, not a decimal value, for now
-	private static final int SAMPLEPRODUCTSIZE = 18;
+	private static final int SAMPLEPRODUCTSIZE = 24;
 	private static final int PRODUCTNUMBER = 6;
-	private static final int BUTTONSIZE = 230;
+	private static final int BUTTONSIZE = 220;
 	private Button[] sampleProducts;
 
 	// Tan(Bisque): #FFE4C4
@@ -52,6 +51,8 @@ public class HomePagePO extends HomePage {
 		
 		scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		scroll.setStyle("-fx-background-color: transparent");
+		
 
 		cart.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/t8wgHDp.png)");
 		cart.setScaleX(.2);
@@ -74,7 +75,7 @@ public class HomePagePO extends HomePage {
 
 		VBox center = new VBox();
 		center.setPadding(new Insets(20));
-		center.setStyle("-fx-background-color: white");
+		center.setStyle("-fx-background-color: bisque");
 
 		Pane top = new Pane();
 		top.setPadding(new Insets(20));
@@ -98,8 +99,8 @@ public class HomePagePO extends HomePage {
 		bottop.setAlignment(Pos.BOTTOM_RIGHT);
 		bottop.setSpacing(20);
 		bottop.setPadding(new Insets(20));
-		bottop.setStyle("-fx-background-color: #362204");
-		bottop.setPrefSize(1600, 104);
+		bottop.setStyle("-fx-background-color: transparent");
+		bottop.setPrefSize(1600, 100);
 		bottop.setTranslateY(200);
 
 		HBox idontcareanymore = new HBox();
@@ -118,7 +119,7 @@ public class HomePagePO extends HomePage {
 		departmentboxbox.setStyle("-fx-background-color: #362204");
 		departmentboxbox.setPrefSize(300, 100);
 		departmentboxbox.setTranslateY(200);
-		departmentboxbox.setTranslateX(58);
+		departmentboxbox.setTranslateX(71);
 
 		VBox left = new VBox();
 		left.setAlignment(Pos.CENTER);
@@ -135,6 +136,7 @@ public class HomePagePO extends HomePage {
 		search.setPrefWidth(200);
 		search.setStyle("-fx-background-color: bisque;-fx-text-fill: #362204");
 		search.setFocusTraversable(false);
+		search.setPromptText("Search");
 
 		root.setTop(top);
 		root.setCenter(scroll);
@@ -156,7 +158,7 @@ public class HomePagePO extends HomePage {
 		box.setPromptText("Select a department...");
 		box.getItems().addAll("dept1", "dept2", "dept3", "etc");
 		
-		HBox[] hboxes = new HBox[sampleProducts.length/PRODUCTNUMBER];
+		HBox[] hboxes = new HBox[(sampleProducts.length%PRODUCTNUMBER != 0) ? sampleProducts.length/PRODUCTNUMBER + 1 : sampleProducts.length/PRODUCTNUMBER];
 		
 		for (int i=0;i<hboxes.length;i++) {
 			hboxes[i] = new HBox();
@@ -169,7 +171,7 @@ public class HomePagePO extends HomePage {
 		
 		for (int i=0;i<sampleProducts.length;i++) {
 			sampleProducts[i] = new Button();
-			sampleProducts[i].setText("" + i);
+			sampleProducts[i].setText("(Product " + (i + 1) + ")");
 			hboxes[i/PRODUCTNUMBER].getChildren().add(sampleProducts[i]);
 		}
 
@@ -204,8 +206,8 @@ public class HomePagePO extends HomePage {
 		cart.setOnMouseExited(e -> mouseExit("cart"));
 		checkout.setOnMouseEntered(e -> mouseEnter("checkout"));
 		checkout.setOnMouseExited(e -> mouseExit("checkout"));
-		cart.setOnMousePressed(e -> Click("cart"));
-		checkout.setOnMousePressed(e -> Click("checkout"));
+		//cart.setOnMousePressed(e -> Click("cart"));
+		//checkout.setOnMousePressed(e -> Click("checkout"));
 
 		cart.setOnMousePressed(e -> Pressed("cart"));
 		checkout.setOnMousePressed(e -> Pressed("checkout"));
@@ -254,26 +256,28 @@ public class HomePagePO extends HomePage {
 			cartL.setStyle("-fx-text-fill: #FFE4C4");
 			cart.setScaleX(.2);
 			cart.setScaleY(.2);
+			toCart();
 			break;
 		case "checkout":
 			checkout.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/blMxO0J.png)");
 			checkoutL.setStyle("-fx-text-fill: #FFE4C4");
 			checkout.setScaleX(.16);
 			checkout.setScaleY(.16);
+			//toCheckout();
 			break;
 
 		}
 	}
 
-	private void Click(String source) {
-
-		if (source.equals("cart")) {
-			System.out.println("cart");
-		}
-		if (source.equals("checkout")) {
-			System.out.println("checkout");
-		}
-	}
+//	private void Click(String source) {
+//
+//		if (source.equals("cart")) {
+//			System.out.println("cart");
+//		}
+//		if (source.equals("checkout")) {
+//			System.out.println("checkout");
+//		}
+//	}
 
 	private void mouseEnter(String source) {
 		switch (source) {

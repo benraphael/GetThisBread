@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class cartPane {
+public class cartPane extends MainRunner {
 	private BorderPane root;
 	private HBox top, center, bottom;
 	private Label cart;

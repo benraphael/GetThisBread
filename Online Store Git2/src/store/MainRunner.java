@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class MainRunner extends Application {
 
-	private static final String FILENAME = "";
+	private static final String FILENAME = "storeJSON";
 	
 	private ArrayList<Department> deps;
 	
@@ -22,17 +22,23 @@ public class MainRunner extends Application {
 		launch(args);
 	}
 
-	static Scene scene;
+	static Scene homeScene;
+	static Scene cartScene;
+	static Stage mainStage;
+	
 	@Override
 	public void start(Stage stage) throws Exception {
+		mainStage = stage;
 		deps = new ArrayList<Department>();
-//		loadDepartments(FILENAME);
-		stage.setTitle("https://LetsGetThisBread.com");
-		HomePagePO organizer = new HomePagePO();
-		scene = new Scene(organizer.getRoot(), 1600, 800);
-		stage.setMaximized(true);
-		stage.setScene(scene);
-		stage.show();
+		loadDepartments(FILENAME);
+		mainStage.setTitle("https://LetsGetThisBread.com");
+		HomePagePO homepage = new HomePagePO();
+		cartPane cartpane = new cartPane();
+		homeScene = new Scene(homepage.getRoot(), 1600, 800);
+		cartScene = new Scene(cartpane.getRoot(), 1600, 800);
+		mainStage.setMaximized(true);
+		mainStage.setScene(homeScene);
+		mainStage.show();
 	}
 	
 	private void loadDepartments(String fileName) {
@@ -68,13 +74,20 @@ public class MainRunner extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	public void toHome() {
+		mainStage.setScene(homeScene);
+	}
+	public void toCart() {
+		mainStage.setScene(cartScene);
+	}
 
 	public static void defaultCursor() {
-		 scene.setCursor(Cursor.DEFAULT);
+		 mainStage.getScene().setCursor(Cursor.DEFAULT);
 		
 	}
 	public static void clickCursor() {
-		 scene.setCursor(Cursor.HAND);
+		 mainStage.getScene().setCursor(Cursor.HAND);
 		
 	}
 }
