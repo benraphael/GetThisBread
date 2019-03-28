@@ -30,7 +30,7 @@ public class HomePagePO extends HomePage {
 	// Money Green: #85bb65
 
 	public HomePagePO() {
-		root = new BorderPane(); //f
+		root = new BorderPane();
 		Home();
 	}
 
