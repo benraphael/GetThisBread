@@ -1,12 +1,11 @@
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -14,7 +13,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class HomePagePO extends HomePage {
 
@@ -23,8 +21,12 @@ public class HomePagePO extends HomePage {
 	private Button cart, checkout;
 	private TextField search;
 	private ComboBox<String> box;
+	private ScrollPane scroll;
 
-	private static final int SAMPLEPRODUCTSIZE = 12;
+	// SAMPLEPRODUCTSIZE/PRODUCTNUMBER has to return a whole integer, not a decimal value, for now
+	private static final int SAMPLEPRODUCTSIZE = 18;
+	private static final int PRODUCTNUMBER = 6;
+	private static final int BUTTONSIZE = 230;
 	private Button[] sampleProducts;
 
 	// Tan(Bisque): #FFE4C4
@@ -37,7 +39,6 @@ public class HomePagePO extends HomePage {
 	}
 
 	private void Home() {
-
 		Image image1 = new Image("https://i.imgur.com/OVWPlbB.png");
 		title = new Label();
 		subscript = new Label();
@@ -47,6 +48,10 @@ public class HomePagePO extends HomePage {
 		sampleProducts = new Button[SAMPLEPRODUCTSIZE];
 		search = new TextField();
 		box = new ComboBox<String>();
+		scroll = new ScrollPane();
+		
+		scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 
 		cart.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/t8wgHDp.png)");
 		cart.setScaleX(.2);
@@ -67,7 +72,7 @@ public class HomePagePO extends HomePage {
 		checkoutL.setTranslateX(492);
 		checkoutL.setTranslateY(-180);
 
-		Pane center = new Pane();
+		VBox center = new VBox();
 		center.setPadding(new Insets(20));
 		center.setStyle("-fx-background-color: white");
 
@@ -75,18 +80,6 @@ public class HomePagePO extends HomePage {
 		top.setPadding(new Insets(20));
 		top.setStyle("-fx-background-color: #362204");
 		top.setPrefHeight(304);
-
-		HBox centerTop = new HBox();
-		centerTop.setAlignment(Pos.CENTER_LEFT);
-		centerTop.setSpacing(20);
-		centerTop.setPadding(new Insets(20));
-		centerTop.setStyle("-fx-background-color: bisque");
-
-		HBox centerBot = new HBox();
-		centerBot.setAlignment(Pos.CENTER_LEFT);
-		centerBot.setSpacing(20);
-		centerBot.setPadding(new Insets(20));
-		centerBot.setStyle("-fx-background-color: bisque");
 
 		HBox bottom = new HBox();
 		bottom.setAlignment(Pos.BOTTOM_CENTER);
@@ -144,7 +137,7 @@ public class HomePagePO extends HomePage {
 		search.setFocusTraversable(false);
 
 		root.setTop(top);
-		root.setCenter(center);
+		root.setCenter(scroll);
 		root.setBottom(bottom);
 		root.setLeft(left);
 		root.setRight(right);
@@ -163,18 +156,25 @@ public class HomePagePO extends HomePage {
 		box.setPromptText("Select a department...");
 		box.getItems().addAll("dept1", "dept2", "dept3", "etc");
 		
-
-		for (int i = 0; i < sampleProducts.length; i++) {
+		HBox[] hboxes = new HBox[sampleProducts.length/PRODUCTNUMBER];
+		
+		for (int i=0;i<hboxes.length;i++) {
+			hboxes[i] = new HBox();
+			hboxes[i].setAlignment(Pos.CENTER_LEFT);
+			hboxes[i].setSpacing(20);
+			hboxes[i].setPadding(new Insets(20));
+			hboxes[i].setStyle("-fx-background-color: bisque");
+			center.getChildren().add(hboxes[i]);
+		}
+		
+		for (int i=0;i<sampleProducts.length;i++) {
 			sampleProducts[i] = new Button();
-			if (i < sampleProducts.length / 2)
-				centerTop.getChildren().add(sampleProducts[i]);
-			else
-				centerBot.getChildren().add(sampleProducts[i]);
+			sampleProducts[i].setText("" + i);
+			hboxes[i/PRODUCTNUMBER].getChildren().add(sampleProducts[i]);
 		}
 
-		int size = 230;
 		for (Button button : sampleProducts) {
-			button.setPrefSize(size, size);
+			button.setPrefSize(BUTTONSIZE, BUTTONSIZE);
 			button.setStyle("-fx-background-color: white;");
 			button.setOnMouseEntered(e -> {
 				button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
@@ -198,15 +198,7 @@ public class HomePagePO extends HomePage {
 		idontcareanymore.getChildren().addAll(search);
 		departmentboxbox.getChildren().addAll(box);
 
-		centerTop.setPrefSize(1600, 238);
-		centerTop.setTranslateX(0);
-		centerTop.setTranslateY(0);
-
-		centerBot.setPrefSize(1600, 238);
-		centerBot.setTranslateX(0);
-		centerBot.setTranslateY(238);
-
-		center.getChildren().addAll(centerTop, centerBot);
+		scroll.setContent(center);
 
 		cart.setOnMouseEntered(e -> mouseEnter("cart"));
 		cart.setOnMouseExited(e -> mouseExit("cart"));
