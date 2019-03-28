@@ -3,6 +3,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BlendMode;
@@ -21,6 +22,7 @@ public class HomePagePO extends HomePage {
 	private Label title, subscript, cartL, checkoutL;
 	private Button cart, checkout;
 	private TextField search;
+	private ComboBox<String> box;
 
 	private static final int SAMPLEPRODUCTSIZE = 12;
 	private Button[] sampleProducts;
@@ -44,6 +46,7 @@ public class HomePagePO extends HomePage {
 		cart = new Button();
 		sampleProducts = new Button[SAMPLEPRODUCTSIZE];
 		search = new TextField();
+		box = new ComboBox<String>();
 
 		cart.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/t8wgHDp.png)");
 		cart.setScaleX(.2);
@@ -114,6 +117,15 @@ public class HomePagePO extends HomePage {
 		idontcareanymore.setPrefSize(300, 100);
 		idontcareanymore.setTranslateY(200);
 		idontcareanymore.setTranslateX(1120);
+		
+		HBox departmentboxbox = new HBox();
+		departmentboxbox.setAlignment(Pos.BOTTOM_LEFT);
+		departmentboxbox.setSpacing(20);
+		departmentboxbox.setPadding(new Insets(20));
+		departmentboxbox.setStyle("-fx-background-color: #362204");
+		departmentboxbox.setPrefSize(300, 100);
+		departmentboxbox.setTranslateY(200);
+		departmentboxbox.setTranslateX(58);
 
 		VBox left = new VBox();
 		left.setAlignment(Pos.CENTER);
@@ -128,7 +140,6 @@ public class HomePagePO extends HomePage {
 		right.setStyle("-fx-background-color: white");
 
 		search.setPrefWidth(200);
-
 		search.setStyle("-fx-background-color: bisque;-fx-text-fill: #362204");
 		search.setFocusTraversable(false);
 
@@ -146,6 +157,12 @@ public class HomePagePO extends HomePage {
 		title.setWrapText(true);
 		subscript.setText("© 2019-2019, LetsGetThisBread.com, Inc. or its affiliates");
 		subscript.setStyle("-fx-text-fill: bisque");
+		
+		box.setPrefSize(200,0);
+		box.setStyle("-fx-background-color: bisque;-fx-text-fill: #362204;-fx-control-inner-background: bisque;-fx-base: #85bb65;");
+		box.setPromptText("Select a department...");
+		box.getItems().addAll("dept1", "dept2", "dept3", "etc");
+		
 
 		for (int i = 0; i < sampleProducts.length; i++) {
 			sampleProducts[i] = new Button();
@@ -174,11 +191,12 @@ public class HomePagePO extends HomePage {
 		ImageView imgView = new ImageView(image1);
 		imgView.setFitHeight(150);
 		imgView.setFitWidth(129);
-		top.getChildren().addAll(toptop, bottop, idontcareanymore);
+		top.getChildren().addAll(toptop, bottop, idontcareanymore, departmentboxbox);
 		toptop.getChildren().addAll(imgView, title);
 		bottop.getChildren().addAll(cartL, checkoutL, cart, checkout);
 		bottom.getChildren().addAll(subscript);
 		idontcareanymore.getChildren().addAll(search);
+		departmentboxbox.getChildren().addAll(box);
 
 		centerTop.setPrefSize(1600, 238);
 		centerTop.setTranslateX(0);
