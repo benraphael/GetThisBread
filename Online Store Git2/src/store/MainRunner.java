@@ -18,6 +18,11 @@ public class MainRunner extends Application {
 	
 	private ArrayList<Department> deps;
 	
+	//COLORS:
+	// Tan(Bisque): #FFE4C4
+	// Dark Brown: #362204
+	// Money Green: #85bb65
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
