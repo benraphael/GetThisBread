@@ -21,11 +21,11 @@ public class cartPane extends MainRunner {
 
 	public cartPane() {
 		root = new BorderPane();
-		createCart();
 		run();
 	}
 
-	private void createCart() {
+	private void run() {
+		
 		HBox bottom = new HBox();
 		Button checkout = new Button("Go to Checkout");
 		Button goHome = new Button("Go to Home Page");
@@ -34,9 +34,7 @@ public class cartPane extends MainRunner {
 
 		checkout.setOnAction(event -> System.out.println("test1")); // Change once all the classes are together
 		goHome.setOnAction(event -> System.out.println("test2")); // Change once all the classes are together
-	}
-
-	private void run() {
+		
 		Image image1 = new Image("File: /store/BetterAttemptAtLogo.png");
 		ImageView imgView = new ImageView(image1);
 
