@@ -24,6 +24,8 @@ public class MainRunner extends Application {
 
 	static Scene homeScene;
 	static Scene cartScene;
+	static Scene checkoutScene;
+	
 	static Stage mainStage;
 	
 	@Override
@@ -34,8 +36,10 @@ public class MainRunner extends Application {
 		mainStage.setTitle("https://LetsGetThisBread.com");
 		HomePagePO homepage = new HomePagePO();
 		cartPane cartpane = new cartPane();
+		Checkout checkout = new Checkout();
 		homeScene = new Scene(homepage.getRoot(), 1600, 800);
 		cartScene = new Scene(cartpane.getRoot(), 1600, 800);
+		checkoutScene = new Scene(checkout.getRoot(), 1600, 800);
 		mainStage.setMaximized(true);
 		mainStage.setScene(homeScene);
 		mainStage.show();
@@ -80,6 +84,9 @@ public class MainRunner extends Application {
 	}
 	public void toCart() {
 		mainStage.setScene(cartScene);
+	}
+	public void toCheckout() {
+		mainStage.setScene(checkoutScene);
 	}
 
 	public static void defaultCursor() {

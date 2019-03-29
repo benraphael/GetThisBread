@@ -49,7 +49,7 @@ public class HomePagePO extends MainRunner {
 		box = new ComboBox<String>();
 		scroll = new ScrollPane();
 		
-		scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
 		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		scroll.setStyle("-fx-background-color: transparent");
 		
@@ -263,7 +263,7 @@ public class HomePagePO extends MainRunner {
 			checkoutL.setStyle("-fx-text-fill: #FFE4C4");
 			checkout.setScaleX(.16);
 			checkout.setScaleY(.16);
-			//toCheckout();
+			toCheckout();
 			break;
 
 		}
