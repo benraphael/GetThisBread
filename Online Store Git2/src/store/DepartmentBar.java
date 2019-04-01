@@ -4,16 +4,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 public class DepartmentBar extends MainRunner {
 
-	private BorderPane root;
-	private Label cartLabel, checkoutLabel;
+	private Pane mainPane;
+	private Label storeName, cartLabel, checkoutLabel;
 	private Button cart, checkout;
 	private TextField search;
 	private ComboBox<String> departmentList;
@@ -22,122 +22,133 @@ public class DepartmentBar extends MainRunner {
 	// Dark Brown: #362204
 	// Money Green: #85bb65
 
+	/**
+	 * Class that stores a Pane object and hold the store name, logo, and the
+	 * navigation options. There is a list of departments to choose from, a search
+	 * bar to search for a product, a cart button to look at the current cart, a
+	 * checkout button to finalize a purchase, and clicking the logo leads to the
+	 * home page.
+	 */
 	public DepartmentBar() {
-		root = new BorderPane();
+		mainPane = new Pane();
 		Home();
 	}
 
 	private void Home() {
+		storeName = new Label();
 		cartLabel = new Label("Cart");
 		checkoutLabel = new Label("Checkout");
 		cart = new Button();
+		checkout = new Button();
 		search = new TextField();
 		departmentList = new ComboBox<String>();
 
+		// Cart button and label
 		cart.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/t8wgHDp.png)");
 		cart.setScaleX(.2);
 		cart.setScaleY(.2);
-//		cart.setTranslateX(275);
-//		cart.setTranslateY(-111);
+		cart.setTranslateX(275);
+		cart.setTranslateY(-111);
 
-//		cartLabel.setTranslateX(cart.getTranslateX());
-//		cartLabel.setTranslateY(-111);
+		cartLabel.setTranslateX(487);
+		cartLabel.setTranslateY(-180);
+		cartLabel.setStyle("-fx-text-fill: #FFE4C4");
 		cartLabel.setVisible(false);
-		
-		VBox cartIcons = new VBox();
-//		cartIcons.setSpacing(20);
-		cartIcons.getChildren().addAll(cart, cartLabel);
-		cartIcons.setAlignment(Pos.CENTER);
 
-		checkout = new Button();
+		// Checkout button and label
 		checkout.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/zI5uhfZ.png)");
 		checkout.setScaleX(.16);
 		checkout.setScaleY(.16);
-//		checkout.setTranslateX(75);
-//		checkout.setTranslateY(-84);
+		checkout.setTranslateX(75);
+		checkout.setTranslateY(-84);
 
-//		checkoutLabel.setTranslateX(492);
-//		checkoutLabel.setTranslateY(-180);
+		checkoutLabel.setTranslateX(492);
+		checkoutLabel.setTranslateY(-180);
+		checkoutLabel.setStyle("-fx-text-fill: #FFE4C4");
 		checkoutLabel.setVisible(false);
-		
-		VBox checkoutIcons = new VBox();
-//		checkoutIcons.setSpacing(20);
-		checkoutIcons.getChildren().addAll(checkout, checkoutLabel);
-		checkoutIcons.setAlignment(Pos.CENTER);
 
-		HBox buttons = new HBox();
-		buttons.setAlignment(Pos.BOTTOM_RIGHT);
-//		buttons.setSpacing(20);
-//		buttons.setPadding(new Insets(20));
-		buttons.setStyle("-fx-background-color: transparent");
-//		buttons.setPrefSize(1600, 100);
-//		buttons.setTranslateY(200);
+		// Pane to hold everything
+		mainPane.setPadding(new Insets(20));
+		mainPane.setStyle("-fx-background-color: #362204");
+		mainPane.setPrefHeight(304);
 
-		HBox searchHBox = new HBox();
-		searchHBox.setAlignment(Pos.BOTTOM_RIGHT);
-		searchHBox.setSpacing(20);
-		searchHBox.setPadding(new Insets(20));
-		searchHBox.setStyle("-fx-background-color: #362204");
-		searchHBox.setPrefSize(300, 100);
-		searchHBox.setTranslateY(200);
-		searchHBox.setTranslateX(1120);
+		HBox storeNamePane = new HBox();
+		storeNamePane.setAlignment(Pos.CENTER_LEFT);
+		storeNamePane.setSpacing(20);
+		storeNamePane.setPadding(new Insets(20));
+		storeNamePane.setStyle("-fx-background-color: #362204");
+		storeNamePane.setPrefSize(1600, 200);
 
-		HBox departmentHBox = new HBox();
-		departmentHBox.setAlignment(Pos.BOTTOM_LEFT);
-		departmentHBox.setSpacing(20);
-		departmentHBox.setPadding(new Insets(20));
-		departmentHBox.setStyle("-fx-background-color: #362204");
-		departmentHBox.setPrefSize(300, 100);
-		departmentHBox.setTranslateY(200);
-		departmentHBox.setTranslateX(71);
+		HBox navigation = new HBox();
+		navigation.setAlignment(Pos.BOTTOM_RIGHT);
+		navigation.setSpacing(20);
+		navigation.setPadding(new Insets(20));
+		navigation.setStyle("-fx-background-color: transparent");
+		navigation.setPrefSize(1600, 100);
+		navigation.setTranslateY(200);
+
+		HBox searchBarBox = new HBox();
+		searchBarBox.setAlignment(Pos.BOTTOM_RIGHT);
+		searchBarBox.setSpacing(20);
+		searchBarBox.setPadding(new Insets(20));
+		searchBarBox.setStyle("-fx-background-color: #362204");
+		searchBarBox.setPrefSize(300, 100);
+		searchBarBox.setTranslateY(200);
+		searchBarBox.setTranslateX(1120);
+		searchBarBox.getChildren().addAll(search);
+
+		HBox departmentListBox = new HBox();
+		departmentListBox.setAlignment(Pos.BOTTOM_LEFT);
+		departmentListBox.setSpacing(20);
+		departmentListBox.setPadding(new Insets(20));
+		departmentListBox.setStyle("-fx-background-color: #362204");
+		departmentListBox.setPrefSize(300, 100);
+		departmentListBox.setTranslateY(200);
+		departmentListBox.setTranslateX(71);
+		departmentListBox.getChildren().addAll(departmentList);
 
 		search.setPrefWidth(200);
 		search.setStyle("-fx-background-color: bisque;-fx-text-fill: #362204");
 		search.setFocusTraversable(false);
 		search.setPromptText("Search");
 
-		HBox mainBox = new HBox();
-		root.setTop(mainBox);
-
-		cartLabel.setStyle("-fx-text-fill: #FFE4C4");
-		checkoutLabel.setStyle("-fx-text-fill: #FFE4C4");
+		storeName.setText("Let's Get This Bread");
+		storeName.setStyle("-fx-text-fill: bisque;-fx-font: 64px \"Edwardian Script ITC\";");
+		storeName.setWrapText(true);
 
 		departmentList.setPrefSize(200, 0);
 		departmentList.setStyle(
 				"-fx-background-color: bisque;-fx-text-fill: #362204;-fx-control-inner-background: bisque;-fx-base: #85bb65;");
 		departmentList.setPromptText("Select a department...");
+		// TODO Add departments properly
 		departmentList.getItems().addAll("dept1", "dept2", "dept3", "etc");
 
-//		top.getChildren().addAll(buttons, searchHBox, departmentHBox);
-		buttons.getChildren().addAll(cartIcons, checkoutIcons);
-//		searchHBox.getChildren().addAll(search);
-//		departmentHBox.getChildren().addAll(departmentList);
-		
-		mainBox.setStyle("-fx-background-color: #362204");
-		mainBox.getChildren().addAll(departmentList, search, buttons);
-		mainBox.setSpacing(20);
-		mainBox.setPadding(new Insets(20));
+		ImageView storeLogo = new ImageView(new Image("https://i.imgur.com/OVWPlbB.png"));
+		storeLogo.setFitHeight(150);
+		storeLogo.setFitWidth(129);
+
+		storeNamePane.getChildren().addAll(storeLogo, storeName);
+		navigation.getChildren().addAll(cartLabel, checkoutLabel, cart, checkout);
+		mainPane.getChildren().addAll(storeNamePane, navigation, searchBarBox, departmentListBox);
 
 		cart.setOnMouseEntered(e -> mouseEnter("cart"));
 		cart.setOnMouseExited(e -> mouseExit("cart"));
-		checkout.setOnMouseEntered(e -> mouseEnter("checkout"));
-		checkout.setOnMouseExited(e -> mouseExit("checkout"));
-		// cart.setOnMousePressed(e -> Click("cart"));
-		// checkout.setOnMousePressed(e -> Click("checkout"));
-
 		cart.setOnMousePressed(e -> Pressed("cart"));
-		checkout.setOnMousePressed(e -> Pressed("checkout"));
 		cart.setOnMouseReleased(e -> Released("cart"));
+		checkout.setOnMouseEntered(e -> mouseEnter("checkout"));
+		checkout.setOnMousePressed(e -> Pressed("checkout"));
 		checkout.setOnMouseReleased(e -> Released("checkout"));
-
+		checkout.setOnMouseExited(e -> mouseExit("checkout"));
+		storeLogo.setOnMouseReleased(e -> toHome());
+		storeLogo.setOnMouseEntered(e -> clickCursor());
+		storeLogo.setOnMouseExited(e -> defaultCursor());
 	}
 
 	public void enterPressed(KeyEvent event) {
-
 		if (search.isFocused()) {
 			switch (event.getCode()) {
 			case ENTER:
-				// make it search
+				// TODO make it search
 				break;
 			default:
 				break;
@@ -147,7 +158,6 @@ public class DepartmentBar extends MainRunner {
 
 	private void Pressed(String source) {
 		switch (source) {
-
 		case "cart":
 			cart.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/IF96gSL.png)");
 			cartLabel.setStyle("-fx-text-fill: black");
@@ -160,19 +170,18 @@ public class DepartmentBar extends MainRunner {
 			checkout.setScaleX(.14);
 			checkout.setScaleY(.14);
 			break;
-
 		}
 	}
 
 	private void Released(String source) {
 		switch (source) {
-
 		case "cart":
 			cart.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/MZkcgvq.png)");
 			cartLabel.setStyle("-fx-text-fill: #FFE4C4");
 			cart.setScaleX(.2);
 			cart.setScaleY(.2);
 			System.out.println("Cart");
+			toCart();
 			break;
 		case "checkout":
 			checkout.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/blMxO0J.png)");
@@ -180,24 +189,13 @@ public class DepartmentBar extends MainRunner {
 			checkout.setScaleX(.16);
 			checkout.setScaleY(.16);
 			System.out.println("Checkout");
+			toCheckout();
 			break;
-
 		}
 	}
 
-	// private void Click(String source) {
-	//
-	// if (source.equals("cart")) {
-	// System.out.println("cart");
-	// }
-	// if (source.equals("checkout")) {
-	// System.out.println("checkout");
-	// }
-	// }
-
 	private void mouseEnter(String source) {
 		switch (source) {
-
 		case "cart":
 			cart.setStyle("-fx-background-color: #362204;-fx-graphic: url(https://i.imgur.com/MZkcgvq.png)");
 			cartLabel.setVisible(true);
@@ -227,6 +225,6 @@ public class DepartmentBar extends MainRunner {
 	}
 
 	public Pane getRoot() {
-		return root;
+		return mainPane;
 	}
 }

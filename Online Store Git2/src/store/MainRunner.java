@@ -15,24 +15,25 @@ import javafx.stage.Stage;
 public class MainRunner extends Application {
 
 	private static final String FILENAME = "storeJSON";
-	
+	private static final int WIDTH = 1600;
+	private static final int HEIGHT = 800;
+
 	private ArrayList<Department> deps;
-	
-	//COLORS:
-	// Tan(Bisque): #FFE4C4
-	// Dark Brown: #362204
-	// Money Green: #85bb65
-	
-	public static void main(String[] args) {
-		launch(args);
-	}
 
 	static Scene homeScene;
 	static Scene cartScene;
 	static Scene checkoutScene;
-	
 	static Stage mainStage;
-	
+
+	// COLORS:
+	// Tan(Bisque): #FFE4C4
+	// Dark Brown: #362204
+	// Money Green: #85bb65
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		mainStage = stage;
@@ -42,14 +43,14 @@ public class MainRunner extends Application {
 		HomePagePO homepage = new HomePagePO();
 		cartPane cartpane = new cartPane();
 		Checkout checkout = new Checkout();
-		homeScene = new Scene(homepage.getRoot(), 1600, 800);
-		cartScene = new Scene(cartpane.getRoot(), 1600, 800);
-		checkoutScene = new Scene(checkout.getRoot(), 1600, 800);
+		homeScene = new Scene(homepage.getRoot(), WIDTH, HEIGHT);
+		cartScene = new Scene(cartpane.getRoot(), WIDTH, HEIGHT);
+		checkoutScene = new Scene(checkout.getRoot(), WIDTH, HEIGHT);
 		mainStage.setMaximized(true);
 		mainStage.setScene(homeScene);
 		mainStage.show();
 	}
-	
+
 	private void loadDepartments(String fileName) {
 		try {
 			Scanner scan = new Scanner(new File(fileName));
@@ -58,15 +59,15 @@ public class MainRunner extends Application {
 				jsonIn += scan.nextLine();
 			}
 			scan.close();
-			
+
 			JSONObject mainObject = new JSONObject(jsonIn);
 			JSONArray departments = mainObject.getJSONArray("departments");
-			
-			for (int i=0;i<departments.length();i++) {
+
+			for (int i = 0; i < departments.length(); i++) {
 				Department dep = new Department(departments.getJSONObject(i).getString("name"));
 				ArrayList<Product> depProd = new ArrayList<Product>();
-				JSONArray products  = departments.getJSONObject(i).getJSONArray("products");
-				for (int j=0;j<products.length();j++) {
+				JSONArray products = departments.getJSONObject(i).getJSONArray("products");
+				for (int j = 0; j < products.length(); j++) {
 					String name = products.getJSONObject(j).getString("name");
 					Double cost = products.getJSONObject(j).getDouble("cost");
 					String desc = products.getJSONObject(j).getString("description");
@@ -83,23 +84,24 @@ public class MainRunner extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void toHome() {
 		mainStage.setScene(homeScene);
 	}
+
 	public void toCart() {
 		mainStage.setScene(cartScene);
 	}
+
 	public void toCheckout() {
 		mainStage.setScene(checkoutScene);
 	}
 
 	public static void defaultCursor() {
-		 mainStage.getScene().setCursor(Cursor.DEFAULT);
-		
+		mainStage.getScene().setCursor(Cursor.DEFAULT);
 	}
+
 	public static void clickCursor() {
-		 mainStage.getScene().setCursor(Cursor.HAND);
-		
+		mainStage.getScene().setCursor(Cursor.HAND);
 	}
 }
