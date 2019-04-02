@@ -19,15 +19,18 @@ public class DeparmentPO {
 	BorderPane root;
 	VBox Top, center;
 	Label department;
-	HBox name, change;
+	HBox name;
+	Pane change;
 	ScrollPane scroll;
 	
 	private static final int SAMPLEPRODUCTSIZE = 60;
 	private static final int PRODUCTNUMBER = 6;
 	private static final int BUTTONSIZE = 230;
 	private Button[] sampleProducts;
+	String depName;
 
-	public DeparmentPO() {
+	public DeparmentPO(String depName) {
+		this.depName = depName;
 		root = new BorderPane();
 		startUp();
 	}
@@ -40,13 +43,10 @@ public class DeparmentPO {
 		sampleProducts = new Button[SAMPLEPRODUCTSIZE];
 
 		department = new Label();
-		department.setText("DEPARTMENT");
+		department.setText(depName);
 		department.setStyle("-fx-font: 12 sansserif;");
 
-		change = new HBox();
-		change.setStyle("-fx-background-color: BLUE;");
-		change.setAlignment(Pos.CENTER);
-		change.setPrefSize(1600, 80);
+		change = new DepartmentBar().getRoot();
 
 		name = new HBox();
 		name.setStyle("-fx-background-color: GREEN;");
@@ -70,7 +70,7 @@ public class DeparmentPO {
 
 		Top = new VBox();
 		Top.getChildren().addAll(change, name);
-		Top.setPrefSize(1600, 100);
+		//Top.setPrefSize(1600, 100);
 		
 		HBox[] hboxes = new HBox[(sampleProducts.length % PRODUCTNUMBER != 0)
 		         				? sampleProducts.length / PRODUCTNUMBER + 1
@@ -107,6 +107,7 @@ public class DeparmentPO {
 		}
 
 		scroll.setContent(center);
+		//root.setTop(new DepartmentBar().getRoot());
 		root.setTop(Top);
 		root.setCenter(scroll);
 	}

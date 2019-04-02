@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 public class DepartmentTest extends Application{
 	
-	public static DeparmentPO depart = new DeparmentPO();
+	public static DeparmentPO depart = new DeparmentPO("Test Name");
 	public static Scene scene = new Scene(depart.getRoot(), 1600, 800);
 
 	public static void main(String[] args) {
