@@ -22,7 +22,8 @@ public class CartName extends Application {
 		
 		cartPane organizer = new cartPane();
 
-		Scene scene = new Scene(organizer.getRoot(), 1600, 800);
+		Scene scene = new Scene(organizer.getRoot());
+		stage.setTitle("https://LetsGetThisBread.com/Cart");
 		stage.setMaximized(true);
 		stage.setScene(scene);
 		stage.show();
