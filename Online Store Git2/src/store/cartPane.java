@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -26,39 +27,40 @@ public class cartPane extends MainRunner {
 
 	private void run() {
 		
-		HBox bottom = new HBox();
+		
+		
 		Button checkout = new Button("Go to Checkout");
 		Button goHome = new Button("Go to Home Page");
-		bottom.getChildren().addAll(checkout, goHome);
-		root.setBottom(bottom);
-
+		Button confirm = new Button("Confirm Purchase");
 		checkout.setOnAction(event -> System.out.println("test1")); // Change once all the classes are together
 		goHome.setOnAction(event -> System.out.println("test2")); // Change once all the classes are together
+		confirm.setOnAction(event -> System.out.println("test3"));
 		
-		Image image1 = new Image("File: /store/BetterAttemptAtLogo.png");
+		Image image1 = new Image("file:///Z:/git/GetThisBread/Online%20Store%20Git2/src/store/BetterAttemptAtLogo.png");
 		ImageView imgView = new ImageView(image1);
 
 		top = new HBox();
-		top.setStyle("-fx-background-color: Bisque;");
-		top.setAlignment(Pos.CENTER);
+		top.setStyle("-fx-background-color: #362204;");
+		top.setAlignment(Pos.TOP_LEFT);
 		imgView.setFitHeight(200);
 		imgView.setFitWidth(170);
 		top.getChildren().addAll(imgView);
 		
 		
 		center = new HBox();
-		center.setStyle("-fx-background-color: blue;");
+		center.setStyle("-fx-background-color: Bisque;");
 		center.setAlignment(Pos.CENTER);
-//		imgView.setFitHeight(100);
-//		imgView.setFitWidth(170);
-		center.getChildren().addAll(imgView);
-
+       
+		bottom = new HBox();
+		bottom.getChildren().addAll(checkout, goHome, confirm);
+		bottom.setStyle("-fx-background-color: #362204;");
+		bottom.setAlignment(Pos.BOTTOM_LEFT);
+		bottom.setPrefHeight(100);
+		
 		root.setTop(top);
 		root.setCenter(center);
 		root.setBottom(bottom);
-
-		// top.setPadding();
-		// top.setSpacing();
+		
 
 	}
 
