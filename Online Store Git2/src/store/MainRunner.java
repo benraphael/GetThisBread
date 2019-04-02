@@ -18,7 +18,7 @@ public class MainRunner extends Application {
 	private static final int WIDTH = 1600;
 	private static final int HEIGHT = 800;
 
-	private ArrayList<Department> deps;
+	protected ArrayList<Department> deps = loadDepartments(FILENAME);
 
 	static Scene homeScene;
 	static Scene cartScene;
@@ -36,9 +36,9 @@ public class MainRunner extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		mainStage = stage;
-		deps = new ArrayList<Department>();
 		loadDepartments(FILENAME);
+		mainStage = stage;
+		System.out.println(deps.toString());
 		mainStage.setTitle("https://LetsGetThisBread.com");
 		HomePagePO homepage = new HomePagePO();
 		cartPane cartpane = new cartPane();
@@ -51,7 +51,8 @@ public class MainRunner extends Application {
 		mainStage.show();
 	}
 
-	private void loadDepartments(String fileName) {
+	private ArrayList<Department> loadDepartments(String fileName) {
+		ArrayList<Department> loading = new ArrayList<Department>();
 		try {
 			Scanner scan = new Scanner(new File(fileName));
 			String jsonIn = "";
@@ -76,13 +77,14 @@ public class MainRunner extends Application {
 					depProd.add(tempProd);
 				}
 				dep.setProducts(depProd);
-				deps.add(dep);
+				loading.add(dep);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		return loading;
 	}
 
 	public void toHome() {

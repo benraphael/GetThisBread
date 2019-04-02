@@ -120,8 +120,9 @@ public class DepartmentBar extends MainRunner {
 		departmentList.setStyle(
 				"-fx-background-color: bisque;-fx-text-fill: #362204;-fx-control-inner-background: bisque;-fx-base: #85bb65;");
 		departmentList.setPromptText("Select a department...");
-		// TODO Add departments properly
-		departmentList.getItems().addAll("dept1", "dept2", "dept3", "etc");
+		for (Department dep : deps) {
+			departmentList.getItems().add(dep.getName());			
+		}
 
 		ImageView storeLogo = new ImageView(new Image("https://i.imgur.com/OVWPlbB.png"));
 		storeLogo.setFitHeight(150);
