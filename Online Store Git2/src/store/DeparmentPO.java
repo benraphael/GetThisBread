@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class DeparmentPO {
+public class DeparmentPO extends MainRunner{
 
 	BorderPane root;
 	VBox Top, center;
@@ -23,14 +23,15 @@ public class DeparmentPO {
 	Pane change;
 	ScrollPane scroll;
 	
-	private static final int SAMPLEPRODUCTSIZE = 60;
-	private static final int PRODUCTNUMBER = 6;
+	private Department department;
+	private static int SAMPLEPRODUCTSIZE;
+	private static final int PRODUCTNUMBER = 3;
 	private static final int BUTTONSIZE = 230;
 	private Button[] sampleProducts;
-	private Department department;
 
 	public DeparmentPO(Department dep) {
 		department = dep;
+		SAMPLEPRODUCTSIZE = department.getProducts().size();
 		root = new BorderPane();
 		startUp();
 	}
@@ -49,7 +50,7 @@ public class DeparmentPO {
 		change = new DepartmentBar().getRoot();
 
 		name = new HBox();
-		name.setStyle("-fx-background-color: GREEN;");
+		name.setStyle("-fx-background-color: lightblue;");
 		name.setAlignment(Pos.CENTER);
 		name.setPrefSize(1600, 20);
 		name.getChildren().addAll(departmentName);
@@ -87,8 +88,8 @@ public class DeparmentPO {
 		
 		for (int i=0;i<sampleProducts.length;i++) {
 			sampleProducts[i] = new Button();
-			sampleProducts[i].setText("" + i);
 			hboxes[i/PRODUCTNUMBER].getChildren().add(sampleProducts[i]);
+			sampleProducts[i].setGraphic(department.getProducts().get(i).getRoot());
 		}
 
 		for (Button button : sampleProducts) {
@@ -103,7 +104,7 @@ public class DeparmentPO {
 			button.setOnMousePressed(e -> button.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
 			button.setOnMouseReleased(e -> button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
 		}
-
+		
 		scroll.setContent(center);
 		root.setTop(new DepartmentBar().getRoot());
 		root.setTop(Top);

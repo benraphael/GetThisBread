@@ -27,16 +27,15 @@ public class cartPane extends MainRunner {
 	}
 
 	private void run() {
-		
-		
-		
+		cart = new Label();
+
 		Button checkout = new Button("Go to Checkout");
 		Button goHome = new Button("Go to Home Page");
 		Button confirm = new Button("Confirm Purchase");
 		checkout.setOnAction(event -> System.out.println("test1")); // Change once all the classes are together
 		goHome.setOnAction(event -> System.out.println("test2")); // Change once all the classes are together
 		confirm.setOnAction(event -> System.out.println("test3"));
-		
+
 		Image image1 = new Image("file:///Z:/git/GetThisBread/Online%20Store%20Git2/src/store/BetterAttemptAtLogo.png");
 		ImageView imgView = new ImageView(image1);
 
@@ -47,31 +46,27 @@ public class cartPane extends MainRunner {
 		imgView.setFitWidth(170);
 		cart.setText("G");
 		cart.setStyle("-fx-text-fill: bisque");
-		//cart.setAllignment("");
+		// cart.setAllignment("");
 		top.getChildren().addAll(imgView);
-		
-		
+
 		center = new HBox();
 		center.setStyle("-fx-background-color: Bisque;");
 		center.setAlignment(Pos.CENTER);
-		//insert tables (columns for Item name, price and quantity)
-        //insert scroll bar
-		
+		// insert tables (columns for Item name, price and quantity)
+		// insert scroll bar
+
 		bottom = new HBox();
 		bottom.getChildren().addAll(checkout, goHome, confirm);
 		bottom.setStyle("-fx-background-color: #362204;");
 		bottom.setAlignment(Pos.BOTTOM_LEFT);
 		bottom.setPrefHeight(100);
-		
+
 		root.setTop(top);
 		root.setCenter(center);
 		root.setBottom(bottom);
-		
-
 	}
 
 	public Pane getRoot() {
 		return root;
 	}
-
 }
