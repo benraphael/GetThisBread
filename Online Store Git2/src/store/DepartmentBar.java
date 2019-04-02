@@ -1,3 +1,5 @@
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -123,6 +125,11 @@ public class DepartmentBar extends MainRunner {
 		for (Department dep : deps) {
 			departmentList.getItems().add(dep.getName());			
 		}
+		departmentList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+	        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+	            toDepartment(newValue);
+	        }
+	    });
 
 		ImageView storeLogo = new ImageView(new Image("https://i.imgur.com/OVWPlbB.png"));
 		storeLogo.setFitHeight(150);

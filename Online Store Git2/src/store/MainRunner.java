@@ -98,6 +98,14 @@ public class MainRunner extends Application {
 	public void toCheckout() {
 		mainStage.setScene(checkoutScene);
 	}
+	
+	public void toDepartment(String string) {
+		Department change = null;
+		for (Department dep : deps) {
+			if (dep.getName().equals(string)) change = dep;
+		}
+		mainStage.setScene(new Scene(new DeparmentPO(change).getRoot()));
+	}
 
 	public static void defaultCursor() {
 		mainStage.getScene().setCursor(Cursor.DEFAULT);

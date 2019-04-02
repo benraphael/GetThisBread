@@ -18,7 +18,7 @@ public class DeparmentPO {
 
 	BorderPane root;
 	VBox Top, center;
-	Label department;
+	Label departmentName;
 	HBox name;
 	Pane change;
 	ScrollPane scroll;
@@ -27,10 +27,10 @@ public class DeparmentPO {
 	private static final int PRODUCTNUMBER = 6;
 	private static final int BUTTONSIZE = 230;
 	private Button[] sampleProducts;
-	String depName;
+	private Department department;
 
-	public DeparmentPO(String depName) {
-		this.depName = depName;
+	public DeparmentPO(Department dep) {
+		department = dep;
 		root = new BorderPane();
 		startUp();
 	}
@@ -42,9 +42,9 @@ public class DeparmentPO {
 		
 		sampleProducts = new Button[SAMPLEPRODUCTSIZE];
 
-		department = new Label();
-		department.setText(depName);
-		department.setStyle("-fx-font: 12 sansserif;");
+		departmentName = new Label();
+		departmentName.setText(department.getName());
+		departmentName.setStyle("-fx-font: 12 sansserif;");
 
 		change = new DepartmentBar().getRoot();
 
@@ -52,7 +52,7 @@ public class DeparmentPO {
 		name.setStyle("-fx-background-color: GREEN;");
 		name.setAlignment(Pos.CENTER);
 		name.setPrefSize(1600, 20);
-		name.getChildren().addAll(department);
+		name.getChildren().addAll(departmentName);
 		
 		center = new VBox();
 		center.setStyle("-fx-background-color: BISQUE;");
@@ -96,18 +96,16 @@ public class DeparmentPO {
 			button.setStyle("-fx-background-color: white;");
 			button.setOnMouseEntered(e -> {
 				button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
-				DepartmentTest.clickCursor();
 			});
 			button.setOnMouseExited(e -> {
 				button.setStyle("-fx-background-color: white;");
-				DepartmentTest.defaultCursor();
 			});
 			button.setOnMousePressed(e -> button.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
 			button.setOnMouseReleased(e -> button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
 		}
 
 		scroll.setContent(center);
-		//root.setTop(new DepartmentBar().getRoot());
+		root.setTop(new DepartmentBar().getRoot());
 		root.setTop(Top);
 		root.setCenter(scroll);
 	}
