@@ -45,6 +45,9 @@ public class cartPane extends MainRunner {
 		top.setAlignment(Pos.TOP_LEFT);
 		imgView.setFitHeight(200);
 		imgView.setFitWidth(170);
+		cart.setText("G");
+		cart.setStyle("-fx-text-fill: bisque");
+		//cart.setAllignment("");
 		top.getChildren().addAll(imgView);
 		
 		
