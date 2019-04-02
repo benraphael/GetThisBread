@@ -18,7 +18,8 @@ public class cartPane extends MainRunner {
 	private HBox top, center, bottom;
 	private Label cart;
 	private ArrayList<Product> cartItem = new ArrayList<Product>();
-	// implement scroll bar, arrays
+	private ArrayList<Product> quantity = new ArrayList<Product>();
+	private ArrayList<Product> price = new ArrayList<Product>();
 
 	public cartPane() {
 		root = new BorderPane();
@@ -51,7 +52,8 @@ public class cartPane extends MainRunner {
 		center.setStyle("-fx-background-color: Bisque;");
 		center.setAlignment(Pos.CENTER);
 		//insert tables (columns for Item name, price and quantity)
-       
+        //insert scroll bar
+		
 		bottom = new HBox();
 		bottom.getChildren().addAll(checkout, goHome, confirm);
 		bottom.setStyle("-fx-background-color: #362204;");
