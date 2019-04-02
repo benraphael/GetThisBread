@@ -45,11 +45,13 @@ public class cartPane extends MainRunner {
 		imgView.setFitWidth(170);
 		top.getChildren().addAll(imgView);
 		
-//		center.setStyle("-fx-background-color: BLUE;");
-//		center.setAlignment(Pos.CENTER);
+		
+		center = new HBox();
+		center.setStyle("-fx-background-color: blue;");
+		center.setAlignment(Pos.CENTER);
 //		imgView.setFitHeight(100);
 //		imgView.setFitWidth(170);
-//		center.getChildren().addAll(imgView);
+		center.getChildren().addAll(imgView);
 
 		root.setTop(top);
 		root.setCenter(center);
