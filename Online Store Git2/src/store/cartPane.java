@@ -50,6 +50,7 @@ public class cartPane extends MainRunner {
 		center = new HBox();
 		center.setStyle("-fx-background-color: Bisque;");
 		center.setAlignment(Pos.CENTER);
+		//insert tables (columns for Item name, price and quantity)
        
 		bottom = new HBox();
 		bottom.getChildren().addAll(checkout, goHome, confirm);
