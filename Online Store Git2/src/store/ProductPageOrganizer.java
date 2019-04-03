@@ -1,16 +1,19 @@
 
 import java.util.ArrayList;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
@@ -20,7 +23,9 @@ import javafx.scene.text.Text;
  * @timestamp 10:16:34 AM
  */
 public class ProductPageOrganizer {
+	
 	private BorderPane root;
+	private ScrollPane scroll;
 	private Product product;
 	private Product[] suggestedItems;
 	private ChoiceBox<String> size, color;
@@ -32,7 +37,6 @@ public class ProductPageOrganizer {
 	public ProductPageOrganizer(Product product) {
 		root = new BorderPane();
 		this.product = product;
-		//this.product = (Shirt)this.product;
 		run();
 		/*
 		 * suggested products will pull product images from random items in the same
@@ -43,19 +47,35 @@ public class ProductPageOrganizer {
 	}
 
 	public void createImages(String[] imageURLs) {
-		boolean canCreate = true;
-		int i = 0;
-		while (canCreate) {
+		for (int i=0;i<imageURLs.length;i++) {
 			Image image = new Image(imageURLs[i]);
 			ImageView pic = new ImageView(image);
 			sugImages.add(pic);
-			i++;
 			System.out.println(i);
 		}
 	}
 
 	public void run() {
 		createImages(tempSuggestions);
+		VBox center = new VBox();
+		center.setPadding(new Insets(20));
+		center.setStyle("-fx-background-color: bisque");
+		center.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				double deltaY = event.getDeltaY() * 3; // *6 to make the scrolling a bit faster
+				double width = scroll.getContent().getBoundsInLocal().getWidth();
+				double vvalue = scroll.getVvalue();
+				scroll.setVvalue(vvalue + -deltaY / width); // deltaY/width to make the scrolling equally fast
+															// regardless of the actual width of the component
+			}
+		});
+		
+		scroll = new ScrollPane();
+		
+		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		scroll.setStyle("-fx-background-color: transparent");
 
 		ImageView productImage = product.getImageView();
 		productImage.setPreserveRatio(true);
@@ -136,7 +156,7 @@ public class ProductPageOrganizer {
 
 		root.setCenter(main);
 		root.setBottom(suggest);
-		root.setTop(navBar);
+		root.setTop(new DepartmentBar().getRoot());
 		
 		
 	}
