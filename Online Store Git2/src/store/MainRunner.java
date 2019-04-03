@@ -10,7 +10,10 @@ import org.json.JSONObject;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainRunner extends Application {
 
@@ -37,18 +40,31 @@ public class MainRunner extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		loadDepartments(FILENAME);
+		
+		MediaPlayer play = new MediaPlayer(new Media(new File("Tetris.mp3").toURI().toString()));
+		
 		mainStage = stage;
-		System.out.println(deps.toString());
-		mainStage.setTitle("https://LetsGetThisBread.com");
+		
 		HomePagePO homepage = new HomePagePO();
 		cartPane cartpane = new cartPane();
 		Checkout checkout = new Checkout();
+		
 		homeScene = new Scene(homepage.getRoot(), WIDTH, HEIGHT);
 		cartScene = new Scene(cartpane.getRoot(), WIDTH, HEIGHT);
 		checkoutScene = new Scene(checkout.getRoot(), WIDTH, HEIGHT);
+		
+		mainStage.setTitle("https://LetsGetThisBread.com");
 		mainStage.setMaximized(true);
 		mainStage.setScene(homeScene);
 		mainStage.show();
+		play.setOnEndOfMedia(new Runnable() {
+	        @Override
+	        public void run() {
+	            play.seek(Duration.ZERO);
+	            play.play();
+	        }
+	    });
+		play.play();
 	}
 
 	private ArrayList<Department> loadDepartments(String fileName) {
