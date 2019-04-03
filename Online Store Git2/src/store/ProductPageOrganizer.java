@@ -23,7 +23,7 @@ import javafx.scene.text.Text;
  * @timestamp 10:16:34 AM
  */
 public class ProductPageOrganizer {
-	
+
 	private BorderPane root;
 	private ScrollPane scroll;
 	private Product product;
@@ -47,7 +47,7 @@ public class ProductPageOrganizer {
 	}
 
 	public void createImages(String[] imageURLs) {
-		for (int i=0;i<imageURLs.length;i++) {
+		for (int i = 0; i < imageURLs.length; i++) {
 			Image image = new Image(imageURLs[i]);
 			ImageView pic = new ImageView(image);
 			sugImages.add(pic);
@@ -57,112 +57,96 @@ public class ProductPageOrganizer {
 
 	public void run() {
 		createImages(tempSuggestions);
+
 		VBox center = new VBox();
-		center.setPadding(new Insets(20));
+//		center.setAlignment(Pos.CENTER);
+//		center.setSpacing(20);
+		center.setPrefWidth(1600);
+//		center.setPadding(new Insets(20));
 		center.setStyle("-fx-background-color: bisque");
 		center.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
-				double deltaY = event.getDeltaY() * 3; // *6 to make the scrolling a bit faster
+				double deltaY = event.getDeltaY() * 5; // *6 to make the scrolling a bit faster
 				double width = scroll.getContent().getBoundsInLocal().getWidth();
 				double vvalue = scroll.getVvalue();
-				scroll.setVvalue(vvalue + -deltaY / width); // deltaY/width to make the scrolling equally fast
-															// regardless of the actual width of the component
+				// deltaY/width to make the scrolling equally fast regardless of the actual
+				// width of the component
+				scroll.setVvalue(vvalue + -deltaY / width);
 			}
 		});
-		
+
 		scroll = new ScrollPane();
-		
 		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
 		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		scroll.setStyle("-fx-background-color: transparent");
+		scroll.setContent(center);
+		scroll.setFitToHeight(true);
 
 		ImageView productImage = product.getImageView();
 		productImage.setPreserveRatio(true);
 		productImage.setFitHeight(300);
-		productImage.setFitWidth(300);
+//		productImage.setFitWidth(300);
 
-		//Area for image and information
-		HBox main = new HBox();
-		main.setAlignment(Pos.TOP_CENTER);
-		main.setStyle("-fx-background-color: PINK;");
-		main.setSpacing(20);
-		main.setPadding(new Insets(20));
-		
-		//Suggested Products on the bottom
+		// Area for image and information
+		HBox productBox = new HBox();
+		productBox.setAlignment(Pos.CENTER);
+		productBox.setStyle("-fx-background-color: bisque;");
+		productBox.setSpacing(20);
+		productBox.setPadding(new Insets(20));
+
+		// Suggested Products on the bottom
 		HBox suggest = new HBox();
-		suggest.setAlignment(Pos.BOTTOM_CENTER);
+		suggest.setAlignment(Pos.CENTER);
 		suggest.setPrefSize(600, 200);
 		suggest.setStyle("-fx-background-color: ALICEBLUE;");
-//		suggest.getChildren().add(sugImages.get(0));
-		
+		// suggest.getChildren().add(sugImages.get(0));
+
+		VBox info = new VBox();
+		info.setAlignment(Pos.CENTER);
+		info.setPrefSize(300, 400);
+		info.setStyle("-fx-background-color: AQUA;");
+		info.getChildren().addAll(product.getNameLabel(), product.getCostLabel(), product.getDescriptionLabel());
+
 		for (ImageView image : sugImages) {
 			image.setPreserveRatio(true);
 			image.setFitHeight(300);
-			image.setFitWidth(300);
+//			image.setFitWidth(300);
 			suggest.getChildren().add(image);
 		}
-		
-		//Information and order customization
 
-		VBox info = new VBox();
-		info.setAlignment(Pos.CENTER_RIGHT);
-		info.setPrefSize(300, 400);
-		info.setStyle("-fx-background-color: AQUA;");
-
-		HBox title = new HBox();
-		title.setAlignment(Pos.TOP_LEFT);
-		title.setPrefSize(200, 100);
-		title.setStyle("-fx-background-color: GREEN;");
-
-		Text titleText = new Text();
-		titleText.setText(product.getName());
-		titleText.setStyle("-fx-font: 30 sansserif;");
-
-		title.getChildren().add(titleText);
-
-		HBox desc = new HBox();
-		desc.setAlignment(Pos.TOP_LEFT);
-		desc.setPrefSize(300, 200);
-		desc.setStyle("-fx-background-color: LIGHTGREEN;");
-
-		Text descText = new Text();
-		descText.setText(product.getDescription());
-		descText.setStyle("-fx-font: 12 sansserif;");
-		desc.getChildren().add(descText);
-		
+		// Information and order customization
 		HBox customizations = new HBox();
 		customizations.setAlignment(Pos.TOP_CENTER);
-		
-		info.getChildren().addAll(title, desc);
-		
-		//Product Image
 
-		VBox picture = new VBox();
-		picture.setAlignment(Pos.CENTER_LEFT);
-		picture.setPrefSize(300, 400);
-		picture.setStyle("-fx-background-color: BLACK;");
-		picture.getChildren().addAll(productImage);
-		
-		//Navagation Bar
+		HBox bottom = new HBox();
+		bottom.setAlignment(Pos.BOTTOM_CENTER);
+		bottom.setSpacing(20);
+		bottom.setPadding(new Insets(20));
+		bottom.setStyle("-fx-background-color: #362204");
 
-		VBox navBar = new VBox();
-		navBar.setAlignment(Pos.TOP_CENTER);
-		navBar.setPrefSize(600, 75);
-		navBar.setStyle("-fx-background-color: GREY;");
+		VBox left = new VBox();
+		left.setAlignment(Pos.CENTER);
+		left.setSpacing(20);
+		left.setPadding(new Insets(20));
+		left.setStyle("-fx-background-color: white");
 
+		VBox right = new VBox();
+		right.setAlignment(Pos.CENTER);
+		right.setSpacing(20);
+		right.setPadding(new Insets(20));
+		right.setStyle("-fx-background-color: white");
 
-		main.getChildren().addAll(picture, info);
+		productBox.getChildren().addAll(productImage, info);
+		center.getChildren().addAll(productBox, suggest);
 
-		root.setCenter(main);
-		root.setBottom(suggest);
+		root.setCenter(scroll);
+		root.setBottom(bottom);
+		root.setLeft(left);
+		root.setRight(right);
 		root.setTop(new DepartmentBar().getRoot());
-		
-		
 	}
 
 	public Pane getRoot() {
 		return root;
 	}
-
 }
