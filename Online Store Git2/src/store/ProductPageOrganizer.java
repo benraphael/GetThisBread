@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
@@ -14,7 +14,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * @author Ethan Jones
@@ -27,12 +26,11 @@ public class ProductPageOrganizer {
 	private BorderPane root;
 	private ScrollPane scroll;
 	private Product product;
-	private Product[] suggestedItems;
-	private ChoiceBox<String> size, color;
 	private String[] tempSuggestions = { "https://pbs.twimg.com/media/DEj0_L_UwAAEo5n.jpg",
 			"https://images.lookhuman.com/render/standard/0496005000292260/3600-athletic_gray-md-t-obama-confirmed-weeaboo.png",
 			"https://images.sunfrogshirts.com/2017/11/24/29942-1511508907152-Gildan-Hoo-Black-_w92_-front.jpg" };
 	private ArrayList<ImageView> sugImages = new ArrayList<ImageView>();
+	private Label subscript;
 
 	public ProductPageOrganizer(Product product) {
 		root = new BorderPane();
@@ -51,16 +49,20 @@ public class ProductPageOrganizer {
 			Image image = new Image(imageURLs[i]);
 			ImageView pic = new ImageView(image);
 			sugImages.add(pic);
-			System.out.println(i);
 		}
 	}
 
 	public void run() {
 		createImages(tempSuggestions);
+		
+		scroll = new ScrollPane();
+		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		scroll.setStyle("-fx-background-color: bisque");
 
 		VBox center = new VBox();
-//		center.setAlignment(Pos.CENTER);
-//		center.setSpacing(20);
+		center.setAlignment(Pos.CENTER);
+		center.setSpacing(20);
 		center.setPrefWidth(1600);
 //		center.setPadding(new Insets(20));
 		center.setStyle("-fx-background-color: bisque");
@@ -76,16 +78,9 @@ public class ProductPageOrganizer {
 			}
 		});
 
-		scroll = new ScrollPane();
-		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
-		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		scroll.setContent(center);
-		scroll.setFitToHeight(true);
-
 		ImageView productImage = product.getImageView();
 		productImage.setPreserveRatio(true);
 		productImage.setFitHeight(300);
-//		productImage.setFitWidth(300);
 
 		// Area for image and information
 		HBox productBox = new HBox();
@@ -99,7 +94,6 @@ public class ProductPageOrganizer {
 		suggest.setAlignment(Pos.CENTER);
 		suggest.setPrefSize(600, 200);
 		suggest.setStyle("-fx-background-color: ALICEBLUE;");
-		// suggest.getChildren().add(sugImages.get(0));
 
 		VBox info = new VBox();
 		info.setAlignment(Pos.CENTER);
@@ -110,7 +104,6 @@ public class ProductPageOrganizer {
 		for (ImageView image : sugImages) {
 			image.setPreserveRatio(true);
 			image.setFitHeight(300);
-//			image.setFitWidth(300);
 			suggest.getChildren().add(image);
 		}
 
@@ -139,11 +132,17 @@ public class ProductPageOrganizer {
 		productBox.getChildren().addAll(productImage, info);
 		center.getChildren().addAll(productBox, suggest);
 
+		subscript = new Label();
+		subscript.setText("© 2019-2019, LetsGetThisBread.com, Inc. or its affiliates");
+		subscript.setStyle("-fx-text-fill: bisque");
+		bottom.getChildren().add(subscript);
+
+		root.setTop(new DepartmentBar().getRoot());
 		root.setCenter(scroll);
 		root.setBottom(bottom);
 		root.setLeft(left);
 		root.setRight(right);
-		root.setTop(new DepartmentBar().getRoot());
+		scroll.setContent(center);
 	}
 
 	public Pane getRoot() {
