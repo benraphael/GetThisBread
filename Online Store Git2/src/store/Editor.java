@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -448,6 +449,7 @@ public class Editor  extends Application{
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
 		root = new BorderPane();
+		root.setPrefSize(150, 100);
 		String jsonIn = "";
 		Scanner scan = new Scanner(new File("storeJSON")); //Change string to whatever you are you using as the JSON
 		while(scan.hasNextLine()) {

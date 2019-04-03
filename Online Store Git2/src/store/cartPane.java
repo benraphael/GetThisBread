@@ -17,11 +17,10 @@ public class cartPane extends MainRunner {
 	private BorderPane root;
 	private HBox top, center, bottom;
 	private Label cart;
-	private ArrayList<Product> cartItem = new ArrayList<Product>();
-	private ArrayList<Product> quantity = new ArrayList<Product>();
-	private ArrayList<Product> price = new ArrayList<Product>();
+	private ArrayList<Product> cartItem;
 
-	public cartPane() {
+	public cartPane(ArrayList<Product> cartItem) {
+		this.cartItem = cartItem;
 		root = new BorderPane();
 		run();
 	}
@@ -31,23 +30,10 @@ public class cartPane extends MainRunner {
 
 		Button checkout = new Button("Go to Checkout");
 		Button goHome = new Button("Go to Home Page");
-		Button confirm = new Button("Confirm Purchase");
-		checkout.setOnAction(event -> System.out.println("test1")); // Change once all the classes are together
-		goHome.setOnAction(event -> System.out.println("test2")); // Change once all the classes are together
-		confirm.setOnAction(event -> System.out.println("test3"));
-
-		Image image1 = new Image("file:///Z:/git/GetThisBread/Online%20Store%20Git2/src/store/BetterAttemptAtLogo.png");
-		ImageView imgView = new ImageView(image1);
-
-		top = new HBox();
-		top.setStyle("-fx-background-color: #362204;");
-		top.setAlignment(Pos.TOP_LEFT);
-		imgView.setFitHeight(200);
-		imgView.setFitWidth(170);
-		cart.setText("G");
-		cart.setStyle("-fx-text-fill: bisque");
-		// cart.setAllignment("");
-		top.getChildren().addAll(imgView);
+		//Button confirm = new Button("Confirm Purchase");
+		checkout.setOnAction(event -> toCheckout()); // Change once all the classes are together
+		goHome.setOnAction(event -> toHome()); // Change once all the classes are together
+		//confirm.setOnAction(event -> System.out.println("test3"));
 
 		center = new HBox();
 		center.setStyle("-fx-background-color: Bisque;");
@@ -56,14 +42,29 @@ public class cartPane extends MainRunner {
 		// insert scroll bar
 
 		bottom = new HBox();
-		bottom.getChildren().addAll(checkout, goHome, confirm);
+		bottom.getChildren().addAll(checkout, goHome);
+		bottom.setAlignment(Pos.CENTER);
 		bottom.setStyle("-fx-background-color: #362204;");
-		bottom.setAlignment(Pos.BOTTOM_LEFT);
-		bottom.setPrefHeight(100);
+		bottom.setPrefHeight(60);
+		bottom.setSpacing(30);
+		
+		VBox left = new VBox();
+		left.setAlignment(Pos.CENTER);
+		left.setSpacing(20);
+		left.setPadding(new Insets(20));
+		left.setStyle("-fx-background-color: white");
 
-		root.setTop(top);
+		VBox right = new VBox();
+		right.setAlignment(Pos.CENTER);
+		right.setSpacing(20);
+		right.setPadding(new Insets(20));
+		right.setStyle("-fx-background-color: white");
+
+		root.setTop(new DepartmentBar().getRoot());
 		root.setCenter(center);
 		root.setBottom(bottom);
+		root.setRight(right);
+		root.setLeft(left);
 	}
 
 	public Pane getRoot() {
