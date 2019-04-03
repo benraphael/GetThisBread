@@ -49,7 +49,8 @@ public class Product {
 		descriptionLabel = new Label(description);
 		descriptionLabel.setWrapText(true);
 		root = new VBox();
-		root.getChildren().addAll(imageView, nameLabel, costLabel, descriptionLabel);
+		root.setOnMouseReleased(e -> MainRunner.toProduct(this));
+		root.getChildren().addAll(imageView, nameLabel, costLabel);
 	}  
 
 	// We could have this 
@@ -122,12 +123,7 @@ public class Product {
 	public Label getNameLabel() {
 		return nameLabel;
 	}
-
-	// TODO to be implemented based on the product page
-	public void setOnClick() {
-
-	}
-
+	
 	public Parent getRoot() {
 		return root;
 	}

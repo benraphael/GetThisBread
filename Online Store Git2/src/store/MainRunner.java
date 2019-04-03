@@ -22,6 +22,7 @@ public class MainRunner extends Application {
 	private static final int HEIGHT = 800;
 
 	protected ArrayList<Department> deps = loadDepartments(FILENAME);
+	protected ArrayList<Product> cart = new ArrayList<Product>();
 
 	static Scene homeScene;
 	static Scene cartScene;
@@ -118,7 +119,7 @@ public class MainRunner extends Application {
 	public void toDepartment(String string) {
 		for (Department dep : deps) {
 			if (dep.getName().equals(string))
-				mainStage.setScene(new Scene(new DeparmentPO(dep).getRoot()));
+				mainStage.setScene(new Scene(new DepartmentPO(dep).getRoot()));
 		}
 	}
 
@@ -128,5 +129,9 @@ public class MainRunner extends Application {
 
 	public static void clickCursor() {
 		mainStage.getScene().setCursor(Cursor.HAND);
+	}
+
+	public static void toProduct(Product product) {
+		mainStage.setScene(new Scene(new ProductPageOrganizer(product).getRoot()));
 	}
 }
