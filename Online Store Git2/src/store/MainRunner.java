@@ -119,8 +119,12 @@ public class MainRunner extends Application {
 	public void toDepartment(String string) {
 		for (Department dep : deps) {
 			if (dep.getName().equals(string))
-				mainStage.setScene(new Scene(new DepartmentPO(dep).getRoot()));
+				mainStage.setScene(new Scene(new DepartmentPO(dep).getRoot(), WIDTH, HEIGHT));
 		}
+	}
+
+	public static void toProduct(Product product) {
+		mainStage.setScene(new Scene(new ProductPageOrganizer(product).getRoot(), WIDTH, HEIGHT));
 	}
 
 	public static void defaultCursor() {
@@ -129,9 +133,5 @@ public class MainRunner extends Application {
 
 	public static void clickCursor() {
 		mainStage.getScene().setCursor(Cursor.HAND);
-	}
-
-	public static void toProduct(Product product) {
-		mainStage.setScene(new Scene(new ProductPageOrganizer(product).getRoot()));
 	}
 }
