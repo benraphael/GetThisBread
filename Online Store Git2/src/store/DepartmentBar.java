@@ -2,12 +2,16 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -112,8 +116,12 @@ public class DepartmentBar extends MainRunner {
 		search.setPrefWidth(200);
 		search.setStyle("-fx-background-color: bisque;-fx-text-fill: #362204");
 		search.setFocusTraversable(false);
-		search.setPromptText("Search");
-
+		search.setPromptText("Search...");
+		search.setOnKeyPressed(e -> {
+			if (e.getCode().equals(KeyCode.ENTER))
+				enterPressed();
+		});
+		
 		storeName.setText("Let's Get This Bread");
 		storeName.setStyle("-fx-text-fill: bisque;-fx-font: 64px \"Edwardian Script ITC\";");
 		storeName.setWrapText(true);
@@ -123,13 +131,13 @@ public class DepartmentBar extends MainRunner {
 				"-fx-background-color: bisque;-fx-text-fill: #362204;-fx-control-inner-background: bisque;-fx-base: #85bb65;");
 		departmentList.setPromptText("Select a department...");
 		for (Department dep : deps) {
-			departmentList.getItems().add(dep.getName());			
+			departmentList.getItems().add(dep.getName());
 		}
 		departmentList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-	        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-	            toDepartment(newValue);
-	        }
-	    });
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				toDepartment(newValue);
+			}
+		});
 
 		ImageView storeLogo = new ImageView(new Image("https://i.imgur.com/OVWPlbB.png"));
 		storeLogo.setFitHeight(150);
@@ -152,14 +160,25 @@ public class DepartmentBar extends MainRunner {
 		storeLogo.setOnMouseExited(e -> defaultCursor());
 	}
 
-	public void enterPressed(KeyEvent event) {
+	public void enterPressed() {
 		if (search.isFocused()) {
-			switch (event.getCode()) {
-			case ENTER:
-				// TODO make it search
-				break;
-			default:
-				break;
+			Product prod = null;
+			for (Department dep : deps) {
+				for (Product prods : dep.getProducts()) {
+					if (search.getText().equals(prods.getName()))
+						prod = prods;
+				}
+			}
+			if (prod != null) {
+				toProduct(prod);
+			} else {
+				Alert alert = new Alert(AlertType.NONE, "\t\t\t\tThe speficified product \n\t\t\t\t\t" + search.getText() + "\n\t\t\t\tdoes not exist in the store.", ButtonType.OK);
+				alert.initOwner(search.getScene().getWindow());
+				alert.showAndWait();
+				
+				if (alert.getResult() == ButtonType.OK) {
+					alert.close();
+				}
 			}
 		}
 	}
@@ -188,7 +207,6 @@ public class DepartmentBar extends MainRunner {
 			cartLabel.setStyle("-fx-text-fill: #FFE4C4");
 			cart.setScaleX(.2);
 			cart.setScaleY(.2);
-			System.out.println("Cart");
 			toCart();
 			break;
 		case "checkout":
@@ -196,7 +214,6 @@ public class DepartmentBar extends MainRunner {
 			checkoutLabel.setStyle("-fx-text-fill: #FFE4C4");
 			checkout.setScaleX(.16);
 			checkout.setScaleY(.16);
-			System.out.println("Checkout");
 			toCheckout();
 			break;
 		}

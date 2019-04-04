@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -55,6 +57,7 @@ public class MainRunner extends Application {
 		checkoutScene = new Scene(checkout.getRoot(), WIDTH, HEIGHT);
 		
 		mainStage.setTitle("https://LetsGetThisBread.com");
+		mainStage.getIcons().add(new Image("https://i.imgur.com/OVWPlbB.png", 100, 100, true, true));
 		mainStage.setMaximized(true);
 		mainStage.setScene(homeScene);
 		mainStage.show();
