@@ -8,8 +8,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
@@ -31,6 +36,7 @@ public class MainRunner extends Application {
 	static Scene checkoutScene;
 	static Stage mainStage;
 
+	TableView <cartTable> display;
 	// COLORS:
 	// Tan(Bisque): #FFE4C4
 	// Dark Brown: #362204
@@ -56,11 +62,42 @@ public class MainRunner extends Application {
 		cartScene = new Scene(cartpane.getRoot(), WIDTH, HEIGHT);
 		checkoutScene = new Scene(checkout.getRoot(), WIDTH, HEIGHT);
 		
+		
+		//Observable list is supposed to be implemented in runner class
+		public ObservableList<cartTable> getcartTable {
+			ObservableList<cartTable> table = FXCollections.observableArrayList();
+			table.add(new cartTable("Dragon ball hoodie",1,3.15));
+			return table;
+		}
+		TableView<cartTable> = display;
+
+		 display.setTitle("Your Cart: ");
+
+		//product column
+		TableColumn<Product, String> nameColumn  = new TableColumn<>("Item Name");
+        nameColumn.setMinWidth(200);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Item Name"));
+		//quantity column
+        TableColumn<Product, String> quantityColumn  = new TableColumn<>("Quantity");
+        quantityColumn.setMinWidth(200);
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Quantity"));
+		//cost column
+        TableColumn<Product, String> costColumn  = new TableColumn<>("Item Cost");
+        costColumn.setMinWidth(200);
+        costColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Item Cost"));
+
+        display = new TableView();
+		display.setItems(getcartTable);
+		display.getColumns().addAll(nameColumn,quantityColumn,costColumn);
+		
+		
 		mainStage.setTitle("https://LetsGetThisBread.com");
 		mainStage.getIcons().add(new Image("https://i.imgur.com/OVWPlbB.png", 100, 100, true, true));
 		mainStage.setMaximized(true);
 		mainStage.setScene(homeScene);
 		mainStage.show();
+		
+	
 //		play.setOnEndOfMedia(new Runnable() {
 //	        @Override
 //	        public void run() {
