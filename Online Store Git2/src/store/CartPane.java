@@ -13,13 +13,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class cartPane extends MainRunner {
+public class CartPane extends MainRunner {
 	private BorderPane root;
 	private HBox top, center, bottom;
 	private Label cart;
 	private ArrayList<Product> cartItem;
 
-	public cartPane(ArrayList<Product> cartItem) {
+	public CartPane(ArrayList<Product> cartItem) {
 		this.cartItem = cartItem;
 		root = new BorderPane();
 		run();

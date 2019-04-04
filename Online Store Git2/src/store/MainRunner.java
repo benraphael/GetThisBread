@@ -49,7 +49,7 @@ public class MainRunner extends Application {
 		mainStage = stage;
 		
 		HomePagePO homepage = new HomePagePO();
-		cartPane cartpane = new cartPane(cart);
+		CartPane cartpane = new CartPane(cart);
 		Checkout checkout = new Checkout();
 		
 		homeScene = new Scene(homepage.getRoot(), WIDTH, HEIGHT);
