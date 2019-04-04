@@ -63,40 +63,40 @@ public class MainRunner extends Application {
 		checkoutScene = new Scene(checkout.getRoot(), WIDTH, HEIGHT);
 		
 		
-		//Observable list is supposed to be implemented in runner class
-		public ObservableList<cartTable> getcartTable {
-			ObservableList<cartTable> table = FXCollections.observableArrayList();
-			table.add(new cartTable("Dragon ball hoodie",1,3.15));
-			return table;
-		}
-		TableView<cartTable> = display;
-
-		 display.setTitle("Your Cart: ");
-
-		//product column
-		TableColumn<Product, String> nameColumn  = new TableColumn<>("Item Name");
-        nameColumn.setMinWidth(200);
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Item Name"));
-		//quantity column
-        TableColumn<Product, String> quantityColumn  = new TableColumn<>("Quantity");
-        quantityColumn.setMinWidth(200);
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Quantity"));
-		//cost column
-        TableColumn<Product, String> costColumn  = new TableColumn<>("Item Cost");
-        costColumn.setMinWidth(200);
-        costColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Item Cost"));
-
-        display = new TableView();
-		display.setItems(getcartTable);
-		display.getColumns().addAll(nameColumn,quantityColumn,costColumn);
-		//print total cost in the bottom right of the table  
-		
-		mainStage.setTitle("https://LetsGetThisBread.com");
-		mainStage.getIcons().add(new Image("https://i.imgur.com/OVWPlbB.png", 100, 100, true, true));
-		mainStage.setMaximized(true);
-		mainStage.setScene(homeScene);
-		mainStage.show();
-		
+//		//Observable list is supposed to be implemented in runner class
+//		public ObservableList<cartTable> getcartTable {
+//			ObservableList<cartTable> table = FXCollections.observableArrayList();
+//			table.add(new cartTable("Dragon ball hoodie",1,3.15));
+//			return table;
+//		}
+//		TableView<cartTable> = display;
+//
+//		 display.setTitle("Your Cart: ");
+//
+//		//product column
+//		TableColumn<Product, String> nameColumn  = new TableColumn<>("Item Name");
+//        nameColumn.setMinWidth(200);
+//        nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Item Name"));
+//		//quantity column
+//        TableColumn<Product, String> quantityColumn  = new TableColumn<>("Quantity");
+//        quantityColumn.setMinWidth(200);
+//        quantityColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Quantity"));
+//		//cost column
+//        TableColumn<Product, String> costColumn  = new TableColumn<>("Item Cost");
+//        costColumn.setMinWidth(200);
+//        costColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Item Cost"));
+//
+//        display = new TableView();
+//		display.setItems(getcartTable);
+//		display.getColumns().addAll(nameColumn,quantityColumn,costColumn);
+//		//print total cost in the bottom right of the table  
+//		
+//		mainStage.setTitle("https://LetsGetThisBread.com");
+//		mainStage.getIcons().add(new Image("https://i.imgur.com/OVWPlbB.png", 100, 100, true, true));
+//		mainStage.setMaximized(true);
+//		mainStage.setScene(homeScene);
+//		mainStage.show();
+//		
 	
 //		play.setOnEndOfMedia(new Runnable() {
 //	        @Override
