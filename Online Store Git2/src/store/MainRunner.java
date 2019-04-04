@@ -91,11 +91,11 @@ public class MainRunner extends Application {
 //		display.getColumns().addAll(nameColumn,quantityColumn,costColumn);
 //		//print total cost in the bottom right of the table  
 //		
-//		mainStage.setTitle("https://LetsGetThisBread.com");
-//		mainStage.getIcons().add(new Image("https://i.imgur.com/OVWPlbB.png", 100, 100, true, true));
-//		mainStage.setMaximized(true);
-//		mainStage.setScene(homeScene);
-//		mainStage.show();
+		mainStage.setTitle("https://LetsGetThisBread.com");
+		mainStage.getIcons().add(new Image("https://i.imgur.com/OVWPlbB.png", 100, 100, true, true));
+		mainStage.setMaximized(true);
+		mainStage.setScene(homeScene);
+		mainStage.show();
 //		
 	
 //		play.setOnEndOfMedia(new Runnable() {

@@ -1,98 +1,224 @@
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 public class Checkout extends MainRunner {
 
+	private final String[] stateList = { "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI",
+			"IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MH", "MI", "MN", "MO", "MS", "MT", "NC", "ND",
+			"NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "PW", "RI", "SC", "SD", "TN", "TX", "UT",
+			"VA", "VI", "VT", "WA", "WI", "WV", "WY" };
+	private final String[] countryList = { "Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola",
+			"Anguilla", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan",
+			"The Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda",
+			"Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso",
+			"Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central African Republic",
+			"Chad", "Chile", "People 's Republic of China", "Republic of China", "Christmas Island",
+			"Cocos(Keeling) Islands", "Colombia", "Comoros", "Congo", "Cook Islands", "Costa Rica", "Cote d'Ivoire",
+			"Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+			"Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia",
+			"Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "Gabon", "The Gambia",
+			"Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam",
+			"Guatemala", "Guernsey", "Guinea", "Guinea - Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary",
+			"Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jersey",
+			"Jordan", "Kazakhstan", "Kenya", "Kiribati", "North Korea", "South Korea", "Kosovo", "Kuwait", "Kyrgyzstan",
+			"Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+			"Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands",
+			"Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia",
+			"Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Nagorno - Karabakh", "Namibia", "Nauru",
+			"Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger",
+			"Nigeria", "Niue", "Norfolk Island", "Turkish Republic of Northern Cyprus", "Northern Mariana", "Norway",
+			"Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines",
+			"Pitcairn Islands", "Poland", "Portugal", "Puerto Rico", "Qatar", "Romania", "Russia", "Rwanda",
+			"Saint Barthelemy", "Saint Helena", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin",
+			"Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
+			"Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore",
+			"Slovakia", "Slovenia", "Solomon Islands", "Somalia", "Somaliland", "South Africa", "South Ossetia",
+			"Spain", "Sri Lanka", "Sudan", "Suriname", "Svalbard", "Swaziland", "Sweden", "Switzerland", "Syria",
+			"Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor - Leste", "Togo", "Tokelau", "Tonga",
+			"Transnistria Pridnestrovie", "Trinidad and Tobago", "Tristan da Cunha", "Tunisia", "Turkey",
+			"Turkmenistan", "Turks and Caicos Islands", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates",
+			"United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela",
+			"Vietnam", "British Virgin Islands", "Isle of Man", "US Virgin Islands", "Wallis and Futuna",
+			"Western Sahara", "Yemen", "Zambia", "Zimbabwe" };
+
 	private BorderPane root;
-	private Label name, address, subscript;
-	private Button order;
-	private Button cancel;
+	private ScrollPane scroll;
+	private String[] labelNames = { "Name", "Email", "Phone Number", "Address", "City", "Zipcode", "Credit Card Number",
+			"Expiration Date", "Three Digits", "State", "Country" };
+	private Label[] info;
+	private TextField[] inputs;
+	private Label subscript;
+	private ComboBox<String> states, countries;
+	private Button order, cancel;
 	private RadioButton one, two, three;
-	private TextField imputName, imputAddress;
-	private VBox centerInformation;
+	private VBox centerInformation, centerReview;
 
 	public Checkout() {
+		root = new BorderPane();
+		scroll = new ScrollPane();
+		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		scroll.setStyle("-fx-background-color: transparent");
+
+		centerInformation = new VBox();
+		centerInformation.setPadding(new Insets(20));
+		centerInformation.setSpacing(50);
+		centerInformation.setPrefWidth(1600);
+		centerInformation.setAlignment(Pos.CENTER);
+		centerInformation.setStyle("-fx-background-color: bisque");
+		centerInformation.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				double deltaY = event.getDeltaY() * 5; // *6 to make the scrolling a bit faster
+				double width = scroll.getContent().getBoundsInLocal().getWidth();
+				double vvalue = scroll.getVvalue();
+				scroll.setVvalue(vvalue + -deltaY / width); // deltaY/width to make the scrolling equally fast
+															// regardless of the actual width of the component
+			}
+		});
+		makeInfoBox();
 		
+		centerReview = new VBox();
+		centerReview.setPadding(new Insets(20));
+		centerReview.setSpacing(50);
+		centerReview.setPrefWidth(1600);
+		centerReview.setAlignment(Pos.CENTER);
+		centerReview.setStyle("-fx-background-color: bisque");
+		centerReview.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				double deltaY = event.getDeltaY() * 5; // *6 to make the scrolling a bit faster
+				double width = scroll.getContent().getBoundsInLocal().getWidth();
+				double vvalue = scroll.getVvalue();
+				scroll.setVvalue(vvalue + -deltaY / width); // deltaY/width to make the scrolling equally fast
+															// regardless of the actual width of the component
+			}
+		});
+		
+
 		subscript = new Label();
 		subscript.setText("© 2019-2019, LetsGetThisBread.com, Inc. or its affiliates");
 		subscript.setStyle("-fx-text-fill: bisque");
-		
-		
-		
+
 		HBox bottom = new HBox();
 		bottom.setAlignment(Pos.BOTTOM_CENTER);
-		bottom.setSpacing(20);
+		bottom.setSpacing(50);
 		bottom.setPadding(new Insets(20));
 		bottom.setStyle("-fx-background-color: #362204");
 		bottom.getChildren().add(subscript);
 		
-		centerInformation = new VBox();
-		centerInformation.setPadding(new Insets(20));
-		centerInformation.setStyle("-fx-background-color: bisque");
-		
-		root = new BorderPane();
+		root.setTop(new DepartmentBar().getRoot());
+		root.setBottom(bottom);
+	}
+	
+	public void makeInfoBox() {
+		info = new Label[labelNames.length];
+		for (int i = 0; i < info.length; i++) {
+			info[i] = new Label(labelNames[i] + ":");
+			info[i].setStyle("-fx-text-fill: bisque;-fx-text-fill: #362204");
+			info[i].setWrapText(true);
+		}
 
-		name = new Label("Name");
-		address = new Label("Adress");
+		inputs = new TextField[labelNames.length - 1];
+		for (int i = 0; i < inputs.length; i++) {
+			inputs[i] = new TextField();
+			inputs[i].setPromptText(labelNames[i] + "...");
+			inputs[i].setPrefWidth(400);
+			inputs[i].setStyle("-fx-background-color: #85bb65;-fx-text-fill: #362204");
+			inputs[i].setFocusTraversable(true);
+		}
 
-		imputName = new TextField();
-		imputName.setPrefWidth(500);
+		states = new ComboBox<String>();
+		states.setPrefSize(100, 0);
+		states.setStyle(
+				"-fx-background-color: #85bb65;-fx-text-fill: #362204;-fx-control-inner-background: bisque;-fx-base: #85bb65;");
+		states.setPromptText("State...");
+		for (String state : stateList) {
+			states.getItems().add(state);
+		}
 
-		imputAddress = new TextField();
-		imputAddress.setPrefWidth(500);
+		countries = new ComboBox<String>();
+		countries.setPrefSize(200, 0);
+		countries.setStyle(
+				"-fx-background-color: #85bb65;-fx-text-fill: #362204;-fx-control-inner-background: bisque;-fx-base: #85bb65;");
+		countries.setPromptText("State...");
+		for (String country : countryList) {
+			countries.getItems().add(country);
+		}
 
 		order = new Button();
 		order.setText("ORDER");
-		order.setOnAction(event -> buttonClick(event));
+		order.setOnAction(event -> {
+			Alert alert = new Alert(AlertType.NONE, "Purchase has been printed to the console.", ButtonType.OK);
+			alert.initOwner(order.getScene().getWindow());
+			alert.showAndWait();
+
+			if (alert.getResult() == ButtonType.OK) {
+				alert.close();
+			}
+			String orderString = "";
+			for (int i = 0; i < info.length; i++) {
+				if (i < inputs.length - 1) {
+					orderString += info[i].getText() + " " + inputs[i].getText() + "\n";
+				} else if (info[i].getText().equals("State:")) {
+					orderString += info[i].getText() + " " + states.getValue() + "\n";
+				} else if (info[i].getText().equals("Country:")) {
+					orderString += info[i].getText() + " " + countries.getValue() + "\n";
+				}
+			}
+			System.out.println(orderString);
+		});
 
 		cancel = new Button();
 		cancel.setText("CANCEL");
-		cancel.setOnAction(event -> buttonClick(event));
+		cancel.setOnAction(event -> toHome());
 
-		HBox one = new HBox();
-		one.setAlignment(Pos.CENTER);
-		one.setSpacing(20);
-		one.setPadding(new Insets(20));
-		
-		HBox two = new HBox();
-		two.setAlignment(Pos.CENTER);
-		two.setSpacing(20);		
-		two.setPadding(new Insets(20));
-		
-		HBox three = new HBox();
-		three.setAlignment(Pos.CENTER);
-		three.setSpacing(20);		
-		three.setPadding(new Insets(20));
-		
-		one.getChildren().addAll(name, imputName);
-		two.getChildren().addAll(address, imputAddress);
-		
-		
-		centerInformation.getChildren().addAll(one, two);
+		HBox[] hboxes = new HBox[7];
 
-		root.setTop(new DepartmentBar().getRoot());
-		root.setBottom(bottom);
-		root.setCenter(centerInformation);
+		for (int i = 0; i < hboxes.length; i++) {
+			hboxes[i] = new HBox();
+			hboxes[i].setAlignment(Pos.CENTER);
+			hboxes[i].setSpacing(20);
+			hboxes[i].setPadding(new Insets(20));
+			hboxes[i].setStyle("-fx-background-color: bisque");
+			centerInformation.getChildren().add(hboxes[i]);
+		}
+
+		for (int i = 0; i < info.length; i++) {
+			if (info[i].getText().equals("State:")) {
+				hboxes[i / 2].getChildren().addAll(info[i], states);
+			} else if (info[i].getText().equals("Country:")) {
+				hboxes[i / 2].getChildren().addAll(info[i], countries);
+			} else
+				hboxes[i / 2].getChildren().addAll(info[i], inputs[i]);
+		}
+
+		hboxes[hboxes.length - 1].getChildren().addAll(order, cancel);
+
+		root.setCenter(scroll);
+		scroll.setContent(centerInformation);
 	}
-
-	private void buttonClick(ActionEvent event) {
-		System.out.println(((Button) event.getSource()).getText());
-	}
-
+	
 	public Pane getRoot() {
 		return root;
 	}
-
 }
