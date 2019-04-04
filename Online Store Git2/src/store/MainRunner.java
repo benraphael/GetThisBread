@@ -89,7 +89,7 @@ public class MainRunner extends Application {
         display = new TableView();
 		display.setItems(getcartTable);
 		display.getColumns().addAll(nameColumn,quantityColumn,costColumn);
-		
+		//print total cost in the bottom right of the table  
 		
 		mainStage.setTitle("https://LetsGetThisBread.com");
 		mainStage.getIcons().add(new Image("https://i.imgur.com/OVWPlbB.png", 100, 100, true, true));
