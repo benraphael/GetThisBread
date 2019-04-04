@@ -33,7 +33,7 @@ public class CartPane extends MainRunner {
 		run();
 	}
 
-	private ObservableList<cartTable> run() {
+	private void run() {
 		cart = new Label();
 		cart.setText("© 2019-2019, LetsGetThisBread.com, Inc. or its affiliates");
 		cart.setStyle("-fx-text-fill: bisque");
