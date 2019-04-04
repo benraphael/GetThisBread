@@ -21,12 +21,15 @@ public class Checkout extends MainRunner {
 	private Button cancel;
 	private RadioButton one, two, three;
 	private TextField imputName, imputAddress;
+	private VBox centerInformation;
 
 	public Checkout() {
 		
 		subscript = new Label();
 		subscript.setText("© 2019-2019, LetsGetThisBread.com, Inc. or its affiliates");
 		subscript.setStyle("-fx-text-fill: bisque");
+		
+		
 		
 		HBox bottom = new HBox();
 		bottom.setAlignment(Pos.BOTTOM_CENTER);
@@ -35,9 +38,9 @@ public class Checkout extends MainRunner {
 		bottom.setStyle("-fx-background-color: #362204");
 		bottom.getChildren().add(subscript);
 		
-		VBox center = new VBox();
-		center.setPadding(new Insets(20));
-		center.setStyle("-fx-background-color: bisque");
+		centerInformation = new VBox();
+		centerInformation.setPadding(new Insets(20));
+		centerInformation.setStyle("-fx-background-color: bisque");
 		
 		root = new BorderPane();
 
@@ -68,13 +71,20 @@ public class Checkout extends MainRunner {
 		two.setSpacing(20);		
 		two.setPadding(new Insets(20));
 		
+		HBox three = new HBox();
+		three.setAlignment(Pos.CENTER);
+		three.setSpacing(20);		
+		three.setPadding(new Insets(20));
+		
 		one.getChildren().addAll(name, imputName);
 		two.getChildren().addAll(address, imputAddress);
-		center.getChildren().addAll(one, two);
+		
+		
+		centerInformation.getChildren().addAll(one, two);
 
 		root.setTop(new DepartmentBar().getRoot());
 		root.setBottom(bottom);
-		root.setCenter(center);
+		root.setCenter(centerInformation);
 	}
 
 	private void buttonClick(ActionEvent event) {
