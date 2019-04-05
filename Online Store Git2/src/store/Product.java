@@ -42,6 +42,8 @@ public class Product {
 
 		image = new Image(imageURL);
 		imageView = new ImageView(image);
+		imageView.setPreserveRatio(true);
+		imageView.setFitWidth(500);
 		nameLabel = new Label(name);
 		nameLabel.setWrapText(true);
 		costLabel = new Label("$" + df.format(this.cost));

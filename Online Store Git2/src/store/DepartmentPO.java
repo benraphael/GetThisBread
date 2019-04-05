@@ -97,9 +97,11 @@ public class DepartmentPO extends MainRunner{
 			button.setStyle("-fx-background-color: white;");
 			button.setOnMouseEntered(e -> {
 				button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
+				clickCursor();
 			});
 			button.setOnMouseExited(e -> {
 				button.setStyle("-fx-background-color: white;");
+				defaultCursor();
 			});
 			button.setOnMousePressed(e -> button.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
 			button.setOnMouseReleased(e -> button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
