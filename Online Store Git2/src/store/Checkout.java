@@ -72,6 +72,9 @@ public class Checkout extends MainRunner {
 	private RadioButton one, two, three;
 	private VBox centerInformation;
 	private static VBox centerReview;
+	private static Label totalCost;
+	private static HBox[] cartHboxes = new HBox[cart.size()];
+	private static HBox buttons;
 
 	public Checkout() {
 		root = new BorderPane();
@@ -163,7 +166,7 @@ public class Checkout extends MainRunner {
 		countries.setPrefSize(200, 0);
 		countries.setStyle(
 				"-fx-background-color: #85bb65;-fx-text-fill: #362204;-fx-control-inner-background: bisque;-fx-base: #85bb65;");
-		countries.setPromptText("State...");
+		countries.setPromptText("Country...");
 		for (String country : countryList) {
 			countries.getItems().add(country);
 		}
@@ -188,6 +191,7 @@ public class Checkout extends MainRunner {
 					orderString += info[i].getText() + " " + countries.getValue() + "\n";
 				}
 			}
+			orderString += "Total Cost: " + totalCost.getText() + "\n"; 
 			System.out.println(orderString);
 		});
 
@@ -217,11 +221,7 @@ public class Checkout extends MainRunner {
 
 		hboxes[hboxes.length - 1].getChildren().addAll(order, cancel);
 	}
-	
-	private static Label totalCost;
-	private static HBox[] cartHboxes = new HBox[cart.size()];
-	private static HBox buttons;
-	
+		
 	public void makeReviewBox() {
 		totalCost = new Label("$00.00");
 		totalCost.setStyle("-fx-text-fill: bisque;-fx-text-fill: #362204");
