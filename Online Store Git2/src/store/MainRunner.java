@@ -36,7 +36,7 @@ public class MainRunner extends Application {
 	static Scene checkoutScene;
 	static Stage mainStage;
 
-	TableView <cartTable> display;
+	TableView <CartTable> display;
 	// COLORS:
 	// Tan(Bisque): #FFE4C4
 	// Dark Brown: #362204

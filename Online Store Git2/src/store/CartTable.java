@@ -1,5 +1,5 @@
 
-public class cartTable {
+public class CartTable {
 
 		// TODO Auto-generated method stub
       //Table pane which displays item name, quantity and cost
@@ -8,12 +8,12 @@ public class cartTable {
 	private int quantity;
 	private double cost;
 	
-	public cartTable() {
+	public CartTable() {
 		this.product = "";
 		this.quantity = 0;
 		this.cost = 0;
 	}
-	public cartTable(String product, int quantity, double cost) {
+	public CartTable(String product, int quantity, double cost) {
 		this.product = product;
 		this.quantity = quantity;
 		this.cost = cost;

@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  * @file ProductPageOrganizer.java
  * @timestamp 10:16:34 AM
  */
-public class ProductPageOrganizer2 {
+public class ProductPageOrganizerEthan {
 	private final String BISQUE = "#FFE4C4", BROWN = "#362204", GREEN = "#85bb65";
 	
 	private Product product;
@@ -44,7 +44,7 @@ public class ProductPageOrganizer2 {
 	private ArrayList<Product> sugProducts = new ArrayList<Product>();
 	private ArrayList<Button> sugButtons = new ArrayList<Button>();
 
-	public ProductPageOrganizer2(Product product, Stage stage, ArrayList<Product> suggestions) {
+	public ProductPageOrganizerEthan(Product product, Stage stage, ArrayList<Product> suggestions) {
 		this.product = product;
 		root = new BorderPane();
 //		if (product.getProductType().equals("Shirt")) {
@@ -99,7 +99,7 @@ public class ProductPageOrganizer2 {
 		Stage newStage = new Stage();
 		sugProducts.remove(sugProducts.indexOf(p));
 		sugProducts.add(this.product);
-		ProductPageOrganizer2 redirect = new ProductPageOrganizer2(p, newStage, sugProducts);
+		ProductPageOrganizerEthan redirect = new ProductPageOrganizerEthan(p, newStage, sugProducts);
 		Scene scene = new Scene(redirect.getRoot(), 700, 600);
 		newStage.setScene(scene);
 		newStage.show();
