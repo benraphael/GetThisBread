@@ -1,12 +1,16 @@
 
 import java.util.ArrayList;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
@@ -21,7 +25,7 @@ import javafx.scene.layout.VBox;
  * @file ProductPageOrganizer.java
  * @timestamp 10:16:34 AM
  */
-public class ProductPageOrganizer {
+public class ProductPageOrganizer extends MainRunner{
 
 	private BorderPane root;
 	private ScrollPane scroll;
@@ -100,6 +104,52 @@ public class ProductPageOrganizer {
 		info.setPrefSize(300, 400);
 		info.setStyle("-fx-background-color: AQUA;");
 		info.getChildren().addAll(product.getNameLabel(), product.getCostLabel(), product.getDescriptionLabel());
+		
+		Label quantity = new Label("Quantity");
+		quantity.setStyle("-fx-text-fill: bisque;-fx-text-fill: #362204");
+		
+		TextField qty = new TextField("0");
+		qty.setPrefWidth(50);
+		qty.setStyle("-fx-background-color: #85bb65;-fx-text-fill: #362204");
+		qty.setFocusTraversable(true);
+		qty.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+		        String newValue) {
+		        if (!newValue.matches("\\d*")) {
+		            qty.setText(newValue.replaceAll("[^\\d]", ""));
+		        }
+		    }
+		});
+		
+		HBox qtyBox = new HBox();
+		qtyBox.setAlignment(Pos.CENTER);
+		qtyBox.setPrefSize(600, 200);
+		qtyBox.setStyle("-fx-background-color: purple;");
+		qtyBox.getChildren().addAll(quantity, qty);
+		
+		Button add = new Button("Add To Cart");
+		add.setPrefSize(100, 50);
+		add.setStyle("-fx-background-color: white;");
+		add.setOnMouseEntered(e -> {
+			add.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
+			clickCursor();
+		});
+		add.setOnMouseExited(e -> {
+			add.setStyle("-fx-background-color: white;");
+			defaultCursor();
+		});
+		add.setOnMousePressed(e -> add.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
+		add.setOnMouseReleased(e -> add.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
+		add.setOnAction(event -> {
+			for (int i=0;i<Integer.parseInt(qty.getText());i++) {
+				cart.add(product);
+			}
+			Checkout.updateCart();
+			System.out.println(cart.toString());
+		});
+		
+		info.getChildren().addAll(qtyBox, add);
 
 		for (ImageView image : sugImages) {
 			image.setPreserveRatio(true);

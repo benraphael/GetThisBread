@@ -70,7 +70,8 @@ public class Checkout extends MainRunner {
 	private ComboBox<String> states, countries;
 	private Button order, cancel;
 	private RadioButton one, two, three;
-	private VBox centerInformation, centerReview;
+	private VBox centerInformation;
+	private static VBox centerReview;
 
 	public Checkout() {
 		root = new BorderPane();
@@ -113,8 +114,8 @@ public class Checkout extends MainRunner {
 															// regardless of the actual width of the component
 			}
 		});
+		makeReviewBox();
 		
-
 		subscript = new Label();
 		subscript.setText("© 2019-2019, LetsGetThisBread.com, Inc. or its affiliates");
 		subscript.setStyle("-fx-text-fill: bisque");
@@ -128,6 +129,8 @@ public class Checkout extends MainRunner {
 		
 		root.setTop(new DepartmentBar().getRoot());
 		root.setBottom(bottom);
+		root.setCenter(scroll);
+		scroll.setContent(centerReview);
 	}
 	
 	public void makeInfoBox() {
@@ -190,7 +193,7 @@ public class Checkout extends MainRunner {
 
 		cancel = new Button();
 		cancel.setText("CANCEL");
-		cancel.setOnAction(event -> toHome());
+		cancel.setOnAction(event -> changeBox("Review"));
 
 		HBox[] hboxes = new HBox[7];
 
@@ -213,9 +216,89 @@ public class Checkout extends MainRunner {
 		}
 
 		hboxes[hboxes.length - 1].getChildren().addAll(order, cancel);
-
-		root.setCenter(scroll);
-		scroll.setContent(centerInformation);
+	}
+	
+	private static Label totalCost;
+	private static HBox[] cartHboxes = new HBox[cart.size()];
+	private static HBox buttons;
+	
+	public void makeReviewBox() {
+		totalCost = new Label("$00.00");
+		totalCost.setStyle("-fx-text-fill: bisque;-fx-text-fill: #362204");
+		centerReview.getChildren().add(totalCost);
+		
+		Button shopping = new Button("Continue Shopping");
+		shopping.setStyle("-fx-background-color: white;");
+		shopping.setOnMouseEntered(e -> {
+			shopping.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
+			clickCursor();
+		});
+		shopping.setOnMouseExited(e -> {
+			shopping.setStyle("-fx-background-color: white;");
+			defaultCursor();
+		});
+		shopping.setOnMousePressed(e -> shopping.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
+		shopping.setOnMouseReleased(e -> shopping.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
+		shopping.setOnAction(event -> toHome());
+		
+		Button purchase = new Button("Finalize Purchase");
+		purchase.setStyle("-fx-background-color: white;");
+		purchase.setOnMouseEntered(e -> {
+			purchase.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
+			clickCursor();
+		});
+		purchase.setOnMouseExited(e -> {
+			purchase.setStyle("-fx-background-color: white;");
+			defaultCursor();
+		});
+		purchase.setOnMousePressed(e -> purchase.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
+		purchase.setOnMouseReleased(e -> purchase.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
+		purchase.setOnAction(event -> changeBox("Info"));
+		
+		buttons = new HBox();
+		buttons.setAlignment(Pos.CENTER);
+		buttons.setSpacing(20);
+		buttons.setPadding(new Insets(20));
+		buttons.setStyle("-fx-background-color: bisque");
+		buttons.getChildren().addAll(shopping, purchase);
+		
+		centerReview.getChildren().add(buttons);
+	}
+	
+	public static void updateCart() {
+		// TODO Correctly display cart on checkout pane
+		
+		int uniqueMemory = 1;
+		for (int i=0;i<cart.size()-1;i++) {
+			if (!cart.get(i).equals(cart.get(i+1))) 
+				uniqueMemory++;
+		}
+		cartHboxes = new HBox[uniqueMemory];
+		centerReview.getChildren().clear();
+		for (int i = 0; i < cartHboxes.length; i++) {
+			cartHboxes[i] = new HBox();
+			cartHboxes[i].setAlignment(Pos.CENTER);
+			cartHboxes[i].setSpacing(20);
+			cartHboxes[i].setPadding(new Insets(20));
+			cartHboxes[i].setStyle("-fx-background-color: bisque");
+			centerReview.getChildren().add(cartHboxes[i]);
+		}
+		double cost = 0;
+		for (int i = 0; i < cartHboxes.length; i++) {
+			cartHboxes[i].getChildren().addAll(cart.get(i).getNameLabel(), cart.get(i).getCostLabel());
+			cost += cart.get(i).getCost();
+		}
+		totalCost.setText("$" + cost);
+		centerReview.getChildren().addAll(totalCost, buttons);
+	}
+	
+	public void changeBox(String boxName) {
+		if (boxName.equalsIgnoreCase("Review")) {
+			scroll.setContent(centerReview);
+		}
+		if (boxName.equalsIgnoreCase("Info")) {
+			scroll.setContent(centerInformation);
+		}
 	}
 	
 	public Pane getRoot() {

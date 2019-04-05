@@ -29,7 +29,7 @@ public class MainRunner extends Application {
 	private static final int HEIGHT = 800;
 
 	protected ArrayList<Department> deps = loadDepartments(FILENAME);
-	protected ArrayList<Product> cart = new ArrayList<Product>();
+	protected static ArrayList<Product> cart = new ArrayList<Product>();
 
 	static Scene homeScene;
 	static Scene cartScene;
