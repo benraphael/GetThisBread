@@ -89,6 +89,7 @@ public class DepartmentPO extends MainRunner{
 		for (int i=0;i<sampleProducts.length;i++) {
 			sampleProducts[i] = new Button();
 			hboxes[i/PRODUCTNUMBER].getChildren().add(sampleProducts[i]);
+			
 			sampleProducts[i].setGraphic(department.getProducts().get(i).getRoot());
 		}
 

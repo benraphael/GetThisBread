@@ -11,6 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
@@ -33,7 +36,7 @@ public class CartPane extends MainRunner {
 		run();
 	}
 
-	private void run() {
+	private ObservableList<CartTable> run() {
 		cart = new Label();
 		cart.setText("© 2019-2019, LetsGetThisBread.com, Inc. or its affiliates");
 		cart.setStyle("-fx-text-fill: bisque");
@@ -46,6 +49,35 @@ public class CartPane extends MainRunner {
 		
 		// insert tables (columns for Item name, price and quantity)
 		//Cart Table Pane 
+		
+		//Observable list is supposed to be implemented in runner class
+		ObservableList<CartTable> table; {
+			ObservableList<CartTable> table1 = FXCollections.observableArrayList();
+			table1.add(new CartTable("Dragon ball hoodie",1,3.15));
+			return table1;
+		}
+		TableView<CartTable> display;
+
+	//	 display.setTitle("Your Cart: ");
+
+		//product column
+		TableColumn<Product, String> nameColumn  = new TableColumn<>("Item Name");
+        nameColumn.setMinWidth(200);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Item Name"));
+		//quantity column
+        TableColumn<Product, String> quantityColumn  = new TableColumn<>("Quantity");
+        quantityColumn.setMinWidth(200);
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Quantity"));
+		//cost column
+        TableColumn<Product, String> costColumn  = new TableColumn<>("Item Cost");
+        costColumn.setMinWidth(200);
+        costColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("Item Cost"));
+
+        display = new TableView();
+		display.setItems(table);
+		display.getColumns().addAll(nameColumn,quantityColumn,costColumn);
+		//print total cost in the bottom right of the table  
+		
 		
 		
 		bottom = new HBox();
