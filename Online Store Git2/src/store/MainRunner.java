@@ -24,7 +24,7 @@ import javafx.util.Duration;
 
 public class MainRunner extends Application {
 
-	private static final String FILENAME = "storeJSON";
+	private static final String FILENAME = "JSONTestBackup";
 	private static final int WIDTH = 1600;
 	private static final int HEIGHT = 800;
 
@@ -36,7 +36,7 @@ public class MainRunner extends Application {
 	static Scene checkoutScene;
 	static Stage mainStage;
 
-	TableView <CartTable> display;
+//	TableView <CartTable> display;
 	// COLORS:
 	// Tan(Bisque): #FFE4C4
 	// Dark Brown: #362204
@@ -55,7 +55,7 @@ public class MainRunner extends Application {
 		mainStage = stage;
 		
 		HomePagePO homepage = new HomePagePO();
-		CartPane cartpane = new CartPane(cart);
+		CartPane cartpane = new CartPane();
 		Checkout checkout = new Checkout();
 		
 		homeScene = new Scene(homepage.getRoot(), WIDTH, HEIGHT);

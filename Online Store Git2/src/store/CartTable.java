@@ -1,45 +1,44 @@
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class CartTable {
 
-		// TODO Auto-generated method stub
-      //Table pane which displays item name, quantity and cost
-	
-	private String product;
-	private int quantity;
-	private double cost;
-	
-	public CartTable() {
-		this.product = "";
-		this.quantity = 0;
-		this.cost = 0;
-	}
-	public CartTable(String product, int quantity, double cost) {
-		this.product = product;
-		this.quantity = quantity;
-		this.cost = cost;
-		
-	}
-	public String getProduct() {
-		return product;
-	}
-	public void setProduct(String product) {
-		this.product = product;
-	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	public double getCost() {
-		return cost;
-	}
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
-	
-	
-	
-	}
-	
+	// TODO Auto-generated method stub
+	// Table pane which displays item name, quantity and cost
 
+	private SimpleStringProperty productName;
+	private SimpleIntegerProperty quantity;
+	private SimpleDoubleProperty cost;
+
+	public CartTable(String productName, int quantity, double cost) {
+		this.productName = new SimpleStringProperty(productName);
+		this.quantity = new SimpleIntegerProperty(quantity);
+		this.cost = new SimpleDoubleProperty(cost);
+	}
+
+	public String getProductName() {
+		return productName.get();
+	}
+
+	public void setProductName(String product) {
+		productName.set(product);
+	}
+
+	public int getQuantity() {
+		return quantity.get();
+	}
+
+	public void setQuantity(int lquantity) {
+		quantity.set(lquantity);
+	}
+
+	public double getCost() {
+		return cost.get();
+	}
+
+	public void setCost(double lcost) {
+		cost.set(lcost);
+	}
+
+}
