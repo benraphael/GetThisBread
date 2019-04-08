@@ -145,7 +145,7 @@ public class ProductPageOrganizer extends MainRunner{
 			for (int i=0;i<Integer.parseInt(qty.getText());i++) {
 				cart.add(product);
 			}
-			CartPane.updateCart();
+			CartPane.updateCart(product);
 			System.out.println(cart.toString());
 		});
 		

@@ -148,10 +148,10 @@ public class CartPane extends MainRunner {
 		scroll.setContent(center);
 	}
 
-	public static void updateCart() {
+	public static void updateCart(Product prod) {
 		data.clear();
 		for (int i = 0; i < cart.size(); i++) {
-			data.add(new CartTable(cart.get(i).getName(), cart.get(i).getCost()));
+			data.add(new CartTable(prod, cart.get(i).getName(), cart.get(i).getCost()));
 		}
 		double total = 0;
 		for (CartTable item : table.getItems())
@@ -166,12 +166,11 @@ public class CartPane extends MainRunner {
 	private class ButtonCell extends TableCell<Record, Boolean> {
 		final Button cellButton = new Button("X");
 
-		@SuppressWarnings("unlikely-arg-type")
 		ButtonCell() {
 			cellButton.setOnAction(e -> {
 				CartTable currentPerson = (CartTable) ButtonCell.this.getTableView().getItems().get(ButtonCell.this.getIndex());
 				data.remove(currentPerson);
-				cart.remove(currentPerson);
+				cart.remove(currentPerson.getProduct());
 				System.out.println(cart.toString());
 				double total = 0;
 				for (CartTable item : table.getItems())

@@ -5,6 +5,7 @@ public class CartTable {
 
 	private SimpleStringProperty productName;
 	private SimpleDoubleProperty cost;
+	private Product product;
 
 	/**
 	 * Table pane which displays item name and cost
@@ -13,9 +14,10 @@ public class CartTable {
 	 * @param productName
 	 * @param cost
 	 */
-	public CartTable(String productName, double cost) {
+	public CartTable(Product prod, String productName, double cost) {
 		this.productName = new SimpleStringProperty(productName);
 		this.cost = new SimpleDoubleProperty(cost);
+		product = prod;
 	}
 
 	public String getProductName() {
@@ -32,5 +34,13 @@ public class CartTable {
 
 	public void setCost(double lcost) {
 		cost.set(lcost);
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 }
