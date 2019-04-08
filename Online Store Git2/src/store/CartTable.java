@@ -1,19 +1,20 @@
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class CartTable {
 
-	// TODO Auto-generated method stub
-	// Table pane which displays item name, quantity and cost
-
 	private SimpleStringProperty productName;
-	private SimpleIntegerProperty quantity;
 	private SimpleDoubleProperty cost;
 
-	public CartTable(String productName, int quantity, double cost) {
+	/**
+	 * Table pane which displays item name and cost
+	 * 
+	 * @param product - might be needed to remove properly
+	 * @param productName
+	 * @param cost
+	 */
+	public CartTable(String productName, double cost) {
 		this.productName = new SimpleStringProperty(productName);
-		this.quantity = new SimpleIntegerProperty(quantity);
 		this.cost = new SimpleDoubleProperty(cost);
 	}
 
@@ -25,14 +26,6 @@ public class CartTable {
 		productName.set(product);
 	}
 
-	public int getQuantity() {
-		return quantity.get();
-	}
-
-	public void setQuantity(int lquantity) {
-		quantity.set(lquantity);
-	}
-
 	public double getCost() {
 		return cost.get();
 	}
@@ -40,5 +33,4 @@ public class CartTable {
 	public void setCost(double lcost) {
 		cost.set(lcost);
 	}
-
 }

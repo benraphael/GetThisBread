@@ -1,20 +1,28 @@
 import java.text.DecimalFormat;
 
+import com.sun.prism.impl.Disposer.Record;
+
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 public class CartPane extends MainRunner {
 
@@ -70,7 +78,7 @@ public class CartPane extends MainRunner {
 
 		// product column
 		TableColumn<CartTable, String> nameColumn = new TableColumn<>("Item Name");
-		nameColumn.setMinWidth(800);
+		nameColumn.setMinWidth(500);
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
 
 		// quantity column
@@ -81,12 +89,32 @@ public class CartPane extends MainRunner {
 
 		// cost column
 		TableColumn<CartTable, Double> costColumn = new TableColumn<>("Item Cost");
-		costColumn.setMinWidth(800);
+		costColumn.setMinWidth(500);
 		costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
+
+		// Remove item from cart.
+		@SuppressWarnings("rawtypes")
+		TableColumn removeColumn = new TableColumn<>("Action");
+		removeColumn.setMinWidth(50);
+		removeColumn.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Record, Boolean>, ObservableValue<Boolean>>() {
+					@Override
+					public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Record, Boolean> p) {
+						return new SimpleBooleanProperty(p.getValue() != null);
+					}
+				});
+
+		// Adding the Button to the cell
+		removeColumn.setCellFactory(new Callback<TableColumn<Record, Boolean>, TableCell<Record, Boolean>>() {
+			@Override
+			public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
+				return new ButtonCell();
+			}
+		});
 
 		table = new TableView<>();
 		table.setItems(data);
-		table.getColumns().addAll(nameColumn, costColumn);
+		table.getColumns().addAll(nameColumn, costColumn, removeColumn);
 		// print total cost in the bottom right of the table
 
 		totalCost = new Label("$00.00");
@@ -120,9 +148,10 @@ public class CartPane extends MainRunner {
 		scroll.setContent(center);
 	}
 
-	public static void updateCart(int quantity) {
+	public static void updateCart() {
+		data.clear();
 		for (int i = 0; i < cart.size(); i++) {
-			data.add(new CartTable(cart.get(i).getName(), quantity, cart.get(i).getCost()));
+			data.add(new CartTable(cart.get(i).getName(), cart.get(i).getCost()));
 		}
 		double total = 0;
 		for (CartTable item : table.getItems())
@@ -132,5 +161,32 @@ public class CartPane extends MainRunner {
 
 	public Parent getRoot() {
 		return root;
+	}
+
+	private class ButtonCell extends TableCell<Record, Boolean> {
+		final Button cellButton = new Button("X");
+
+		@SuppressWarnings("unlikely-arg-type")
+		ButtonCell() {
+			cellButton.setOnAction(e -> {
+				CartTable currentPerson = (CartTable) ButtonCell.this.getTableView().getItems().get(ButtonCell.this.getIndex());
+				data.remove(currentPerson);
+				cart.remove(currentPerson);
+				System.out.println(cart.toString());
+				double total = 0;
+				for (CartTable item : table.getItems())
+					total += item.getCost();
+				totalCost.setText("$" + df.format(total));
+			});
+		}
+
+		@Override
+		protected void updateItem(Boolean t, boolean empty) {
+			super.updateItem(t, empty);
+			if (!empty)
+				setGraphic(cellButton);
+			else
+				setGraphic(null);
+		}
 	}
 }
