@@ -49,7 +49,7 @@ public class MainRunner extends Application {
 	public void start(Stage stage) throws Exception {
 		loadDepartments(FILENAME);
 		
-//		MediaPlayer play = new MediaPlayer(new Media(new File("Tetris.mp3").toURI().toString()));
+		MediaPlayer play = new MediaPlayer(new Media(new File("WiiShopJazz.mp3").toURI().toString()));
 		
 		mainStage = stage;
 		
@@ -67,14 +67,14 @@ public class MainRunner extends Application {
 		mainStage.setScene(homeScene);
 		mainStage.show();
 	
-//		play.setOnEndOfMedia(new Runnable() {
-//	        @Override
-//	        public void run() {
-//	            play.seek(Duration.ZERO);
-//	            play.play();
-//	        }
-//	    });
-//		play.play();
+		play.setOnEndOfMedia(new Runnable() {
+	        @Override
+	        public void run() {
+	            play.seek(Duration.ZERO);
+	            play.play();
+	        }
+	    });
+		play.play();
 	}
 
 	private ArrayList<Department> loadDepartments(String fileName) {
