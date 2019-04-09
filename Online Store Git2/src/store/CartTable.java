@@ -10,9 +10,9 @@ public class CartTable {
 	/**
 	 * Table pane which displays item name and cost
 	 * 
-	 * @param product - might be needed to remove properly
-	 * @param productName
-	 * @param cost
+	 * @param product - Links product from cart to table for removing
+	 * @param productName - Name of the product from the cart
+	 * @param cost - Cost of the product from the cart
 	 */
 	public CartTable(Product prod, String productName, double cost) {
 		this.productName = new SimpleStringProperty(productName);

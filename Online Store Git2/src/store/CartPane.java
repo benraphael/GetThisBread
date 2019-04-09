@@ -95,7 +95,7 @@ public class CartPane extends MainRunner {
 		// Remove item from cart.
 		@SuppressWarnings("rawtypes")
 		TableColumn removeColumn = new TableColumn<>("Action");
-		removeColumn.setMinWidth(50);
+		removeColumn.setMinWidth(200);
 		removeColumn.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<Record, Boolean>, ObservableValue<Boolean>>() {
 					@Override

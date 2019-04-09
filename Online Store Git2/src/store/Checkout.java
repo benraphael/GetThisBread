@@ -1,5 +1,8 @@
 
-import javafx.event.ActionEvent;
+import java.text.DecimalFormat;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,19 +12,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 public class Checkout extends MainRunner {
 
+	private static final DecimalFormat df = new DecimalFormat("#.00");
 	private final String[] stateList = { "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI",
 			"IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MH", "MI", "MN", "MO", "MS", "MT", "NC", "ND",
 			"NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "PW", "RI", "SC", "SD", "TN", "TX", "UT",
@@ -60,6 +65,12 @@ public class Checkout extends MainRunner {
 			"Vietnam", "British Virgin Islands", "Isle of Man", "US Virgin Islands", "Wallis and Futuna",
 			"Western Sahara", "Yemen", "Zambia", "Zimbabwe" };
 
+	private static Label totalCost;
+	private static HBox buttons;
+	private static VBox centerInformation, centerReview;
+	private static TableView<CartTable> table;
+	private static ObservableList<CartTable> data = FXCollections.observableArrayList();
+
 	private BorderPane root;
 	private ScrollPane scroll;
 	private String[] labelNames = { "Name", "Email", "Phone Number", "Address", "City", "Zipcode", "Credit Card Number",
@@ -68,13 +79,6 @@ public class Checkout extends MainRunner {
 	private TextField[] inputs;
 	private Label subscript;
 	private ComboBox<String> states, countries;
-	private Button order, cancel;
-	private RadioButton one, two, three;
-	private VBox centerInformation;
-	private static VBox centerReview;
-	private static Label totalCost;
-	private static HBox[] cartHboxes = new HBox[cart.size()];
-	private static HBox buttons;
 
 	public Checkout() {
 		root = new BorderPane();
@@ -171,7 +175,7 @@ public class Checkout extends MainRunner {
 			countries.getItems().add(country);
 		}
 
-		order = new Button();
+		Button order = new Button();
 		order.setText("ORDER");
 		order.setOnAction(event -> {
 			Alert alert = new Alert(AlertType.NONE, "Purchase has been printed to the console.", ButtonType.OK);
@@ -195,11 +199,11 @@ public class Checkout extends MainRunner {
 			System.out.println(orderString);
 		});
 
-		cancel = new Button();
+		Button cancel = new Button();
 		cancel.setText("CANCEL");
 		cancel.setOnAction(event -> changeBox("Review"));
 
-		HBox[] hboxes = new HBox[7];
+		HBox[] hboxes = new HBox[labelNames.length/2+2];
 
 		for (int i = 0; i < hboxes.length; i++) {
 			hboxes[i] = new HBox();
@@ -222,10 +226,22 @@ public class Checkout extends MainRunner {
 		hboxes[hboxes.length - 1].getChildren().addAll(order, cancel);
 	}
 		
+	@SuppressWarnings("unchecked")
 	public void makeReviewBox() {
 		totalCost = new Label("$00.00");
 		totalCost.setStyle("-fx-text-fill: bisque;-fx-text-fill: #362204");
-		centerReview.getChildren().add(totalCost);
+		
+		TableColumn<CartTable, String> nameColumn = new TableColumn<>("Item Name");
+		nameColumn.setMinWidth(800);
+		nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+		
+		TableColumn<CartTable, Double> costColumn = new TableColumn<>("Item Cost");
+		costColumn.setMinWidth(800);
+		costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
+		
+		table = new TableView<CartTable>();
+		table.setItems(data);
+		table.getColumns().addAll(nameColumn, costColumn);
 		
 		Button shopping = new Button("Continue Shopping");
 		shopping.setStyle("-fx-background-color: white;");
@@ -255,41 +271,39 @@ public class Checkout extends MainRunner {
 		purchase.setOnMouseReleased(e -> purchase.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
 		purchase.setOnAction(event -> changeBox("Info"));
 		
+		Button toCart = new Button("Edit Cart");
+		toCart.setStyle("-fx-background-color: white;");
+		toCart.setOnMouseEntered(e -> {
+			toCart.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
+			clickCursor();
+		});
+		toCart.setOnMouseExited(e -> {
+			toCart.setStyle("-fx-background-color: white;");
+			defaultCursor();
+		});
+		toCart.setOnMousePressed(e -> toCart.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
+		toCart.setOnMouseReleased(e -> toCart.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
+		toCart.setOnAction(event -> toCart());
+		
 		buttons = new HBox();
 		buttons.setAlignment(Pos.CENTER);
 		buttons.setSpacing(20);
 		buttons.setPadding(new Insets(20));
 		buttons.setStyle("-fx-background-color: bisque");
-		buttons.getChildren().addAll(shopping, purchase);
+		buttons.getChildren().addAll(shopping, toCart, purchase);
 		
-		centerReview.getChildren().add(buttons);
+		centerReview.getChildren().addAll(table, totalCost, buttons);
 	}
 	
-	public static void updateCart() {
-		// TODO Correctly display cart on checkout pane
-		
-		int uniqueMemory = 1;
-		for (int i=0;i<cart.size()-1;i++) {
-			if (!cart.get(i).equals(cart.get(i+1))) 
-				uniqueMemory++;
+	public static void updateCart(Product prod) {
+		data.clear();
+		for (int i = 0; i < cart.size(); i++) {
+			data.add(new CartTable(prod, cart.get(i).getName(), cart.get(i).getCost()));
 		}
-		cartHboxes = new HBox[uniqueMemory];
-		centerReview.getChildren().clear();
-		for (int i = 0; i < cartHboxes.length; i++) {
-			cartHboxes[i] = new HBox();
-			cartHboxes[i].setAlignment(Pos.CENTER);
-			cartHboxes[i].setSpacing(20);
-			cartHboxes[i].setPadding(new Insets(20));
-			cartHboxes[i].setStyle("-fx-background-color: bisque");
-			centerReview.getChildren().add(cartHboxes[i]);
-		}
-		double cost = 0;
-		for (int i = 0; i < cartHboxes.length; i++) {
-			cartHboxes[i].getChildren().addAll(cart.get(i).getNameLabel(), cart.get(i).getCostLabel());
-			cost += cart.get(i).getCost();
-		}
-		totalCost.setText("$" + cost);
-		centerReview.getChildren().addAll(totalCost, buttons);
+		double total = 0;
+		for (CartTable item : table.getItems())
+			total += item.getCost();
+		totalCost.setText("$" + df.format(total));
 	}
 	
 	public void changeBox(String boxName) {

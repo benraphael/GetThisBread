@@ -146,7 +146,7 @@ public class ProductPageOrganizer extends MainRunner{
 				cart.add(product);
 			}
 			CartPane.updateCart(product);
-			System.out.println(cart.toString());
+			Checkout.updateCart(product);
 		});
 		
 		info.getChildren().addAll(qtyBox, add);
