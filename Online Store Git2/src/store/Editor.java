@@ -245,7 +245,7 @@ public class Editor  extends Application{
 					int x = j;
 					CheckBox button2 = new CheckBox(deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getString("name"));
 					vbox.getChildren().add(button2);
-					//button2.setOnAction(event -> subPros2(event, k, x));
+					button2.setOnAction(event -> subPros2(event, k, x));
 				}
 				depList.getChildren().add(vbox);
 			} catch (JSONException e) {
