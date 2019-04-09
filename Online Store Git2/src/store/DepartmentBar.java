@@ -76,7 +76,7 @@ public class DepartmentBar extends MainRunner {
 		// Pane to hold everything
 		mainPane.setPadding(new Insets(20));
 		mainPane.setStyle("-fx-background-color: #362204");
-		mainPane.setPrefHeight(304);
+		mainPane.setPrefHeight(260);
 
 		HBox storeNamePane = new HBox();
 		storeNamePane.setAlignment(Pos.CENTER_LEFT);
@@ -91,7 +91,7 @@ public class DepartmentBar extends MainRunner {
 		navigation.setPadding(new Insets(20));
 		navigation.setStyle("-fx-background-color: transparent");
 		navigation.setPrefSize(1600, 100);
-		navigation.setTranslateY(200);
+		navigation.setTranslateY(160);
 
 		HBox searchBarBox = new HBox();
 		searchBarBox.setAlignment(Pos.BOTTOM_RIGHT);
@@ -99,7 +99,7 @@ public class DepartmentBar extends MainRunner {
 		searchBarBox.setPadding(new Insets(20));
 		searchBarBox.setStyle("-fx-background-color: #362204");
 		searchBarBox.setPrefSize(300, 100);
-		searchBarBox.setTranslateY(200);
+		searchBarBox.setTranslateY(160);
 		searchBarBox.setTranslateX(1120);
 		searchBarBox.getChildren().addAll(search);
 
@@ -109,7 +109,7 @@ public class DepartmentBar extends MainRunner {
 		departmentListBox.setPadding(new Insets(20));
 		departmentListBox.setStyle("-fx-background-color: #362204");
 		departmentListBox.setPrefSize(300, 100);
-		departmentListBox.setTranslateY(200);
+		departmentListBox.setTranslateY(160);
 		departmentListBox.setTranslateX(71);
 		departmentListBox.getChildren().addAll(departmentList);
 
@@ -165,7 +165,7 @@ public class DepartmentBar extends MainRunner {
 			Product prod = null;
 			for (Department dep : deps) {
 				for (Product prods : dep.getProducts()) {
-					if (search.getText().equals(prods.getName()))
+					if (search.getText().equalsIgnoreCase(prods.getName()))
 						prod = prods;
 				}
 			}
