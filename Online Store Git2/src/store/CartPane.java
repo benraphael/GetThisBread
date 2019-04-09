@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
@@ -120,6 +121,45 @@ public class CartPane extends MainRunner {
 		totalCost = new Label("$00.00");
 		totalCost.setStyle("-fx-text-fill: bisque;-fx-text-fill: #362204");
 		center.getChildren().addAll(table, totalCost);
+		
+		Button clear = new Button("Clear Cart");
+		clear.setStyle("-fx-background-color: white;");
+		clear.setOnMouseEntered(e -> {
+			clear.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
+			clickCursor();
+		});
+		clear.setOnMouseExited(e -> {
+			clear.setStyle("-fx-background-color: white;");
+			defaultCursor();
+		});
+		clear.setOnMousePressed(e -> clear.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
+		clear.setOnMouseReleased(e -> clear.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
+		clear.setOnAction(event -> {
+			clearCart();
+			Checkout.clearCart();
+		});
+		
+		Button purchase = new Button("Head to Checkout");
+		purchase.setStyle("-fx-background-color: white;");
+		purchase.setOnMouseEntered(e -> {
+			purchase.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");
+			clickCursor();
+		});
+		purchase.setOnMouseExited(e -> {
+			purchase.setStyle("-fx-background-color: white;");
+			defaultCursor();
+		});
+		purchase.setOnMousePressed(e -> purchase.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
+		purchase.setOnMouseReleased(e -> purchase.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
+		purchase.setOnAction(event -> toCheckout());
+		
+		HBox buttons = new HBox();
+		buttons.setAlignment(Pos.CENTER);
+		buttons.setSpacing(20);
+		buttons.setPadding(new Insets(20));
+		buttons.setStyle("-fx-background-color: bisque");
+		buttons.getChildren().addAll(clear, purchase);
+		center.getChildren().add(buttons);
 
 		bottom = new VBox();
 		bottom.getChildren().addAll(subscript);
@@ -147,6 +187,12 @@ public class CartPane extends MainRunner {
 		root.setLeft(left);
 		scroll.setContent(center);
 	}
+	
+	private void clearCart() {
+		data.clear();
+		cart.clear();
+		totalCost.setText("$00.00");
+	}
 
 	public static void updateCart(Product prod) {
 		data.clear();
@@ -172,6 +218,7 @@ public class CartPane extends MainRunner {
 				data.remove(currentPerson);
 				cart.remove(currentPerson.getProduct());
 				System.out.println(cart.toString());
+				Checkout.updateCart(currentPerson.getProduct());
 				double total = 0;
 				for (CartTable item : table.getItems())
 					total += item.getCost();

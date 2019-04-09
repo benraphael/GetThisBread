@@ -295,6 +295,12 @@ public class Checkout extends MainRunner {
 		centerReview.getChildren().addAll(table, totalCost, buttons);
 	}
 	
+	public static void clearCart() {
+		data.clear();
+		cart.clear();
+		totalCost.setText("$00.00");
+	}
+	
 	public static void updateCart(Product prod) {
 		data.clear();
 		for (int i = 0; i < cart.size(); i++) {
