@@ -8,15 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -24,17 +18,17 @@ import javafx.util.Duration;
 
 public class MainRunner extends Application {
 
-	private static final String FILENAME = "JSONTestBackup";
+	private static final String FILENAME = "storeJSON";
 	private static final int WIDTH = 1600;
 	private static final int HEIGHT = 800;
 
-	protected ArrayList<Department> deps = loadDepartments(FILENAME);
+	protected static ArrayList<Department> deps = loadDepartments(FILENAME);
 	protected static ArrayList<Product> cart = new ArrayList<Product>();
 
-	static Scene homeScene;
-	static Scene cartScene;
-	static Scene checkoutScene;
-	static Stage mainStage;
+	private static Scene homeScene;
+	private static Scene cartScene;
+	private static Scene checkoutScene;
+	private static Stage mainStage;
 
 	// COLORS:
 	// Tan(Bisque): #FFE4C4
@@ -46,10 +40,16 @@ public class MainRunner extends Application {
 	}
 
 	@Override
-	public void start(Stage stage) throws Exception {
-		loadDepartments(FILENAME);
-		
+	public void start(Stage stage) throws Exception {	
 		MediaPlayer play = new MediaPlayer(new Media(new File("WiiShopJazz.mp3").toURI().toString()));
+		play.setOnEndOfMedia(new Runnable() {
+			@Override
+			public void run() {
+				play.seek(Duration.ZERO);
+				play.play();
+			}
+		});
+		play.play();
 		
 		mainStage = stage;
 		
@@ -66,18 +66,11 @@ public class MainRunner extends Application {
 		mainStage.setMaximized(true);
 		mainStage.setScene(homeScene);
 		mainStage.show();
-	
-		play.setOnEndOfMedia(new Runnable() {
-	        @Override
-	        public void run() {
-	            play.seek(Duration.ZERO);
-	            play.play();
-	        }
-	    });
-		play.play();
 	}
 
-	private ArrayList<Department> loadDepartments(String fileName) {
+	private static ArrayList<Department> loadDepartments(String fileName) {
+		System.out.println("Loading....");
+		long startTime = System.currentTimeMillis();
 		ArrayList<Department> loading = new ArrayList<Department>();
 		try {
 			Scanner scan = new Scanner(new File(fileName));
@@ -110,6 +103,7 @@ public class MainRunner extends Application {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Loaded in " + (System.currentTimeMillis() - startTime) + " ms");
 		return loading;
 	}
 
