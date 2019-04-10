@@ -35,18 +35,18 @@ public class Editor extends Application {
 
 	static Stage main;
 	static Scene editor; // main scene for the editor
-	static Scene addProd, subProd, addDept, subDept; // scene for adding/removing departments/products
+	static Scene addProduct, removeProduct, addDepartment, removeDepartment; // scene for adding/removing departments/products
 	BorderPane root;
 	static Button save, exit;
-	static Button addPro, subPro, addDep, subDep;
-	static Button addNewP, addNewD, subNewD, subNewP;
+	static Button addProd, subProd, addDep, subDep;
+	static Button addNewProduct, addNewDepartment, subNewD, subNewP;
 	static JSONObject edits; // = new JSONObject(new File("storeJSON")); //Original JSON
 	static JSONArray deps;
 	static TextField addName, addCost, addDes, addImg;
-	static TextField addNDep;
+	static TextField addNewDep;
 	static ToggleGroup operator;
-	static ArrayList<String> remDep;
-	static ArrayList<Product> remPros;
+	static ArrayList<String> removeDepartments;
+	static ArrayList<Product> removeProducts;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -66,9 +66,9 @@ public class Editor extends Application {
 		center.setAlignment(Pos.CENTER);
 		center.setSpacing(10);
 		Label product = new Label("Products");
-		addPro = new Button("+"); // button 4 adding products
-		subPro = new Button("-"); // button 4 removing products
-		center.getChildren().addAll(product, addPro, subPro);
+		addProd = new Button("+"); // button 4 adding products
+		subProd = new Button("-"); // button 4 removing products
+		center.getChildren().addAll(product, addProd, subProd);
 
 		// top of editor, add and remove departments
 		HBox top = new HBox();
@@ -86,8 +86,8 @@ public class Editor extends Application {
 		// Commands for buttons
 		save.setOnAction(event -> buttonPressed(event)); // Rewrites the old JSON File w/ the new stuff
 		exit.setOnAction(event -> buttonPressed(event)); // exits the editor
-		addPro.setOnAction(event -> buttonPressed(event)); // Adds products, must choose a department first
-		subPro.setOnAction(event -> buttonPressed(event)); // Removes products, must select a department and what
+		addProd.setOnAction(event -> buttonPressed(event)); // Adds products, must choose a department first
+		subProd.setOnAction(event -> buttonPressed(event)); // Removes products, must select a department and what
 															// product to remove from said department
 		addDep.setOnAction(event -> buttonPressed(event)); // Adds departments
 		subDep.setOnAction(event -> buttonPressed(event)); // Removes departments, along w/ the products
@@ -110,17 +110,17 @@ public class Editor extends Application {
 		if (event.getSource() == exit) { // exit
 			Platform.exit();
 		}
-		if (event.getSource() == addPro) {
-			main.setScene(addProd);
+		if (event.getSource() == addProd) {
+			main.setScene(addProduct);
 		}
-		if (event.getSource() == subPro && !(deps.length() == 0)) {
-			main.setScene(subProd);
+		if (event.getSource() == subProd && !(deps.length() == 0)) {
+			main.setScene(removeProduct);
 		}
 		if (event.getSource() == addDep) {
-			main.setScene(addDept);
+			main.setScene(addDepartment);
 		}
 		if (event.getSource() == subDep && !(deps.length() == 0)) {
-			main.setScene(subDept);
+			main.setScene(removeDepartment);
 		}
 	}
 
@@ -195,12 +195,12 @@ public class Editor extends Application {
 		});
 
 		// This button adds to the JSON when pressed
-		addNewP = new Button("Add");
+		addNewProduct = new Button("Add");
 
-		newPro.getChildren().addAll(depList, proName, proCost, proDes, proImg, addNewP, preview);
-		addProd = new Scene(newPro);
+		newPro.getChildren().addAll(depList, proName, proCost, proDes, proImg, addNewProduct, preview);
+		addProduct = new Scene(newPro);
 
-		addNewP.setOnAction(event -> addPros2());
+		addNewProduct.setOnAction(event -> addPros2());
 
 	}
 
@@ -244,7 +244,7 @@ public class Editor extends Application {
 	}
 
 	private static void subPros() {
-		remPros = new ArrayList<Product>();
+		removeProducts = new ArrayList<Product>();
 		VBox idk = new VBox(0);
 		idk.setAlignment(Pos.CENTER);
 		idk.setSpacing(10);
@@ -277,7 +277,7 @@ public class Editor extends Application {
 		subNewP = new Button("Remove");
 
 		idk.getChildren().addAll(select, depList, subNewP);
-		subProd = new Scene(idk);
+		removeProduct = new Scene(idk);
 
 		subNewP.setOnAction(event -> subPros2(event, 0, 0));
 	}
@@ -286,12 +286,12 @@ public class Editor extends Application {
 	private static void subPros2(ActionEvent event, int i, int j) {
 		if (event.getSource() == subNewP) {
 			String old = "";
-			for (int k = 0; k < remPros.size(); k++) { // Work on remove string
+			for (int k = 0; k < removeProducts.size(); k++) { // Work on remove string
 				String removed = "{";
-				removed += "\"cost\":\"" + remPros.get(k).getCost() + "\",";
-				removed += "\"imageURL\":\"" + remPros.get(k).getImageURL() + "\",";
-				removed += "\"name\":\"" + remPros.get(k).getName() + "\",";
-				removed += "\"description\":\"" + remPros.get(k).getDescription() + "\"}";
+				removed += "\"cost\":\"" + removeProducts.get(k).getCost() + "\",";
+				removed += "\"imageURL\":\"" + removeProducts.get(k).getImageURL() + "\",";
+				removed += "\"name\":\"" + removeProducts.get(k).getName() + "\",";
+				removed += "\"description\":\"" + removeProducts.get(k).getDescription() + "\"}";
 				// System.out.println(removed);
 				if (k == 0)
 					old = edits.toString();
@@ -333,9 +333,9 @@ public class Editor extends Application {
 			main.setScene(editor);
 		} else {
 			CheckBox rem = (CheckBox) event.getSource();
-			if (!remPros.contains(rem.getText()))
+			if (!removeProducts.contains(rem.getText()))
 				try {
-					remPros.add(new Product(
+					removeProducts.add(new Product(
 							deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getString("imageURL"),
 							deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getString("name"),
 							deps.getJSONObject(i).getJSONArray("products").getJSONObject(j).getDouble("cost"),
@@ -354,16 +354,16 @@ public class Editor extends Application {
 		newDep.setSpacing(10);
 
 		Label dept = new Label("Department Name: ");
-		addNDep = new TextField();
-		addNewD = new Button("Add");
-		newDep.getChildren().addAll(dept, addNDep, addNewD);
-		addDept = new Scene(newDep);
+		addNewDep = new TextField();
+		addNewDepartment = new Button("Add");
+		newDep.getChildren().addAll(dept, addNewDep, addNewDepartment);
+		addDepartment = new Scene(newDep);
 
-		addNewD.setOnAction(event -> addDeps2());
+		addNewDepartment.setOnAction(event -> addDeps2());
 	}
 
 	private void addDeps2() {
-		String added = "{\"name\":\"" + addNDep.getText() + "\",\"products\":[]},";
+		String added = "{\"name\":\"" + addNewDep.getText() + "\",\"products\":[]},";
 		String old = edits.toString();
 		String newStuff = old.substring(0, old.indexOf("[") + 1);
 		String oldStuff = old.substring(old.indexOf("[") + 1);
@@ -385,12 +385,12 @@ public class Editor extends Application {
 		addPros();
 		subPros();
 		subDeps();
-		addNDep.setText("");
+		addNewDep.setText("");
 		main.setScene(editor);
 	}
 
 	private static void subDeps() {
-		remDep = new ArrayList<String>();
+		removeDepartments = new ArrayList<String>();
 		VBox idk = new VBox(0);
 		idk.setAlignment(Pos.CENTER);
 		idk.setSpacing(5);
@@ -412,7 +412,7 @@ public class Editor extends Application {
 		subNewD = new Button("Remove");
 
 		idk.getChildren().addAll(select, depList, subNewD);
-		subDept = new Scene(idk);
+		removeDepartment = new Scene(idk);
 
 		subNewD.setOnAction(event -> subDeps2(event));
 	}
@@ -421,9 +421,9 @@ public class Editor extends Application {
 
 		if (event.getSource() == subNewD) {
 			String old = "";
-			for (int i = 0; i < remDep.size(); i++) {
+			for (int i = 0; i < removeDepartments.size(); i++) {
 				// System.out.println(remDep);
-				String removed = "{\"name\":\"" + remDep.get(i) + "\",";
+				String removed = "{\"name\":\"" + removeDepartments.get(i) + "\",";
 				// System.out.println(removed);
 				if (i == 0)
 					old = edits.toString();
@@ -467,8 +467,8 @@ public class Editor extends Application {
 			main.setScene(editor);
 		} else {
 			CheckBox rem = (CheckBox) event.getSource();
-			if (!remDep.contains(rem.getText()))
-				remDep.add(rem.getText());
+			if (!removeDepartments.contains(rem.getText()))
+				removeDepartments.add(rem.getText());
 		}
 
 	}

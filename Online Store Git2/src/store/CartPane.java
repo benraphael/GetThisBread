@@ -82,11 +82,6 @@ public class CartPane extends MainRunner {
 		nameColumn.setMinWidth(500);
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
 
-		// quantity column
-		// TableColumn<CartTable, Integer> quantityColumn = new
-		// TableColumn<>("Quantity");
-		// quantityColumn.setMinWidth(200);
-		// quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
 		// cost column
 		TableColumn<CartTable, Double> costColumn = new TableColumn<>("Item Cost");
