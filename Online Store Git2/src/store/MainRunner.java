@@ -18,6 +18,7 @@ import javafx.util.Duration;
 
 public class MainRunner extends Application {
 
+	private static final String[] SONGNAMES = {"TrophyGallery.mp3", "WiiShopJazz.mp3", "WiiShopJM.mp3"};
 	private static final String FILENAME = "storeJSON";
 	private static final int WIDTH = 1600;
 	private static final int HEIGHT = 800;
@@ -41,15 +42,23 @@ public class MainRunner extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {	
-		MediaPlayer play = new MediaPlayer(new Media(new File("WiiShopJazz.mp3").toURI().toString()));
-		play.setOnEndOfMedia(new Runnable() {
-			@Override
-			public void run() {
-				play.seek(Duration.ZERO);
-				play.play();
-			}
-		});
-		play.play();
+		MediaPlayer[] play = new MediaPlayer[SONGNAMES.length];
+		for (int i=0;i<play.length;i++) {
+			play[i] = new MediaPlayer(new Media(new File(SONGNAMES[i]).toURI().toString()));
+		}
+		for (MediaPlayer media : play) {
+			media.setOnEndOfMedia(new Runnable() {
+				@Override
+				public void run() {
+					media.seek(Duration.ZERO);
+					media.stop();
+					int nrandomMedia = (int)(Math.random()*play.length);
+					play[nrandomMedia].play();
+				}
+			});
+		}
+		int randomMedia = (int)(Math.random()*play.length);
+		play[randomMedia].play();
 		
 		mainStage = stage;
 		
