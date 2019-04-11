@@ -18,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 /**
  * @author Ethan Jones
@@ -97,21 +98,24 @@ public class ProductPageOrganizer extends MainRunner{
 		HBox suggest = new HBox();
 		suggest.setAlignment(Pos.CENTER);
 		suggest.setPrefSize(600, 200);
-		suggest.setStyle("-fx-background-color: ALICEBLUE;");
+		suggest.setStyle("-fx-background-color: bisque;");
 
 		VBox info = new VBox();
 		info.setAlignment(Pos.CENTER);
 		info.setPrefSize(300, 400);
+		info.setSpacing(20);
 		info.setStyle("-fx-background-color: AQUA;");
 		info.getChildren().addAll(product.getNameLabel(), product.getCostLabel(), product.getDescriptionLabel());
 		
 		Label quantity = new Label("Quantity");
 		quantity.setStyle("-fx-text-fill: bisque;-fx-text-fill: #362204");
+		quantity.setFont(Font.font("Roboto", 15));
 		
 		TextField qty = new TextField("0");
 		qty.setPrefWidth(50);
 		qty.setStyle("-fx-background-color: #85bb65;-fx-text-fill: #362204");
 		qty.setFocusTraversable(true);
+		qty.setFont(Font.font("Roboto", 15));
 		qty.textProperty().addListener(new ChangeListener<String>() {
 		    @Override
 		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
@@ -124,12 +128,14 @@ public class ProductPageOrganizer extends MainRunner{
 		
 		HBox qtyBox = new HBox();
 		qtyBox.setAlignment(Pos.CENTER);
-		qtyBox.setPrefSize(600, 200);
-		qtyBox.setStyle("-fx-background-color: purple;");
+//		qtyBox.setPrefSize(600, 200);
+		qtyBox.setSpacing(20);
+		qtyBox.setStyle("-fx-background-color: AQUA;");
 		qtyBox.getChildren().addAll(quantity, qty);
 		
 		Button add = new Button("Add To Cart");
 		add.setPrefSize(100, 50);
+		add.setFont(Font.font("Roboto", 15));
 		add.setStyle("-fx-background-color: white;");
 		add.setOnMouseEntered(e -> {
 			add.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;");

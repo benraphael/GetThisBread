@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -81,16 +80,19 @@ public class CartPane extends MainRunner {
 		TableColumn<CartTable, String> nameColumn = new TableColumn<>("Item Name");
 		nameColumn.setMinWidth(500);
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+		nameColumn.setStyle("-fx-background-color: hotpink");
 
 
 		// cost column
 		TableColumn<CartTable, Double> costColumn = new TableColumn<>("Item Cost");
 		costColumn.setMinWidth(500);
 		costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
+		costColumn.setStyle("-fx-background-color: blue");
 
 		// Remove item from cart.
 		@SuppressWarnings("rawtypes")
 		TableColumn removeColumn = new TableColumn<>("Action");
+		removeColumn.setStyle("-fx-background-color: blanchedalmond; -fx-alignment: CENTER");
 		removeColumn.setMinWidth(200);
 		removeColumn.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<Record, Boolean>, ObservableValue<Boolean>>() {
@@ -110,6 +112,8 @@ public class CartPane extends MainRunner {
 
 		table = new TableView<>();
 		table.setItems(data);
+		table.setMaxWidth(1200);
+		table.setStyle("-fx-background-color: hotpink");
 		table.getColumns().addAll(nameColumn, costColumn, removeColumn);
 		// print total cost in the bottom right of the table
 

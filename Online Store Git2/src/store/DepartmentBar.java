@@ -76,7 +76,7 @@ public class DepartmentBar extends MainRunner {
 		// Pane to hold everything
 		mainPane.setPadding(new Insets(20));
 		mainPane.setStyle("-fx-background-color: #362204");
-		mainPane.setPrefHeight(260);
+		mainPane.setPrefHeight(268);
 
 		HBox storeNamePane = new HBox();
 		storeNamePane.setAlignment(Pos.CENTER_LEFT);

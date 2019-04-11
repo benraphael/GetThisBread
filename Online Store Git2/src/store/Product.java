@@ -2,12 +2,14 @@
 
 import java.text.DecimalFormat;
 
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class Product {
 
@@ -46,13 +48,18 @@ public class Product {
 		imageView.setFitWidth(500);
 		nameLabel = new Label(name);
 		nameLabel.setWrapText(true);
+		nameLabel.setFont(Font.font("Roboto", 20));
 		costLabel = new Label("$" + df.format(this.cost));
 		costLabel.setWrapText(true);
+		costLabel.setFont(Font.font("Roboto", 20));
 		descriptionLabel = new Label(description);
 		descriptionLabel.setWrapText(true);
+		descriptionLabel.setFont(Font.font("Roboto", 20));
+		descriptionLabel.setTextAlignment(TextAlignment.CENTER);
 		root = new VBox();
 		root.setOnMouseReleased(e -> MainRunner.toProduct(this));
 		root.getChildren().addAll(imageView, nameLabel, costLabel);
+		root.setAlignment(Pos.CENTER);
 	}  
 
 	// We could have this 
