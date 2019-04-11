@@ -44,13 +44,13 @@ public class DepartmentPO extends MainRunner{
 		sampleProducts = new Button[SAMPLEPRODUCTSIZE];
 
 		departmentName = new Label();
-		departmentName.setText(department.getName());
-		departmentName.setStyle("-fx-font: 12 sansserif;");
+		departmentName.setText("- " + department.getName() + " -");
+		departmentName.setStyle("-fx-text-fill: #362204");
 
 		change = new DepartmentBar().getRoot();
 
 		name = new HBox();
-		name.setStyle("-fx-background-color: lightblue;");
+		name.setStyle("-fx-background-color: #85bb65;");
 		name.setAlignment(Pos.CENTER);
 		name.setPrefSize(1600, 20);
 		name.getChildren().addAll(departmentName);
