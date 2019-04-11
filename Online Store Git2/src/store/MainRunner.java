@@ -41,7 +41,7 @@ public class MainRunner extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {	
-		MediaPlayer play = new MediaPlayer(new Media(new File("WiiShopJazz.mp3").toURI().toString()));
+		MediaPlayer play = new MediaPlayer(new Media(new File("TrophyGallery.mp3").toURI().toString()));
 		play.setOnEndOfMedia(new Runnable() {
 			@Override
 			public void run() {

@@ -216,7 +216,7 @@ public class CartPane extends MainRunner {
 				CartTable currentPerson = (CartTable) ButtonCell.this.getTableView().getItems().get(ButtonCell.this.getIndex());
 				data.remove(currentPerson);
 				cart.remove(currentPerson.getProduct());
-				System.out.println(cart.toString());
+				//System.out.println(cart.toString()); //dont uncomment pls
 				Checkout.updateCart(currentPerson.getProduct());
 				double total = 0;
 				for (CartTable item : table.getItems())
