@@ -45,7 +45,7 @@ public class MainRunner extends Application {
 		MediaPlayer[] play = new MediaPlayer[SONGNAMES.length];
 		for (int i=0;i<play.length;i++) {
 			play[i] = new MediaPlayer(new Media(new File(SONGNAMES[i]).toURI().toString()));
-		}
+		} 
 		for (MediaPlayer media : play) {
 			media.setOnEndOfMedia(new Runnable() {
 				@Override
