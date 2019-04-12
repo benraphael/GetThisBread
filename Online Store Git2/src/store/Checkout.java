@@ -27,7 +27,7 @@ import javafx.scene.layout.VBox;
 public class Checkout extends MainRunner {
 
 	private static final DecimalFormat df = new DecimalFormat("#.00");
-	private final String[] stateList = { "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI",
+	private final String[] stateList = { "Non-US", "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI",
 			"IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MH", "MI", "MN", "MO", "MS", "MT", "NC", "ND",
 			"NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "PW", "RI", "SC", "SD", "TN", "TX", "UT",
 			"VA", "VI", "VT", "WA", "WI", "WV", "WY" };
