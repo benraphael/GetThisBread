@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,7 +15,7 @@ import javafx.scene.layout.VBox;
 
 public class HomePagePO extends MainRunner {
 
-	private static final int SAMPLEPRODUCTSIZE = 24;
+	private static final int SAMPLEPRODUCTSIZE = 12;
 	private static final int PRODUCTNUMBER = 6;
 	private static final int BUTTONSIZE = 220;
 	private static final int SCROLLSPEED = 3;
@@ -90,7 +92,7 @@ public class HomePagePO extends MainRunner {
 
 		for (int i = 0; i < sampleProducts.length; i++) {
 			sampleProducts[i] = new Button();
-			sampleProducts[i].setText("(Product " + (i + 1) + ")");
+			//sampleProducts[i].setText("(Product " + (i + 1) + ")");
 			hboxes[i / PRODUCTNUMBER].getChildren().add(sampleProducts[i]);
 		}
 
@@ -107,6 +109,10 @@ public class HomePagePO extends MainRunner {
 			});
 			button.setOnMousePressed(e -> button.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
 			button.setOnMouseReleased(e -> button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
+			ArrayList<Product> randomProd = deps.get((int)(Math.random()*deps.size())).getProducts(); //These cause problems with images displaying for some reason???
+			Product randomProd2 = randomProd.get((int)(Math.random()*randomProd.size()));
+			button.setGraphic(randomProd2.getRoot());
+			button.setOnAction(e -> toProduct(randomProd2));
 		}
 
 		root.setTop(new DepartmentBar().getRoot());
