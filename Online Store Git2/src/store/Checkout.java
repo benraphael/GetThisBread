@@ -1,6 +1,8 @@
 
 import java.text.DecimalFormat;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -27,10 +29,10 @@ import javafx.scene.layout.VBox;
 public class Checkout extends MainRunner {
 
 	private static final DecimalFormat df = new DecimalFormat("#.00");
-	private final String[] stateList = { "Non-US", "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI",
-			"IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MH", "MI", "MN", "MO", "MS", "MT", "NC", "ND",
-			"NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "PW", "RI", "SC", "SD", "TN", "TX", "UT",
-			"VA", "VI", "VT", "WA", "WI", "WV", "WY" };
+	private final String[] stateList = { "Non-US", "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
+			"GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MH", "MI", "MN", "MO", "MS", "MT",
+			"NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "PW", "RI", "SC", "SD", "TN",
+			"TX", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY" };
 	private final String[] countryList = { "Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola",
 			"Anguilla", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan",
 			"The Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda",
@@ -104,7 +106,7 @@ public class Checkout extends MainRunner {
 			}
 		});
 		makeInfoBox();
-		
+
 		centerReview = new VBox();
 		centerReview.setPadding(new Insets(20));
 		centerReview.setSpacing(50);
@@ -122,7 +124,7 @@ public class Checkout extends MainRunner {
 			}
 		});
 		makeReviewBox();
-		
+
 		subscript = new Label();
 		subscript.setText("© 2019-2019, LetsGetThisBread.com, Inc. or its affiliates");
 		subscript.setStyle("-fx-text-fill: bisque");
@@ -133,13 +135,13 @@ public class Checkout extends MainRunner {
 		bottom.setPadding(new Insets(20));
 		bottom.setStyle("-fx-background-color: #362204");
 		bottom.getChildren().add(subscript);
-		
+
 		root.setTop(new DepartmentBar().getRoot());
 		root.setBottom(bottom);
 		root.setCenter(scroll);
 		scroll.setContent(centerReview);
 	}
-	
+
 	public void makeInfoBox() {
 		info = new Label[labelNames.length];
 		for (int i = 0; i < info.length; i++) {
@@ -147,6 +149,7 @@ public class Checkout extends MainRunner {
 			info[i].setStyle("-fx-text-fill: bisque;-fx-text-fill: #362204");
 			info[i].setWrapText(true);
 		}
+		info[info.length-1].setVisible(false);
 
 		inputs = new TextField[labelNames.length - 1];
 		for (int i = 0; i < inputs.length; i++) {
@@ -165,6 +168,17 @@ public class Checkout extends MainRunner {
 		for (String state : stateList) {
 			states.getItems().add(state);
 		}
+		states.valueProperty().addListener(new ChangeListener<String>() {
+			public void changed(ObservableValue ov, String old, String newValue) {
+				if (newValue.equals("Non-US")) {
+					countries.setVisible(true);
+					info[info.length-1].setVisible(true);
+				} else {
+					countries.setVisible(false);
+					info[info.length-1].setVisible(false);
+				}
+			}
+		});
 
 		countries = new ComboBox<String>();
 		countries.setPrefSize(200, 0);
@@ -174,6 +188,7 @@ public class Checkout extends MainRunner {
 		for (String country : countryList) {
 			countries.getItems().add(country);
 		}
+		countries.setVisible(false);
 
 		Button order = new Button();
 		order.setText("ORDER");
@@ -191,11 +206,14 @@ public class Checkout extends MainRunner {
 					orderString += info[i].getText() + " " + inputs[i].getText() + "\n";
 				} else if (info[i].getText().equals("State:")) {
 					orderString += info[i].getText() + " " + states.getValue() + "\n";
-				} else if (info[i].getText().equals("Country:")) {
+				} else if (countries.isVisible() && info[i].getText().equals("Country:")) {
 					orderString += info[i].getText() + " " + countries.getValue() + "\n";
 				}
 			}
-			orderString += "Total Cost: " + totalCost.getText() + "\n"; 
+			for (TextField text : inputs) {
+				text.setText("");
+			}
+			orderString += "Total Cost: " + totalCost.getText() + "\n";
 			System.out.println(orderString);
 		});
 
@@ -203,7 +221,7 @@ public class Checkout extends MainRunner {
 		cancel.setText("CANCEL");
 		cancel.setOnAction(event -> changeBox("Review"));
 
-		HBox[] hboxes = new HBox[labelNames.length/2+2];
+		HBox[] hboxes = new HBox[labelNames.length / 2 + 2];
 
 		for (int i = 0; i < hboxes.length; i++) {
 			hboxes[i] = new HBox();
@@ -225,24 +243,24 @@ public class Checkout extends MainRunner {
 
 		hboxes[hboxes.length - 1].getChildren().addAll(order, cancel);
 	}
-		
+
 	@SuppressWarnings("unchecked")
 	public void makeReviewBox() {
 		totalCost = new Label("$00.00");
 		totalCost.setStyle("-fx-text-fill: bisque;-fx-text-fill: #362204");
-		
+
 		TableColumn<CartTable, String> nameColumn = new TableColumn<>("Item Name");
 		nameColumn.setMinWidth(800);
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
-		
+
 		TableColumn<CartTable, Double> costColumn = new TableColumn<>("Item Cost");
 		costColumn.setMinWidth(800);
 		costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
-		
+
 		table = new TableView<CartTable>();
 		table.setItems(data);
 		table.getColumns().addAll(nameColumn, costColumn);
-		
+
 		Button shopping = new Button("Continue Shopping");
 		shopping.setStyle("-fx-background-color: white;");
 		shopping.setOnMouseEntered(e -> {
@@ -256,7 +274,7 @@ public class Checkout extends MainRunner {
 		shopping.setOnMousePressed(e -> shopping.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
 		shopping.setOnMouseReleased(e -> shopping.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
 		shopping.setOnAction(event -> toHome());
-		
+
 		Button purchase = new Button("Finalize Purchase");
 		purchase.setStyle("-fx-background-color: white;");
 		purchase.setOnMouseEntered(e -> {
@@ -270,7 +288,7 @@ public class Checkout extends MainRunner {
 		purchase.setOnMousePressed(e -> purchase.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
 		purchase.setOnMouseReleased(e -> purchase.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
 		purchase.setOnAction(event -> changeBox("Info"));
-		
+
 		Button toCart = new Button("Edit Cart");
 		toCart.setStyle("-fx-background-color: white;");
 		toCart.setOnMouseEntered(e -> {
@@ -284,23 +302,23 @@ public class Checkout extends MainRunner {
 		toCart.setOnMousePressed(e -> toCart.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
 		toCart.setOnMouseReleased(e -> toCart.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
 		toCart.setOnAction(event -> toCart());
-		
+
 		buttons = new HBox();
 		buttons.setAlignment(Pos.CENTER);
 		buttons.setSpacing(20);
 		buttons.setPadding(new Insets(20));
 		buttons.setStyle("-fx-background-color: bisque");
 		buttons.getChildren().addAll(shopping, toCart, purchase);
-		
+
 		centerReview.getChildren().addAll(table, totalCost, buttons);
 	}
-	
+
 	public static void clearCart() {
 		data.clear();
 		cart.clear();
 		totalCost.setText("$00.00");
 	}
-	
+
 	public static void updateCart(Product prod) {
 		data.clear();
 		for (int i = 0; i < cart.size(); i++) {
@@ -311,16 +329,21 @@ public class Checkout extends MainRunner {
 			total += item.getCost();
 		totalCost.setText("$" + df.format(total));
 	}
-	
+
 	public void changeBox(String boxName) {
+		for (TextField text : inputs) {
+			text.setText("");
+		}
 		if (boxName.equalsIgnoreCase("Review")) {
 			scroll.setContent(centerReview);
+			scroll.setVvalue(0);
 		}
 		if (boxName.equalsIgnoreCase("Info")) {
 			scroll.setContent(centerInformation);
+			scroll.setVvalue(0);
 		}
 	}
-	
+
 	public Pane getRoot() {
 		return root;
 	}

@@ -41,7 +41,7 @@ public class HomePagePO extends MainRunner {
 		subscript.setText("© 2019-2019, LetsGetThisBread.com, Inc. or its affiliates");
 		subscript.setStyle("-fx-text-fill: bisque");
 
-		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		scroll.setStyle("-fx-background-color: transparent");
 
