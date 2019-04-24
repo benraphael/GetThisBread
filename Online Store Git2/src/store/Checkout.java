@@ -213,6 +213,11 @@ public class Checkout extends MainRunner {
 			for (TextField text : inputs) {
 				text.setText("");
 			}
+			states.setValue("");
+			countries.setValue("");
+			countries.setVisible(false);
+			info[info.length-1].setVisible(false);
+			
 			orderString += "Total Cost: " + totalCost.getText() + "\n";
 			System.out.println(orderString);
 		});
