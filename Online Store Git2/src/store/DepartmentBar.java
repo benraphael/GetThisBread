@@ -1,20 +1,24 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
+import javafx.util.Duration;
 
 public class DepartmentBar extends MainRunner {
 
@@ -23,6 +27,7 @@ public class DepartmentBar extends MainRunner {
 	private Button cart, checkout;
 	private TextField search;
 	private ComboBox<String> departmentList;
+	private boolean isMuted = false;
 
 	// Tan(Bisque): #FFE4C4
 	// Dark Brown: #362204
@@ -77,6 +82,15 @@ public class DepartmentBar extends MainRunner {
 		mainPane.setPadding(new Insets(20));
 		mainPane.setStyle("-fx-background-color: #362204");
 		mainPane.setPrefHeight(268);
+		mainPane.setOnKeyPressed(event -> {
+			KeyCode keyCode = event.getCode();
+			if (keyCode.equals(KeyCode.N)) {
+				play[0].getOnEndOfMedia().run();
+			} else if (keyCode.equals(KeyCode.M)) {
+				isMuted = !isMuted;
+				mute(isMuted);
+			}
+		});
 
 		HBox storeNamePane = new HBox();
 		storeNamePane.setAlignment(Pos.CENTER_LEFT);
@@ -121,7 +135,7 @@ public class DepartmentBar extends MainRunner {
 			if (e.getCode().equals(KeyCode.ENTER))
 				enterPressed();
 		});
-		
+
 		storeName.setText("Let's Get This Bread");
 		storeName.setStyle("-fx-text-fill: bisque;-fx-font: 64px \"Edwardian Script ITC\";");
 		storeName.setWrapText(true);
@@ -172,10 +186,11 @@ public class DepartmentBar extends MainRunner {
 			if (prod != null) {
 				toProduct(prod);
 			} else {
-				Alert alert = new Alert(AlertType.NONE, "\t\t\t\tThe speficified product \n\t\t\t\t\t" + search.getText() + "\n\t\t\t\tdoes not exist in the store.", ButtonType.OK);
+				Alert alert = new Alert(AlertType.NONE, "\t\t\t\tThe speficified product \n\t\t\t\t\t"
+						+ search.getText() + "\n\t\t\t\tdoes not exist in the store.", ButtonType.OK);
 				alert.initOwner(search.getScene().getWindow());
 				alert.showAndWait();
-				
+
 				if (alert.getResult() == ButtonType.OK) {
 					alert.close();
 				}

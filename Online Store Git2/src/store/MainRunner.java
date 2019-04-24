@@ -13,16 +13,20 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MainRunner extends Application {
 
-	private static final String[] SONGNAMES = {"TrophyGallery.mp3", "WiiShopJazz.mp3", "WiiShopJM.mp3"};
+	private static final String[] SONGNAMES = { "TrophyGallery.mp3", "WiiShopJazz.mp3", "WiiShopJM.mp3", "Oblivion.mp3",
+			"PeaceAndTranquility.mp3" };
 	private static final String FILENAME = "storeJSON";
 	private static final int WIDTH = 1600;
 	private static final int HEIGHT = 800;
 
+	protected static MediaPlayer[] play = new MediaPlayer[SONGNAMES.length];
+	protected static MediaPlayer currentSong;
 	protected static ArrayList<Department> deps = loadDepartments(FILENAME);
 	protected static ArrayList<Product> cart = new ArrayList<Product>();
 
@@ -37,39 +41,45 @@ public class MainRunner extends Application {
 	// Money Green: #85bb65
 
 	public static void main(String[] args) {
-		launch(args);
-	}
-
-	@Override
-	public void start(Stage stage) throws Exception {	
-		MediaPlayer[] play = new MediaPlayer[SONGNAMES.length];
-		for (int i=0;i<play.length;i++) {
-			play[i] = new MediaPlayer(new Media(new File(SONGNAMES[i]).toURI().toString()));
-		} 
+		for (int i = 0; i < play.length; i++) {
+			play[i] = new MediaPlayer(new Media(new File("Music\\" + SONGNAMES[i]).toURI().toString()));
+			play[i].setVolume(.5);
+			if (SONGNAMES[i].equals("Oblivion.mp3")) {
+				play[i].setStopTime(Duration.minutes(1));
+				play[i].setStartTime(Duration.seconds(20));
+			}
+		}
 		for (MediaPlayer media : play) {
 			media.setOnEndOfMedia(new Runnable() {
 				@Override
 				public void run() {
-					media.seek(Duration.ZERO);
-					media.stop();
-					int nrandomMedia = (int)(Math.random()*play.length);
-					play[nrandomMedia].play();
+					for (MediaPlayer media : play) {
+						media.seek(media.getStartTime());
+						media.stop();
+					}
+					currentSong = play[(int) (Math.random() * play.length)];
+					currentSong.play();
 				}
 			});
 		}
-		int randomMedia = (int)(Math.random()*play.length);
-		play[randomMedia].play();
-		
+		launch(args);
+	}
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		currentSong = play[(int) (Math.random() * play.length)];
+		currentSong.play();
+
 		mainStage = stage;
-		
+
 		HomePagePO homepage = new HomePagePO();
 		CartPane cartpane = new CartPane();
 		Checkout checkout = new Checkout();
-		
+
 		homeScene = new Scene(homepage.getRoot(), WIDTH, HEIGHT);
 		cartScene = new Scene(cartpane.getRoot(), WIDTH, HEIGHT);
 		checkoutScene = new Scene(checkout.getRoot(), WIDTH, HEIGHT);
-		
+
 		mainStage.setTitle("https://LetsGetThisBread.com");
 		mainStage.getIcons().add(new Image("https://i.imgur.com/OVWPlbB.png", 100, 100, true, true));
 		mainStage.setMaximized(true);
@@ -114,6 +124,14 @@ public class MainRunner extends Application {
 		}
 		System.out.println("Loaded in " + (System.currentTimeMillis() - startTime) + " ms");
 		return loading;
+	}
+	
+	public void mute(boolean mute) {
+		if (mute) {
+			currentSong.pause();
+		} else {
+			currentSong.play();
+		}
 	}
 
 	public void toHome() {
