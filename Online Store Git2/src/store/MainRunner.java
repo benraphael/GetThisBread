@@ -10,6 +10,9 @@ import org.json.JSONObject;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -85,6 +88,13 @@ public class MainRunner extends Application {
 		mainStage.setMaximized(true);
 		mainStage.setScene(homeScene);
 		mainStage.show();
+		
+		Alert alert = new Alert(AlertType.NONE, "Press the N key to get a new random song and press the M key to mute/pause the current song", ButtonType.OK);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.OK) {
+			alert.close();
+		}
 	}
 
 	private static ArrayList<Department> loadDepartments(String fileName) {
