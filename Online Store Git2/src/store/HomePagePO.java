@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,6 +25,7 @@ public class HomePagePO extends MainRunner {
 	private ScrollPane scroll;
 	private Label subscript;
 	private Button[] sampleProducts;
+	private HashSet<Product> products = new HashSet<Product>();
 
 	// Tan(Bisque): #FFE4C4
 	// Dark Brown: #362204
@@ -92,8 +94,14 @@ public class HomePagePO extends MainRunner {
 
 		for (int i = 0; i < sampleProducts.length; i++) {
 			sampleProducts[i] = new Button();
-			//sampleProducts[i].setText("(Product " + (i + 1) + ")");
 			hboxes[i / PRODUCTNUMBER].getChildren().add(sampleProducts[i]);
+			
+			while(products.size()<SAMPLEPRODUCTSIZE) {
+				ArrayList<Product> randomDep = deps.get((int)(Math.random()*deps.size())).getProducts(); //These cause problems with images displaying for some reason???
+				products.add(randomDep.get((int)(Math.random()*randomDep.size())));
+			}
+			
+			sampleProducts[i].setGraphic(((Product)products.toArray()[i]).getRoot());
 		}
 
 		for (Button button : sampleProducts) {
@@ -109,10 +117,6 @@ public class HomePagePO extends MainRunner {
 			});
 			button.setOnMousePressed(e -> button.setStyle("-fx-background-color: #f2f2f2;-fx-border-color: #85bb65;"));
 			button.setOnMouseReleased(e -> button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
-			ArrayList<Product> randomProd = deps.get((int)(Math.random()*deps.size())).getProducts(); //These cause problems with images displaying for some reason???
-			Product randomProd2 = randomProd.get((int)(Math.random()*randomProd.size()));
-			button.setGraphic(randomProd2.getRoot());
-			button.setOnAction(e -> toProduct(randomProd2));
 		}
 
 		root.setTop(new DepartmentBar().getRoot());

@@ -42,26 +42,32 @@ public class Product {
 		this.name = name;
 		this.imageURL = imageURL;
 
-		image = new Image(imageURL);
-		imageView = new ImageView(image);
+		imageView = new ImageView(new Image(imageURL));
 		imageView.setPreserveRatio(true);
-		imageView.setFitWidth(500);
+		imageView.setFitHeight(400);
+		
 		nameLabel = new Label(name);
 		nameLabel.setWrapText(true);
 		nameLabel.setFont(Font.font("Roboto", 20));
+		
 		costLabel = new Label("$" + df.format(this.cost));
 		costLabel.setWrapText(true);
 		costLabel.setFont(Font.font("Roboto", 20));
+		
 		descriptionLabel = new Label(description);
 		descriptionLabel.setWrapText(true);
 		descriptionLabel.setFont(Font.font("Roboto", 20));
 		descriptionLabel.setTextAlignment(TextAlignment.CENTER);
+		
 		root = new VBox();
-		root.setOnMouseReleased(e -> MainRunner.toProduct(this));
+		root.setOnMouseReleased(e -> {
+			Product instance = new Product(imageURL, name, cost, description);
+			MainRunner.toProduct(instance);
+		});
 		root.getChildren().addAll(imageView, nameLabel, costLabel);
 		root.setAlignment(Pos.CENTER);
 	}  
-
+	
 	// We could have this 
 	public void changeFonts(String fontName, double size) {
 		nameLabel.setFont(Font.font(fontName, size));

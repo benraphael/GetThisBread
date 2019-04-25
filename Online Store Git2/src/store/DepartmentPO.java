@@ -20,7 +20,6 @@ public class DepartmentPO extends MainRunner{
 	VBox Top, center;
 	Label departmentName;
 	HBox name;
-	Pane change;
 	ScrollPane scroll;
 	
 	private Department department;
@@ -47,8 +46,6 @@ public class DepartmentPO extends MainRunner{
 		departmentName.setText("- " + department.getName() + " -");
 		departmentName.setStyle("-fx-text-fill: #362204");
 
-		change = new DepartmentBar().getRoot();
-
 		name = new HBox();
 		name.setStyle("-fx-background-color: #85bb65;");
 		name.setAlignment(Pos.CENTER);
@@ -70,7 +67,7 @@ public class DepartmentPO extends MainRunner{
 	    });
 
 		Top = new VBox();
-		Top.getChildren().addAll(change, name);
+		Top.getChildren().addAll(new DepartmentBar().getRoot(), name);
 		//Top.setPrefSize(1600, 100);
 		
 		HBox[] hboxes = new HBox[(sampleProducts.length % PRODUCTNUMBER != 0)
