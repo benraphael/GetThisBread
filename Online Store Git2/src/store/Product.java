@@ -44,7 +44,8 @@ public class Product {
 
 		imageView = new ImageView(new Image(imageURL));
 		imageView.setPreserveRatio(true);
-		imageView.setFitHeight(400);
+		imageView.setFitHeight(200);
+		imageView.setFitWidth(200);
 		
 		nameLabel = new Label(name);
 		nameLabel.setWrapText(true);

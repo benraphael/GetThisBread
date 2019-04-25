@@ -124,7 +124,6 @@ public class HomePagePO extends MainRunner {
 		root.setBottom(bottom);
 		root.setLeft(left);
 		root.setRight(right);
-
 		bottom.getChildren().add(subscript);
 		scroll.setContent(center);
 	}

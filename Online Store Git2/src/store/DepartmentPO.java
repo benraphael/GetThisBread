@@ -17,15 +17,15 @@ import javafx.scene.layout.VBox;
 public class DepartmentPO extends MainRunner{
 
 	BorderPane root;
-	VBox Top, center;
+	VBox Top, center, right, left;
 	Label departmentName;
 	HBox name;
 	ScrollPane scroll;
 	
 	private Department department;
 	private static int SAMPLEPRODUCTSIZE;
-	private static final int PRODUCTNUMBER = 3;
-	private static final int BUTTONSIZE = 230;
+	private static final int PRODUCTNUMBER = 6;
+	private static final int BUTTONSIZE = 220;
 	private Button[] sampleProducts;
 
 	public DepartmentPO(Department dep) {
@@ -37,8 +37,9 @@ public class DepartmentPO extends MainRunner{
 
 	public void startUp() {
 		scroll = new ScrollPane();
-		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		scroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scroll.setStyle("-fx-background-color: transparent");
 		
 		sampleProducts = new Button[SAMPLEPRODUCTSIZE];
 
@@ -55,7 +56,7 @@ public class DepartmentPO extends MainRunner{
 		center = new VBox();
 		center.setStyle("-fx-background-color: BISQUE;");
 		center.setAlignment(Pos.CENTER);
-		center.setSpacing(50);
+		center.setPadding(new Insets(20));
 		center.setOnScroll(new EventHandler<ScrollEvent>() {
 	        @Override
 	        public void handle(ScrollEvent event) {
@@ -70,6 +71,24 @@ public class DepartmentPO extends MainRunner{
 		Top.getChildren().addAll(new DepartmentBar().getRoot(), name);
 		//Top.setPrefSize(1600, 100);
 		
+		VBox left = new VBox();
+		left.setAlignment(Pos.CENTER);
+		left.setSpacing(20);
+		left.setPadding(new Insets(20));
+		left.setStyle("-fx-background-color: white");
+
+		VBox right = new VBox();
+		right.setAlignment(Pos.CENTER);
+		right.setSpacing(20);
+		right.setPadding(new Insets(20));
+		right.setStyle("-fx-background-color: white");
+		
+		HBox bottom = new HBox();
+		bottom.setAlignment(Pos.BOTTOM_CENTER);
+		bottom.setSpacing(20);
+		bottom.setPadding(new Insets(20));
+		bottom.setStyle("-fx-background-color: #362204");
+		
 		HBox[] hboxes = new HBox[(sampleProducts.length % PRODUCTNUMBER != 0)
 		         				? sampleProducts.length / PRODUCTNUMBER + 1
 		         				: sampleProducts.length / PRODUCTNUMBER];
@@ -80,6 +99,7 @@ public class DepartmentPO extends MainRunner{
 			hboxes[i].setSpacing(20);
 			hboxes[i].setPadding(new Insets(20));
 			hboxes[i].setStyle("-fx-background-color: bisque");
+			
 			center.getChildren().add(hboxes[i]);
 		}
 		
@@ -105,10 +125,13 @@ public class DepartmentPO extends MainRunner{
 			button.setOnMouseReleased(e -> button.setStyle("-fx-background-color: white;-fx-border-color: #85bb65;"));
 		}
 		
-		scroll.setContent(center);
+		root.setRight(right);
+		root.setLeft(left);
 		root.setTop(new DepartmentBar().getRoot());
 		root.setTop(Top);
 		root.setCenter(scroll);
+		scroll.setContent(center);
+		root.setBottom(bottom);
 	}
 
 	public Pane getRoot() {
