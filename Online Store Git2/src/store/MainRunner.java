@@ -22,7 +22,7 @@ import javafx.util.Duration;
 
 public class MainRunner extends Application {
 
-	private static final String[] SONGNAMES = { "TrophyGallery.mp3", "WiiShopJazz.mp3", "WiiShopJM.mp3", "Oblivion.mp3",
+	private static final String[] SONGNAMES = { "TrophyGallery.mp3", "WiiShopJazz.mp3", "WiiShopJM.mp3",
 			"PeaceAndTranquility.mp3" };
 	private static final String FILENAME = "storeJSON";
 	private static final int WIDTH = 1600;
@@ -82,7 +82,7 @@ public class MainRunner extends Application {
 		homeScene = new Scene(homepage.getRoot(), WIDTH, HEIGHT);
 		cartScene = new Scene(cartpane.getRoot(), WIDTH, HEIGHT);
 		checkoutScene = new Scene(checkout.getRoot(), WIDTH, HEIGHT);
-		
+
 		cartScene.getStylesheets().add("tablecss.css");
 		checkoutScene.getStylesheets().add("tablecss.css");
 
@@ -91,8 +91,10 @@ public class MainRunner extends Application {
 		mainStage.setMaximized(true);
 		mainStage.setScene(homeScene);
 		mainStage.show();
-		
-		Alert alert = new Alert(AlertType.NONE, "Press the N key to get a new random song and press the M key to mute/pause the current song", ButtonType.OK);
+
+		Alert alert = new Alert(AlertType.NONE,
+				"Press the N key to get a new random song and press the M key to mute/pause the current song",
+				ButtonType.OK);
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.OK) {
@@ -138,7 +140,7 @@ public class MainRunner extends Application {
 		System.out.println("Loaded in " + (System.currentTimeMillis() - startTime) + " ms");
 		return loading;
 	}
-	
+
 	public void mute(boolean mute) {
 		if (mute) {
 			currentSong.pause();
