@@ -15,7 +15,6 @@ public class Product {
 
 	private DecimalFormat df = new DecimalFormat("#.00");
 	private ImageView imageView;
-	private Image image;
 	private Label costLabel, descriptionLabel, nameLabel;
 	private VBox root;
 

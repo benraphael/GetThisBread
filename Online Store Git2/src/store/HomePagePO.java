@@ -98,7 +98,12 @@ public class HomePagePO extends MainRunner {
 			
 			while(products.size()<SAMPLEPRODUCTSIZE) {
 				ArrayList<Product> randomDep = deps.get((int)(Math.random()*deps.size())).getProducts(); //These cause problems with images displaying for some reason???
-				products.add(randomDep.get((int)(Math.random()*randomDep.size())));
+				Product temp = randomDep.get((int)(Math.random()*randomDep.size()));
+				if (products.add(temp)) {
+					products.remove(temp);
+					Product tempP = new Product(temp.getImageURL(), temp.getName(), temp.getCost(), temp.getDescription());
+					products.add(tempP);
+				}
 			}
 			
 			sampleProducts[i].setGraphic(((Product)products.toArray()[i]).getRoot());
