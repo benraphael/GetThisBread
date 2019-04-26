@@ -82,6 +82,9 @@ public class MainRunner extends Application {
 		homeScene = new Scene(homepage.getRoot(), WIDTH, HEIGHT);
 		cartScene = new Scene(cartpane.getRoot(), WIDTH, HEIGHT);
 		checkoutScene = new Scene(checkout.getRoot(), WIDTH, HEIGHT);
+		
+		cartScene.getStylesheets().add("tablecss.css");
+		checkoutScene.getStylesheets().add("tablecss.css");
 
 		mainStage.setTitle("https://LetsGetThisBread.com");
 		mainStage.getIcons().add(new Image("https://i.imgur.com/OVWPlbB.png", 100, 100, true, true));

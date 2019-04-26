@@ -52,7 +52,7 @@ public class CartPane extends MainRunner {
 		scroll = new ScrollPane();
 		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
 		scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		scroll.setStyle("-fx-background-color: transparent");
+		scroll.setStyle("-fx-background-color: transparent;");
 
 		center = new VBox();
 		center.setStyle("-fx-background-color: Bisque;");
@@ -78,6 +78,7 @@ public class CartPane extends MainRunner {
 
 		// product column
 		TableColumn<CartTable, String> nameColumn = new TableColumn<>("Item Name");
+		
 		nameColumn.setMinWidth(500);
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
 		nameColumn.setStyle("-fx-text-fill: bisque; -fx-background-color: #362204");

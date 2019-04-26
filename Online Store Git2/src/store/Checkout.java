@@ -135,6 +135,7 @@ public class Checkout extends MainRunner {
 		bottom.setPadding(new Insets(20));
 		bottom.setStyle("-fx-background-color: #362204");
 		bottom.getChildren().add(subscript);
+		bottom.setPrefHeight(60);
 
 		root.setTop(new DepartmentBar().getRoot());
 		root.setBottom(bottom);
@@ -257,14 +258,30 @@ public class Checkout extends MainRunner {
 		TableColumn<CartTable, String> nameColumn = new TableColumn<>("Item Name");
 		nameColumn.setMinWidth(800);
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+		nameColumn.setStyle("-fx-text-fill: bisque; -fx-background-color: #362204");
 
 		TableColumn<CartTable, Double> costColumn = new TableColumn<>("Item Cost");
-		costColumn.setMinWidth(800);
+		costColumn.setMinWidth(400);
 		costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
+		costColumn.setStyle("-fx-text-fill: bisque; -fx-background-color: #362204");
 
 		table = new TableView<CartTable>();
 		table.setItems(data);
+		table.setMaxWidth(1200);
 		table.getColumns().addAll(nameColumn, costColumn);
+		table.setStyle("-fx-text-fill: bisque; -fx-background-color: #85bb65");
+		
+		VBox left = new VBox();
+		left.setAlignment(Pos.CENTER);
+		left.setSpacing(20);
+		left.setPadding(new Insets(20));
+		left.setStyle("-fx-background-color: white");
+
+		VBox right = new VBox();
+		right.setAlignment(Pos.CENTER);
+		right.setSpacing(20);
+		right.setPadding(new Insets(20));
+		right.setStyle("-fx-background-color: white");
 
 		Button shopping = new Button("Continue Shopping");
 		shopping.setStyle("-fx-background-color: white;");
@@ -316,6 +333,8 @@ public class Checkout extends MainRunner {
 		buttons.getChildren().addAll(shopping, toCart, purchase);
 
 		centerReview.getChildren().addAll(table, totalCost, buttons);
+		root.setRight(right);
+		root.setLeft(left);
 	}
 
 	public static void clearCart() {
